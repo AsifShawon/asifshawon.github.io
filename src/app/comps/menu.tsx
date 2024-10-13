@@ -4,7 +4,7 @@ import React from 'react'
 const Menu = () => {
     return (
         <div>
-            <div className="flex gap-8 text-[#EEEEEE] pt-5 text-xl">
+            <div className="flex flex-col sm:flex-row gap-8 text-[#EEEEEE] pt-5 text-xl sm:grid-cols-4">
                 <Link href="/hello/projects" className="relative group hover:text-blue-500">
                     <span className="group-hover:pr-8 transition-all duration-300 ease-in-out">
                         /Projects
