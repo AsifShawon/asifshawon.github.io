@@ -1,0 +1,23 @@
+[
+    {
+      "title": "Local Physics Chat-bot",
+      "images": [
+        "/assets/physics_cb.avif"
+      ],
+      "githubLink": "https://github.com/AsifShawon/physics-bot",
+      "description": "This is the first project, showcasing..."
+    },
+    {
+      "title": "Dhakaiaa Jamdani",
+      "images": [
+        "/assets/dhakaiaa_jamdani.avif"
+      ],
+      "githubLink": "https://github.com/asifshawon",
+      "siteLink": {
+        "url": "https://dhakaiaa-jamdani.vercel.app/",
+        "type": "Demo"
+      },
+      "description": "This is the second project, focused on..."
+    }
+  ]
+  

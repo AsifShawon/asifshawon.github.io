@@ -5,8 +5,6 @@ import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Link from 'next/link'
@@ -17,11 +15,11 @@ const MobileMenu = () => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           {/* Remove outline and make the button minimal */}
-          <Button variant="ghost" className="text-[#EEEEEE] px-4 py-2">
+          <Button variant="ghost" className="px-4 py-2">
             Menu
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="text-[#EEEEEE] border-0">
+        <DropdownMenuContent className="border-0">
           <DropdownMenuItem asChild>
             {/* Link for Projects */}
             <Link href="/hello/projects" className="block py-1">
@@ -29,7 +27,7 @@ const MobileMenu = () => {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/about" className="block py-1">
+            <Link href="/hello/aboutme" className="block py-1">
               About
             </Link>
           </DropdownMenuItem>

@@ -1,10 +1,11 @@
 import React from 'react'
 import TopMenu from '../comps/topMenu'
 
-const layout = () => {
+const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <TopMenu />
+      {children}
     </div>
   )
 }

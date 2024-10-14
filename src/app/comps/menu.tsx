@@ -4,7 +4,7 @@ import React from 'react'
 const Menu = () => {
     return (
         <div>
-            <div className="flex flex-col sm:flex-row gap-8 text-[#EEEEEE] pt-5 text-xl sm:grid-cols-4">
+            <div className="flex flex-col sm:flex-row gap-8 pt-5 text-xl sm:grid-cols-4">
                 <Link href="/hello/projects" className="relative group hover:text-blue-500">
                     <span className="group-hover:pr-8 transition-all duration-300 ease-in-out">
                         /Projects
@@ -13,7 +13,7 @@ const Menu = () => {
                         ➜
                     </span>
                 </Link>
-                <Link href="" className="relative group hover:text-blue-500">
+                <Link href="/hello/aboutme" className="relative group hover:text-blue-500">
                     <span className="group-hover:pr-8 transition-all duration-300 ease-in-out">
                         /About me
                     </span>

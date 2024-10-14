@@ -5,7 +5,7 @@ import Menu from './menu'
 const Home = () => {
   return (
     <div className='p-5'>
-      <p className='text-[40px] font-medium text-[#EEEEEE]'>Asif Bhuiyan Shawon</p>
+      <p className='text-[40px] font-medium '>Asif Bhuiyan Shawon</p>
       <TypingEffect />
       <Menu />
     </div>
