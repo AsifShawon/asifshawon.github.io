@@ -2,8 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 import {
     Card,
-    CardContent,
-    CardDescription,
     CardFooter,
     CardHeader,
     CardTitle,
@@ -30,7 +28,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     const { title, description, images, githubLink, siteLink } = project;
 
     return (
-        <div className="w-full">
+        <div className="lg:w-10/12 w-full">
             <Card className='border-0 transform transition-transform duration-300 hover:scale-105 hover:shadow-xl'>
                 <CardHeader className="p-0">
                     {/* Project Image */}

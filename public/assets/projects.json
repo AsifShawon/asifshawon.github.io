@@ -18,6 +18,14 @@
         "type": "Demo"
       },
       "description": "This is the second project, focused on..."
+    },
+    {
+      "title": "Learn to Protect",
+      "images": [
+        "/assets/learn_to_protect.avif"
+      ],
+      "githubLink": "https://github.com/AsifShawon/CSE482-Project",
+      "description": "This is the first project, showcasing..."
     }
   ]
   
