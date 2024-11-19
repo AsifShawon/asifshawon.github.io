@@ -21,9 +21,9 @@ export default function Page() {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl">
             <CustomTyped text={intro_text}/>
           </h1>
-          <h3>
+          {/* <h3>
             <CustomTyped text="<div>Studying at North South University</div>"/>
-          </h3>
+          </h3> */}
         </div>
       </div>
     </div>
