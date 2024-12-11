@@ -57,13 +57,13 @@ export default function ChatBot() {
   }
 
   return (
-    <div className="fixed bottom-5 right-5">
+    <div className="fixed bottom-10 right-10">
       <Button
         onClick={toggleChat}
         size="icon"
         className="rounded-full shadow-lg"
       >
-        <MessageCircle className="h-6 w-6" />
+        <MessageCircle className="h-10 w-10" />
         <span className="sr-only">Toggle chat</span>
       </Button>
 

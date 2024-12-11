@@ -1,0 +1,62 @@
+[
+    {
+      "userId": 1,
+      "userName": "Alice",
+      "recommendations": [
+        {
+          "jobId": "101",
+          "jobTitle": "Front-End Developer",
+          "matchScore": "100%",
+          "explanation": "Alice's skills (JavaScript, React, HTML, CSS) perfectly match all the required skills for this Front-End Developer position."
+        },
+        {
+          "jobId": "103",
+          "jobTitle": "Full-Stack Developer",
+          "matchScore": "67%",
+          "explanation": "Alice possesses the front-end skills (JavaScript, React) required for this Full-Stack Developer role.  However, she lacks the back-end skills (Node.js, MongoDB) specified in the job description."
+        }
+      ]
+    },
+    {
+      "userId": 2,
+      "userName": "Bob",
+      "recommendations": [
+        {
+          "jobId": "102",
+          "jobTitle": "Back-End Developer",
+          "matchScore": "80%",
+          "explanation": "Bob's skills in Node.js and Express.js directly align with the job requirements.  While the job requires SQL and Bob's profile lists MongoDB, the overlap in back-end technologies makes this a strong match."
+        },
+        {
+          "jobId": "103",
+          "jobTitle": "Full-Stack Developer",
+          "matchScore": "60%",
+          "explanation": "Bob's expertise in Node.js and MongoDB partially fulfills the requirements.  The lack of React and JavaScript framework experience lowers the match score, but his back-end skills are valuable for a full-stack role.  He could potentially learn the front-end technologies needed."
+        }
+      ]
+    },
+    {
+      "userId": 3,
+      "userName": "Charlie",
+      "recommendations": [
+        {
+          "jobId": "103",
+          "jobTitle": "Full-Stack Developer",
+          "matchScore": "100%",
+          "explanation": "Charlie's skills (JavaScript, React, Node.js, MongoDB) perfectly match all the required skills for this Full-Stack Developer position."        
+        },
+        {
+          "jobId": "101",
+          "jobTitle": "Front-End Developer",
+          "matchScore": "75%",
+          "explanation": "Charlie possesses three out of four required skills (JavaScript, React) for this Front-End Developer role.  His expertise in Node.js and MongoDB, while not required, demonstrates broader full-stack capabilities which could be beneficial."
+        },
+        {
+          "jobId": "102",
+          "jobTitle": "Back-End Developer",
+          "matchScore": "50%",
+          "explanation": "Charlie has one of the required skills (Node.js) for this Back-End Developer position. While his knowledge of MongoDB is relevant to back-end development, the lack of Express.js and SQL significantly reduces the match score."
+        }
+      ]
+    }
+  ]
