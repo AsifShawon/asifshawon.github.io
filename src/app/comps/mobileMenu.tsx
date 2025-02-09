@@ -32,13 +32,13 @@ const MobileMenu = () => {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/contact" className="block py-1">
-              Contact
+            <Link href="/notes" className="block py-1">
+              Notes
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/services" className="block py-1">
-              Services
+            <Link href="/academics" className="block py-1">
+              Academics
             </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>

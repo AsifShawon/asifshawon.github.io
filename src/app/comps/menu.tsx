@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { FolderCode, FileUser, FilePenLine, ContactRound } from 'lucide-react'; // import your icon components
+import { FolderCode, FileUser, FilePenLine, NotebookPenIcon } from 'lucide-react'; // import your icon components
 
 export default function NavigationLinks() {
   const links = [
@@ -15,14 +15,14 @@ export default function NavigationLinks() {
       icon: <FileUser size={24} />,
     },
     {
-      href: "/hello/blog",
-      label: "Blog",
+      href: "/hello/academics",
+      label: "Academics",
       icon: <FilePenLine size={24} />, // No icon for this one
     },
     {
-      href: "/hello/contact",
-      label: "Contact",
-      icon: <ContactRound size={24}/>, // No icon for this one
+      href: "/hello/notes",
+      label: "Notes",
+      icon: <NotebookPenIcon size={24}/>, // No icon for this one
     },
   ];
 
