@@ -9,7 +9,7 @@ const notes = [
     id: 1,
     title: "CSE465",
     description: "Deep Learning and Neural Networks",
-    link: "/notes/CSE465/cse465.html",
+    link: "/notes/CSE465/Spring2025/Deep Learning CSE/Deep Learning CSE.html",
     color: "bg-primary"
   },
   // {
