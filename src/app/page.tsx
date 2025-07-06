@@ -1,9 +1,14 @@
-import Home from "./comps/home";
+'use client';
+import EnhancedHome from "./components/EnhancedHome";
+import CursorFollower from "./components/CursorFollower";
 
-export default function page() {
+export default function Page() {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <Home />
-    </div>
+    <>
+      <CursorFollower />
+      <div className="flex items-center justify-center h-screen relative">
+        <EnhancedHome />
+      </div>
+    </>
   );
 }
