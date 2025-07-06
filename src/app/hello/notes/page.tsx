@@ -1,8 +1,11 @@
+'use client';
 import React from 'react';
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { BookOpen, ArrowRight, Plus } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import PageTransition from '@/app/components/PageTransition';
+import AnimatedSection from '@/app/components/AnimatedSection';
+import { BookOpen, ArrowRight, Brain } from 'lucide-react';
 
 const notes = [
   {
@@ -10,65 +13,135 @@ const notes = [
     title: "CSE465",
     description: "Deep Learning and Neural Networks",
     link: "/notes/CSE465/Spring2025/Deep Learning CSE/Deep Learning CSE.html",
-    color: "bg-primary"
+    color: "from-[#76ABAE] to-[#5a9ca0]",
+    topics: ["Neural Networks", "Deep Learning", "AI Fundamentals"]
   },
-  // {
-  //   id: 2,
-  //   title: "CSE466",
-  //   description: "Advanced Programming Concepts",
-  //   link: "/notes/CSE466/cse466.html",
-  //   color: "bg-accent"
-  // },
-  // {
-  //   id: 3,
-  //   title: "CSE467",
-  //   description: "Data Structures and Algorithms",
-  //   link: "/notes/CSE467/cse467.html",
-  //   color: "bg-secondary"
-  // }
 ];
 
 export default function Notes() {
+  // Create individual useInView hooks for each note
+  const note1InView = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const noteRefs = [note1InView];
+
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-foreground">My Notes</h1>
-          {/* <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            Add Note
-          </Button> */}
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {notes.map((note) => (
-            <div
-              key={note.id}
-              className="opacity-0 animate-fadeIn"
+    <PageTransition>
+      <div className="min-h-screen bg-background p-8 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          {/* Hero Section */}
+          <AnimatedSection>
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <Link href={note.link} className="block group">
-                <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
-                  <div className={`absolute top-0 left-0 w-2 h-full ${note.color}`} />
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <BookOpen className="w-5 h-5" />
-                      {note.title}
-                    </CardTitle>
-                    <CardDescription>{note.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between">
-                      {/* <span className="text-sm text-muted-foreground">Last updated: 2 days ago</span> */}
-                      <ArrowRight className="w-5 h-5 transform transition-transform group-hover:translate-x-1" />
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <Brain className="text-[#76ABAE]" size={64} />
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold gradient-text">
+                  Study Notes
+                </h1>
+              </div>
+              <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+                Comprehensive notes and insights from my academic journey in Computer Science
+              </p>
+            </motion.div>
+          </AnimatedSection>
+          
+          {/* Notes Grid */}
+          <AnimatedSection delay={0.3}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {notes.map((note, index) => {
+                const [ref, inView] = noteRefs[index];
+
+                return (
+                  <motion.div
+                    key={note.id}
+                    ref={ref}
+                    initial={{ opacity: 0, y: 50, rotateY: 10 }}
+                    animate={inView ? { opacity: 1, y: 0, rotateY: 0 } : { opacity: 0, y: 50, rotateY: 10 }}
+                    transition={{ duration: 0.8, delay: index * 0.2 }}
+                    whileHover={{ y: -10, rotateY: 5 }}
+                    className="group"
+                  >
+                    <Link href={note.link} className="block">
+                      <div className="glass-card relative overflow-hidden transition-all duration-500 hover:shadow-2xl transform perspective-1000">
+                        {/* Gradient Background */}
+                        <div className={`absolute top-0 left-0 w-full h-2 bg-gradient-to-r ${note.color}`} />
+                        
+                        {/* Content */}
+                        <div className="p-8">
+                          <div className="flex items-center gap-3 mb-4">
+                            <BookOpen className="w-8 h-8 text-[#76ABAE]" />
+                            <h2 className="text-2xl font-bold gradient-text">{note.title}</h2>
+                          </div>
+                          
+                          <p className="text-gray-300 mb-6 leading-relaxed">{note.description}</p>
+                          
+                          {/* Topics */}
+                          <div className="mb-6">
+                            <h4 className="text-sm font-semibold text-[#76ABAE] mb-3">Topics Covered:</h4>
+                            <div className="flex flex-wrap gap-2">
+                              {note.topics.map((topic, i) => (
+                                <span
+                                  key={i}
+                                  className="px-3 py-1 bg-white/10 rounded-full text-xs text-gray-300 backdrop-blur-sm"
+                                >
+                                  {topic}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                          
+                          {/* Action */}
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm text-gray-400">Click to view notes</span>
+                            <motion.div
+                              className="flex items-center gap-2 text-[#76ABAE]"
+                              whileHover={{ x: 5 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <span className="text-sm font-medium">Open</span>
+                              <ArrowRight className="w-4 h-4" />
+                            </motion.div>
+                          </div>
+                        </div>
+                        
+                        {/* Hover Effect Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#76ABAE]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </div>
-          ))}
+          </AnimatedSection>
+
+          {/* Coming Soon Section */}
+          <AnimatedSection delay={0.5} className="mt-16">
+            <motion.div
+              className="text-center glass-card p-12 rounded-lg"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+            >
+              <h3 className="text-2xl font-bold gradient-text mb-4">More Notes Coming Soon</h3>
+              <p className="text-gray-400 mb-6">
+                I&apos;m continuously adding new study materials and insights from my courses.
+                Stay tuned for updates on Data Structures, Algorithms, and more!
+              </p>
+              <div className="flex justify-center gap-4 text-sm text-gray-500">
+                <span>• Data Structures & Algorithms</span>
+                <span>• Software Engineering</span>
+                <span>• Database Systems</span>
+              </div>
+            </motion.div>
+          </AnimatedSection>
         </div>
       </div>
-    </div>
+    </PageTransition>
   );
 }
-

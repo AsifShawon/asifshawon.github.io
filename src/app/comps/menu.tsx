@@ -14,11 +14,11 @@ export default function NavigationLinks() {
       label: "About me",
       icon: <FileUser size={24} />,
     },
-    {
-      href: "/hello/academics",
-      label: "Academics",
-      icon: <FilePenLine size={24} />, // No icon for this one
-    },
+    // {
+    //   href: "/hello/academics",
+    //   label: "Academics",
+    //   icon: <FilePenLine size={24} />, // No icon for this one
+    // },
     {
       href: "/hello/notes",
       label: "Notes",
