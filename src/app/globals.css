@@ -4,9 +4,10 @@
 
 body{
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #222831 0%, #1a1f26 50%, #222831 100%);
-    color: #EEEEEE;
+    background: #040D12;
+    color: #93B1A6;
     overflow-x: hidden;
+    cursor: none !important;
 }
 
 /* Custom cursor */

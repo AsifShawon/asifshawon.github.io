@@ -1,0 +1,49 @@
+[
+  {
+    "id": "project-1",
+    "projectTitle": "E-commerce Website",
+    "image": "/assets/dhakaia_jamdani.webp",
+    "techStack": [
+      "Next.js",
+      "DaisyUI",
+      "Supabase",
+      "React",
+      "Redux Toolkit",
+      "Tailwind CSS",
+      "Supabase (Database, Auth, Storage)",
+      "Resend (Email Service)",
+      "Nodemailer"
+    ],
+    "shortDescription": "A modern e-commerce platform specializing in Dhakaiaa Jamdani products, built with Next.js and Supabase.",
+    "description": "The Dhakaiaa Jamdani project is a full-featured e-commerce website leveraging the power of Next.js for a performant and SEO-friendly frontend, with React and Redux Toolkit handling dynamic UI and state management. Styling is efficiently managed with Tailwind CSS and DaisyUI for a clean, responsive design. For backend services, it utilizes Supabase for database management, user authentication, and image storage. Order confirmations and other transactional emails are handled through Resend and Nodemailer. The platform features a product catalog, shopping cart, user dashboard, and an admin panel for product and order management.",
+    "links": {
+      "live": "https://dhakaiaajamdani.com.bd/"
+    },
+    "modalImages": [
+      "/assets/dhakaia_jamdani_001.webp",
+      "/assets/dhakaia_jamdani_002.webp",
+      "/assets/dhakaia_jamdani_2.webp",
+      "/assets/dhakaia_jamdani_2_001.webp",
+      "/assets/dhakaia_jamdani_2_002.webp"
+    ],
+    "backgroundColor": "#814A0E"
+  },
+  {
+    "id": "project-2",
+    "projectTitle": "Task Management App",
+    "image": "https://placehold.co/600x400/959684/white?text=Task+App",
+    "techStack": [
+      "Vue",
+      "Firebase"
+    ],
+    "shortDescription": "A simple and intuitive task management application.",
+    "description": "A Kanban-style task management app that helps users organize their tasks. Built with Vue.js for the frontend and Firebase for real-time database and authentication. Users can create boards, lists, and cards, and drag and drop cards between lists.",
+    "links": {
+      "github": "https://github.com"
+    },
+    "modalImages": [
+      "https://placehold.co/600x400/959684/white?text=Screenshot+A"
+    ],
+    "backgroundColor": "#959684"
+  }
+]

@@ -1,137 +1,98 @@
-'use client';
-import React from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Github, ExternalLink, Code } from 'lucide-react';
+import * as React from "react";
+import { Card } from "./Card";
+import { CardData } from "@/app/types";
+import { BrowserRouter as Router, Routes, Route, useParams, useNavigate } from "react-router-dom";
 
-interface Project {
-  title: string;
-  images: string[];
-  description: string;
-  githubLink: string;
-  siteLink?: {
-    url: string;
-    type: string;
-  };
-  technologies?: string[];
-}
-
-interface EnhancedProjectCardProps {
-  project: Project;
-  index: number;
-}
-
-export default function EnhancedProjectCard({ project, index }: EnhancedProjectCardProps) {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const { title, description, images, githubLink, siteLink, technologies = [] } = project;
-
+const List = () => {
+  const { id } = useParams<{ id?: string }>();
+  const navigate = useNavigate();
+  
   return (
-    <motion.div
-      ref={ref}
-      className="lg:w-10/12 w-full"
-      initial={{ opacity: 0, y: 50, rotateX: 10 }}
-      animate={inView ? { opacity: 1, y: 0, rotateX: 0 } : { opacity: 0, y: 50, rotateX: 10 }}
-      transition={{ duration: 0.8, delay: index * 0.2, ease: 'easeOut' }}
-    >
-      <div className="project-card relative overflow-hidden rounded-[15px] glass-card group cursor-pointer">
-        <div className="relative">
-          <Image
-            src={images[0]}
-            alt={title}
-            width={800}
-            height={600}
-            className="rounded-[15px] h-72 object-cover transition-transform duration-500 group-hover:scale-110"
-          />
-          
-          {/* Overlay */}
-          <div className="project-overlay">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              whileHover={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              className="text-center"
-            >
-              <h3 className="text-2xl font-bold mb-4 text-white">{title}</h3>
-              <p className="text-white/90 mb-6 leading-relaxed">{description}</p>
-              
-              {technologies.length > 0 && (
-                <div className="flex flex-wrap justify-center gap-2 mb-6">
-                  {technologies.map((tech, i) => (
-                    <span
-                      key={i}
-                      className="px-3 py-1 bg-white/20 rounded-full text-sm text-white backdrop-blur-sm"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              )}
-              
-              <div className="flex justify-center gap-4">
-                <motion.a
-                  href={githubLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-white/20 rounded-lg text-white hover:bg-white/30 transition-colors backdrop-blur-sm"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Github size={18} />
-                  Code
-                </motion.a>
-                
-                {siteLink && (
-                  <motion.a
-                    href={siteLink.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-white/20 rounded-lg text-white hover:bg-white/30 transition-colors backdrop-blur-sm"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <ExternalLink size={18} />
-                    {siteLink.type === 'live' ? 'Live Site' : 'Demo'}
-                  </motion.a>
-                )}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-        
-        <div className="p-6">
-          <h3 className="text-xl font-bold mb-2 gradient-text">{title}</h3>
-          <div className="flex justify-end gap-4">
-            <motion.a
-              href={githubLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#76ABAE] hover:text-white transition-colors flex items-center gap-1"
-              whileHover={{ scale: 1.1 }}
-            >
-              <Github size={16} />
-              GitHub
-            </motion.a>
-            
-            {siteLink && (
-              <motion.a
-                href={siteLink.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#76ABAE] hover:text-white transition-colors flex items-center gap-1"
-                whileHover={{ scale: 1.1 }}
-              >
-                <ExternalLink size={16} />
-                {siteLink.type === 'live' ? 'Live Site' : 'Demo'}
-              </motion.a>
-            )}
-          </div>
-        </div>
-      </div>
-    </motion.div>
+    <ul className="card-list">
+      {cardData.map(card => (
+        <Card
+          key={card.id}
+          isSelected={id === card.id}
+          history={{ push: navigate }}
+          {...card}
+        />
+      ))}
+    </ul>
   );
-}
+};
+
+export const CardList = () => (
+  <Router>
+    <Routes>
+      <Route path="/:id" element={<List />} />
+      <Route path="/" element={<List />} />
+    </Routes>
+  </Router>
+);
+
+const cardData: CardData[] = [
+  // Photo by ivan Torres on Unsplash
+  {
+    id: "c",
+    category: "Pizza",
+    title: "5 Food Apps Delivering the Best of Your City",
+    pointOfInterest: 80,
+    backgroundColor: "#814A0E"
+  },
+  // Photo by Dennis Brendel on Unsplash
+  {
+    id: "f",
+    category: "How to",
+    title: "Arrange Your Apple Devices for the Gram",
+    pointOfInterest: 120,
+    backgroundColor: "#959684"
+  },
+  // Photo by Alessandra Caretto on Unsplash
+  {
+    id: "a",
+    category: "Pedal Power",
+    title: "Map Apps for the Superior Mode of Transport",
+    pointOfInterest: 260,
+    backgroundColor: "#5DBCD2"
+  },
+  // Photo by Taneli Lahtinen on Unsplash
+  {
+    id: "g",
+    category: "Holidays",
+    title: "Our Pick of Apps to Help You Escape From Apps",
+    pointOfInterest: 200,
+    backgroundColor: "#8F986D"
+  },
+  // Photo by Simone Hutsch on Unsplash
+  {
+    id: "d",
+    category: "Photography",
+    title: "The Latest Ultra-Specific Photography Editing Apps",
+    pointOfInterest: 150,
+    backgroundColor: "#FA6779"
+  },
+  // Photo by Siora Photography on Unsplash
+  {
+    id: "h",
+    category: "They're all the same",
+    title: "100 Cupcake Apps for the Cupcake Connoisseur",
+    pointOfInterest: 60,
+    backgroundColor: "#282F49"
+  },
+  // Photo by Yerlin Matu on Unsplash
+  {
+    id: "e",
+    category: "Cats",
+    title: "Yes, They Are Sociopaths",
+    pointOfInterest: 200,
+    backgroundColor: "#AC7441"
+  },
+  // Photo by Ali Abdul Rahman on Unsplash
+  {
+    id: "b",
+    category: "Holidays",
+    title: "Seriously the Only Escape is the Stratosphere",
+    pointOfInterest: 260,
+    backgroundColor: "#CC555B"
+  }
+];
