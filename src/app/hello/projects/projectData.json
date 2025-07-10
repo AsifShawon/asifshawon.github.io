@@ -14,9 +14,9 @@
       "Resend (Email Service)",
       "Nodemailer"
     ],
-    "shortDescription": "A modern e-commerce platform specializing in Dhakaiaa Jamdani products, built with Next.js and Supabase.",
-    "description": "The Dhakaiaa Jamdani project is a full-featured e-commerce website leveraging the power of Next.js for a performant and SEO-friendly frontend, with React and Redux Toolkit handling dynamic UI and state management. Styling is efficiently managed with Tailwind CSS and DaisyUI for a clean, responsive design. For backend services, it utilizes Supabase for database management, user authentication, and image storage. Order confirmations and other transactional emails are handled through Resend and Nodemailer. The platform features a product catalog, shopping cart, user dashboard, and an admin panel for product and order management.",
-    "links": {
+    "shortDescription": "**Short Description:** A modern e-commerce platform specializing in Dhakaiaa Jamdani products, built with Next.js and Supabase.",
+  "description": "# Detailed Overview\n\nThe Dhakaiaa Jamdani project is a full-featured e-commerce website leveraging the power of `Next.js` for a performant and SEO-friendly frontend, with `React` and `Redux Toolkit` handling dynamic UI and state management.\n\nStyling is efficiently managed with `Tailwind CSS` and `DaisyUI` for a clean, responsive design. For backend services, it utilizes `Supabase` for database management, user authentication, and image storage. Order confirmations and other transactional emails are handled through `Resend` and `Nodemailer`.\n\nThe platform features a product catalog, a robust shopping cart, secure user authentication, a personalized user dashboard, and a comprehensive admin panel for efficient product and order management.\n\n### Key Features:\n\n* Product Catalog with Filtering and Sorting\n* Shopping Cart Functionality\n* User Authentication and Authorization\n* User Dashboard for Order History and Favorites\n* Admin Panel for Product and Order Management\n* Email Notifications for Order Confirmations",
+  "links": {
       "live": "https://dhakaiaajamdani.com.bd/"
     },
     "modalImages": [
@@ -30,19 +30,24 @@
   },
   {
     "id": "project-2",
-    "projectTitle": "Task Management App",
-    "image": "https://placehold.co/600x400/959684/white?text=Task+App",
+    "projectTitle": "Physics ChatBot",
+    "image": "/assets/physics_cb.avif",
     "techStack": [
-      "Vue",
-      "Firebase"
+      "python",
+      "LLM",
+      "RAG",
+      "LangChain",
+      "Flask",
+      "Gradle",
+      "Gemini-API"
     ],
-    "shortDescription": "A simple and intuitive task management application.",
-    "description": "A Kanban-style task management app that helps users organize their tasks. Built with Vue.js for the frontend and Firebase for real-time database and authentication. Users can create boards, lists, and cards, and drag and drop cards between lists.",
+    "shortDescription": "A simple and intuitive physics chatbot application.",
+    "description": "A physics chatbot application that helps users with their physics-related queries. Built with Flask for the backend and a variety of AI technologies for natural language processing.",
     "links": {
       "github": "https://github.com"
     },
     "modalImages": [
-      "https://placehold.co/600x400/959684/white?text=Screenshot+A"
+      "/assets/physics_cb.avif"
     ],
     "backgroundColor": "#959684"
   }

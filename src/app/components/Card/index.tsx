@@ -1,5 +1,5 @@
 import * as React from "react";
-import { memo, useRef } from "react";
+import { memo, useRef, useEffect } from "react";
 import { motion, useMotionValue } from "framer-motion";
 import { useInvertedBorderRadius } from "../utils/use-inverted-border-radius";
 import { CardData } from "../../types";
@@ -40,6 +40,22 @@ export const Card = memo(
     const cardRef = useRef(null);
     const constraints = useScrollConstraints(cardRef, isSelected);
 
+    // Handle body scroll lock when modal is open
+    useEffect(() => {
+      if (isSelected) {
+        document.body.classList.add('modal-open');
+        // Reset scroll position when opening modal
+        window.scrollTo(0, 0);
+      } else {
+        document.body.classList.remove('modal-open');
+      }
+
+      // Cleanup on unmount
+      return () => {
+        document.body.classList.remove('modal-open');
+      };
+    }, [isSelected]);
+
     function checkSwipeToDismiss() {
       if (y.get() > dismissDistance) {
         history.push(null);
@@ -55,12 +71,14 @@ export const Card = memo(
     }
 
     const containerRef = useRef(null);
+    
+    // Only use wheel scroll for drag interactions, not for modal content scrolling
     useWheelScroll(
       containerRef,
       y,
       constraints,
       checkSwipeToDismiss,
-      isSelected
+      isSelected && !isSelected // Disable wheel scroll for modal
     );
 
     return (
@@ -70,7 +88,11 @@ export const Card = memo(
           <motion.div
             ref={cardRef}
             className="card-content"
-            style={{ ...inverted, zIndex, y }}
+            style={{ 
+              ...inverted, 
+              zIndex, 
+              y: isSelected ? 0 : y // Don't apply y transform when selected
+            }}
             layout
             transition={isSelected ? openSpring : closeSpring}
             drag={isSelected ? "y" : false}
