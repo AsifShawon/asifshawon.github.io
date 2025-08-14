@@ -92,8 +92,18 @@ export default function CgpaCalculatorPage() {
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
+            // Check file size (limit to 5MB to prevent timeouts)
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            if (file.size > maxSize) {
+                setError('File size too large. Please upload a file smaller than 5MB to ensure fast processing.');
+                setUploadedFile(null);
+                setFileInfo('');
+                return;
+            }
+            
             setUploadedFile(file);
-            setFileInfo(`Selected: ${file.name}`);
+            setFileInfo(`Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+            setError(null); // Clear any previous errors
         }
     };
 
@@ -120,29 +130,57 @@ export default function CgpaCalculatorPage() {
                 }
                 base64Images = await handlePdfToImages(uploadedFile);
                 mimeType = 'image/png';
+                
+                // Limit PDF pages to prevent timeout
+                if (base64Images.length > 5) {
+                    base64Images = base64Images.slice(0, 5);
+                    setError(`PDF has more than 5 pages. Processing first 5 pages only to prevent timeout.`);
+                }
             } else {
                 throw new Error('Unsupported file type. Please upload an image or a PDF.');
             }
 
+            // Create AbortController for timeout handling
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
             const extractedData = await fetch('/api/cgpa-extract', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ images: base64Images, mimeType })
+                body: JSON.stringify({ images: base64Images, mimeType }),
+                signal: controller.signal
             }).then(async r => {
+                clearTimeout(timeoutId);
                 if (!r.ok) {
                     const err = await r.json().catch(() => ({}));
-                    throw new Error(err.error || 'Server extraction failed');
+                    if (r.status === 504) {
+                        throw new Error('Request timed out. Please try with a smaller file or fewer pages.');
+                    }
+                    throw new Error(err.error || `Server error (${r.status})`);
                 }
                 return r.json();
+            }).catch(error => {
+                clearTimeout(timeoutId);
+                if (error.name === 'AbortError') {
+                    throw new Error('Request timed out. Please try with a smaller file or fewer pages.');
+                }
+                throw error;
             });
 
             const coursesWithIds = (extractedData.courses || []).map((course: any) => ({
                 ...course,
                 id: Math.random().toString(36).substring(2, 9)
             }));
+            
+            if (coursesWithIds.length === 0) {
+                setError('No courses found in the uploaded file. Please ensure the image shows a clear grade sheet with course information.');
+                return;
+            }
+            
             setCourses(coursesWithIds);
 
         } catch (err: any) {
+            console.error('Extraction error:', err);
             setError(err.message);
         } finally {
             setIsLoading(false);
@@ -344,20 +382,47 @@ const exportToPDF = () => {
                             </div>
 
                             {/* Action Button */}
-                            <div className="text-center">
+                            <div className="text-center space-y-4">
                                 <Button 
                                     onClick={handleExtractCourses} 
                                     disabled={isLoading || !uploadedFile} 
                                     size="lg" 
-                                    className="gap-3 bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 shadow-lg shadow-emerald-500/25 px-8 py-6 text-lg rounded-xl transition-all duration-300 hover:scale-105"
+                                    className="gap-3 bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 shadow-lg shadow-emerald-500/25 px-8 py-6 text-lg rounded-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                                 >
                                     {isLoading ? (
                                         <LoaderCircle className="h-5 w-5 animate-spin" />
                                     ) : (
                                         <Calculator className="h-5 w-5" />
                                     )}
-                                    {isLoading ? 'Extracting with AI...' : 'Extract Courses with AI'}
+                                    {isLoading ? 'Processing... This may take up to 30 seconds' : 'Extract Courses with AI'}
                                 </Button>
+                                
+                                <div className="flex items-center gap-4">
+                                    <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                                    <p className="text-sm text-gray-400">or</p>
+                                    <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                                </div>
+                                
+                                <Button 
+                                    onClick={addCourseRow} 
+                                    variant="outline" 
+                                    size="lg"
+                                    className="gap-3 border-white/20 bg-white/10 hover:border-emerald-400/50 hover:bg-emerald-500/10 backdrop-blur-sm px-8 py-6 text-lg rounded-xl transition-all duration-300 hover:scale-105"
+                                >
+                                    <Plus className="h-5 w-5" />
+                                    Add Courses Manually
+                                </Button>
+                                
+                                {isLoading && (
+                                    <MotionDiv 
+                                        initial={{ opacity: 0, y: 10 }} 
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="mt-4 text-sm text-gray-400"
+                                    >
+                                        <p>⏳ AI is analyzing your grade sheet...</p>
+                                        <p className="text-xs mt-1">Large PDFs may take longer to process</p>
+                                    </MotionDiv>
+                                )}
                             </div>
 
                             {/* Error and Results Section */}
@@ -366,8 +431,24 @@ const exportToPDF = () => {
                                     <MotionDiv initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}>
                                         <Alert variant="destructive" className="border-red-500/50 bg-red-500/10">
                                             <X className="h-4 w-4" />
-                                            <AlertTitle>Error</AlertTitle>
-                                            <AlertDescription>{error}</AlertDescription>
+                                            <AlertTitle>
+                                                {error.includes('timeout') || error.includes('timed out') ? 'Timeout Error' : 'Error'}
+                                            </AlertTitle>
+                                            <AlertDescription className="space-y-2">
+                                                <p>{error}</p>
+                                                {(error.includes('timeout') || error.includes('timed out')) && (
+                                                    <div className="text-sm text-red-200/80 space-y-1">
+                                                        <p><strong>Tips to avoid timeouts:</strong></p>
+                                                        <ul className="list-disc list-inside space-y-1 text-xs">
+                                                            <li>Use smaller image files (under 2MB)</li>
+                                                            <li>Limit PDFs to 3-5 pages maximum</li>
+                                                            <li>Ensure images are clear and not too large</li>
+                                                            <li>Try again - sometimes the server is just busy</li>
+                                                            <li>Or <strong>manually add courses</strong> using the "Add Course" button below</li>
+                                                        </ul>
+                                                    </div>
+                                                )}
+                                            </AlertDescription>
                                         </Alert>
                                     </MotionDiv>
                                 )}
