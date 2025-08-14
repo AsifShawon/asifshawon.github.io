@@ -44,7 +44,7 @@
     "shortDescription": "A simple and intuitive physics chatbot application.",
     "description": "A physics chatbot application that helps users with their physics-related queries. Built with Flask for the backend and a variety of AI technologies for natural language processing.",
     "links": {
-      "github": "https://github.com"
+      "github": "https://github.com/AsifShawon/physics-bot"
     },
     "modalImages": [
       "/assets/physics_cb.avif"
