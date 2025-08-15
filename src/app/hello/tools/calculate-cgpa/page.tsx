@@ -334,14 +334,22 @@ export default function CgpaCalculatorPage() {
 const exportToPDF = () => {
   const doc = new jsPDF();
 
+  // Header with site link
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(12);
+  doc.setTextColor(100, 149, 237); // Blue color for the link
+  doc.text("Made by WithShawon.vercel.app", 14, 10);
+
+  // Main title
   doc.setFont("helvetica", "bold");
   doc.setFontSize(18);
-  doc.text("CGPA Report", 14, 15);
+  doc.setTextColor(0, 0, 0); // Black color for title
+  doc.text("CGPA Report", 14, 22);
 
   const date = new Date().toLocaleDateString();
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
-  doc.text(`Generated on: ${date}`, 14, 22);
+  doc.text(`Generated on: ${date}`, 14, 29);
 
   const tableData = courses.map((course) => {
     const credits = parseFloat(course.credits) || 0;
@@ -357,7 +365,7 @@ const exportToPDF = () => {
   });
 
   autoTable(doc, {
-    startY: 28,
+    startY: 35,
     head: [["Course", "Grade", "Grade Point", "Credit"]],
     body: tableData,
     styles: { fontSize: 10, cellPadding: 3 },
