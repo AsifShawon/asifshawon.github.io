@@ -1,5 +1,5 @@
 import * as React from "react";
-import { motion, useDeprecatedInvertedScale } from "framer-motion";
+import { motion } from "framer-motion"; // removed useDeprecatedInvertedScale
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'; // For GitHub Flavored Markdown (tables, strikethrough, etc.)
 import Image from 'next/image';
@@ -15,11 +15,10 @@ interface ProjectDetailsProps {
 }
 
 export const ProjectDetails: React.FC<ProjectDetailsProps> = React.memo(({ description, links, modalImages, onClose }) => {
-  const inverted = useDeprecatedInvertedScale();
   return (
     <motion.div
       className="content-container"
-      style={{ ...inverted, originY: 0, originX: 0 }}
+      style={{ originY: 0, originX: 0 }}
     >
         <div className="markdown-content">
             <ReactMarkdown 

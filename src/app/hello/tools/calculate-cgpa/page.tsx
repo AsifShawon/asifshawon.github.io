@@ -69,7 +69,7 @@ export default function CgpaCalculatorPage() {
         }
     }, []);
 
-    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+    const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
     const [fileInfo, setFileInfo] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -106,27 +106,57 @@ export default function CgpaCalculatorPage() {
         recalculateCgpa();
     }, [courses, gradeScale]);
 
+    const removeFile = (indexToRemove: number) => {
+        const newFiles = uploadedFiles.filter((_, index) => index !== indexToRemove);
+        setUploadedFiles(newFiles);
+        
+        if (newFiles.length === 0) {
+            setFileInfo('');
+        } else if (newFiles.length === 1) {
+            setFileInfo(`Selected: ${newFiles[0].name} (${(newFiles[0].size / 1024 / 1024).toFixed(2)} MB)`);
+        } else {
+            const totalSize = newFiles.reduce((sum, file) => sum + file.size, 0);
+            setFileInfo(`Selected: ${newFiles.length} files (${(totalSize / 1024 / 1024).toFixed(2)} MB total)`);
+        }
+    };
+
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            // Check file size (limit to 5MB to prevent timeouts)
+        const files = Array.from(event.target.files || []);
+        if (files.length > 0) {
+            // Check file size for each file (limit to 5MB to prevent timeouts)
             const maxSize = 5 * 1024 * 1024; // 5MB
-            if (file.size > maxSize) {
-                setError('File size too large. Please upload a file smaller than 5MB to ensure fast processing.');
-                setUploadedFile(null);
+            const oversizedFiles = files.filter(file => file.size > maxSize);
+            
+            if (oversizedFiles.length > 0) {
+                setError(`Some files are too large. Please upload files smaller than 5MB each: ${oversizedFiles.map(f => f.name).join(', ')}`);
+                setUploadedFiles([]);
+                setFileInfo('');
+                return;
+            }
+
+            // Limit to 10 files maximum
+            if (files.length > 10) {
+                setError('Too many files selected. Please select maximum 10 files to ensure fast processing.');
+                setUploadedFiles([]);
                 setFileInfo('');
                 return;
             }
             
-            setUploadedFile(file);
-            setFileInfo(`Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+            setUploadedFiles(files);
+            
+            if (files.length === 1) {
+                setFileInfo(`Selected: ${files[0].name} (${(files[0].size / 1024 / 1024).toFixed(2)} MB)`);
+            } else {
+                const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+                setFileInfo(`Selected: ${files.length} files (${(totalSize / 1024 / 1024).toFixed(2)} MB total)`);
+            }
             setError(null); // Clear any previous errors
         }
     };
 
     const handleExtractCourses = async () => {
-        if (!uploadedFile) {
-            setError('Please select a file first.');
+        if (!uploadedFiles || uploadedFiles.length === 0) {
+            setError('Please select at least one file first.');
             return;
         }
 
@@ -136,30 +166,38 @@ export default function CgpaCalculatorPage() {
 
         try {
             let base64Images: string[] = [];
-            let mimeType: string;
+            let mimeType: string = 'image/png'; // Default mime type
 
-            if (uploadedFile.type.startsWith('image/')) {
-                base64Images.push(await toBase64(uploadedFile));
-                mimeType = uploadedFile.type;
-            } else if (uploadedFile.type === 'application/pdf') {
-                if (!window.pdfjsLib) {
-                    throw new Error("PDF library is not loaded yet. Please wait a moment and try again.");
+            // Process all files
+            for (const file of uploadedFiles) {
+                if (file.type.startsWith('image/')) {
+                    base64Images.push(await toBase64(file));
+                    mimeType = file.type; // Use the actual image mime type
+                } else if (file.type === 'application/pdf') {
+                    if (!window.pdfjsLib) {
+                        throw new Error("PDF library is not loaded yet. Please wait a moment and try again.");
+                    }
+                    const pdfImages = await handlePdfToImages(file);
+                    base64Images.push(...pdfImages);
+                    mimeType = 'image/png'; // PDFs are converted to PNG
+                } else {
+                    throw new Error(`Unsupported file type: ${file.name}. Please upload images or PDFs only.`);
                 }
-                base64Images = await handlePdfToImages(uploadedFile);
-                mimeType = 'image/png';
+            }
                 
-                // Limit PDF pages to prevent timeout
-                if (base64Images.length > 5) {
-                    base64Images = base64Images.slice(0, 5);
-                    setError(`PDF has more than 5 pages. Processing first 5 pages only to prevent timeout.`);
-                }
-            } else {
-                throw new Error('Unsupported file type. Please upload an image or a PDF.');
+            // Limit total images to prevent timeout
+            if (base64Images.length > 15) {
+                base64Images = base64Images.slice(0, 15);
+                setError(`Processing first 15 images only to prevent timeout. Total images found: ${base64Images.length}`);
+            }
+
+            if (base64Images.length === 0) {
+                throw new Error('No valid images found in the uploaded files.');
             }
 
             // Create AbortController for timeout handling
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+            const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 second timeout for multiple images
 
             const extractedData = await fetch('/api/cgpa-extract', {
                 method: 'POST',
@@ -171,7 +209,7 @@ export default function CgpaCalculatorPage() {
                 if (!r.ok) {
                     const err = await r.json().catch(() => ({}));
                     if (r.status === 504) {
-                        throw new Error('Request timed out. Please try with a smaller file or fewer pages.');
+                        throw new Error('Request timed out. Please try with fewer files or smaller files.');
                     }
                     throw new Error(err.error || `Server error (${r.status})`);
                 }
@@ -179,7 +217,7 @@ export default function CgpaCalculatorPage() {
             }).catch(error => {
                 clearTimeout(timeoutId);
                 if (error.name === 'AbortError') {
-                    throw new Error('Request timed out. Please try with a smaller file or fewer pages.');
+                    throw new Error('Request timed out. Please try with fewer files or smaller files.');
                 }
                 throw error;
             });
@@ -190,7 +228,7 @@ export default function CgpaCalculatorPage() {
             }));
             
             if (coursesWithIds.length === 0) {
-                setError('No courses found in the uploaded file. Please ensure the image shows a clear grade sheet with course information.');
+                setError('No courses found in the uploaded files. Please ensure the images show clear grade sheets with course information.');
                 return;
             }
             
@@ -236,18 +274,80 @@ export default function CgpaCalculatorPage() {
         reader.readAsArrayBuffer(file);
     });
     
+    // Helper function to check if a course is counted in CGPA (i.e., it's the best grade for that course code)
+    const isCourseCountedInCgpa = (course: Course): boolean => {
+        const courseCode = course.courseCode.trim().toUpperCase();
+        if (!courseCode) return false;
+        
+        // Find all courses with the same course code
+        const sameCourses = courses.filter(c => c.courseCode.trim().toUpperCase() === courseCode);
+        
+        if (sameCourses.length === 1) return true; // No retakes, so it's counted
+        
+        // Find the best grade among same courses
+        let bestGradePoint = -1;
+        let bestCourseId = '';
+        
+        sameCourses.forEach(c => {
+            const creditValue = parseFloat(c.credits);
+            const grade = c.grade.trim().toUpperCase();
+            const gradePoint = gradeScale[grade];
+            
+            if (!isNaN(creditValue) && creditValue > 0 && gradePoint !== undefined) {
+                if (gradePoint > bestGradePoint) {
+                    bestGradePoint = gradePoint;
+                    bestCourseId = c.id;
+                }
+            }
+        });
+        
+        return course.id === bestCourseId;
+    };
+
     const recalculateCgpa = () => {
         let credits = 0;
         let gradePoints = 0;
+        
+        // Group courses by course code to handle retakes
+        const courseGroups: { [courseCode: string]: Course[] } = {};
+        
         courses.forEach(course => {
-            const creditValue = parseFloat(course.credits);
-            const grade = course.grade.trim().toUpperCase();
-            const gradePoint = gradeScale[grade];
-            if (!isNaN(creditValue) && creditValue > 0 && gradePoint !== undefined) {
+            const courseCode = course.courseCode.trim().toUpperCase();
+            if (!courseCode) return; // Skip courses without course code
+            
+            if (!courseGroups[courseCode]) {
+                courseGroups[courseCode] = [];
+            }
+            courseGroups[courseCode].push(course);
+        });
+        
+        // For each course group, find the best grade and use it for CGPA calculation
+        Object.values(courseGroups).forEach(courseGroup => {
+            let bestCourse: Course | null = null;
+            let bestGradePoint = -1;
+            
+            courseGroup.forEach(course => {
+                const creditValue = parseFloat(course.credits);
+                const grade = course.grade.trim().toUpperCase();
+                const gradePoint = gradeScale[grade];
+                
+                if (!isNaN(creditValue) && creditValue > 0 && gradePoint !== undefined) {
+                    if (gradePoint > bestGradePoint) {
+                        bestGradePoint = gradePoint;
+                        bestCourse = course;
+                    }
+                }
+            });
+            
+            // Add the best course to CGPA calculation
+            if (bestCourse) {
+                const creditValue = parseFloat(bestCourse.credits);
+                const gradePoint = gradeScale[bestCourse.grade.trim().toUpperCase()];
                 credits += creditValue;
                 gradePoints += creditValue * gradePoint;
             }
         });
+        
         setTotalCredits(credits);
         setTotalGradePoints(gradePoints);
         setCgpa(credits > 0 ? gradePoints / credits : 0);
@@ -355,18 +455,20 @@ const exportToPDF = () => {
     const credits = parseFloat(course.credits) || 0;
     const gradePoint = gradeScale[course.grade.toUpperCase()] || 0;
     const courseGradePoints = credits * gradePoint;
+    const isCountedInCgpa = isCourseCountedInCgpa(course);
     
     return [
       course.courseCode,
       course.grade,
       courseGradePoints.toFixed(2),
       credits.toFixed(1),
+      isCountedInCgpa ? "✓" : "Not Counted"
     ];
   });
 
   autoTable(doc, {
     startY: 35,
-    head: [["Course", "Grade", "Grade Point", "Credit"]],
+    head: [["Course", "Grade", "Grade Point", "Credit", "Status"]],
     body: tableData,
     styles: { fontSize: 10, cellPadding: 3 },
     headStyles: { fillColor: [100, 149, 237] },
@@ -419,7 +521,7 @@ const exportToPDF = () => {
                                 AI-Powered CGPA Calculator
                             </CardTitle>
                             <CardDescription className="text-sm sm:text-base lg:text-lg text-gray-300 max-w-2xl mx-auto mt-3 sm:mt-4 px-4">
-                                Upload your grade sheet and let advanced AI extract your courses automatically. Get detailed insights with grade point calculations.
+                                Upload your grade sheets (multiple files supported) and let advanced AI extract your courses automatically. Get detailed insights with grade point calculations.
                             </CardDescription>
                         </CardHeader>
                         
@@ -428,7 +530,7 @@ const exportToPDF = () => {
                             <div className="space-y-3 sm:space-y-4">
                                 <div className="flex items-center gap-2">
                                     <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-400" />
-                                    <label htmlFor="grade-sheet-upload" className="font-semibold text-gray-200 text-base sm:text-lg">Upload Grade Sheet</label>
+                                    <label htmlFor="grade-sheet-upload" className="font-semibold text-gray-200 text-base sm:text-lg">Upload Grade Sheets (Multiple Files)</label>
                                 </div>
                                 
                                 <div className="flex items-center justify-center w-full">
@@ -438,12 +540,12 @@ const exportToPDF = () => {
                                                 <FileUp className="w-5 h-5 sm:w-8 sm:h-8 text-emerald-400" />
                                             </div>
                                             <p className="mb-1 sm:mb-2 text-sm sm:text-base text-gray-200">
-                                                <span className="font-semibold text-white">Click to upload</span> 
-                                                <span className="hidden sm:inline"> or drag & drop</span>
+                                                <span className="font-semibold text-white">Click to upload multiple files</span> 
+                                                {/* <span className="hidden sm:inline"> or drag & drop</span> */}
                                             </p>
-                                            <p className="text-xs sm:text-sm text-gray-400">PDF, PNG, JPG, JPEG (MAX. 5MB)</p>
+                                            <p className="text-xs sm:text-sm text-gray-400">PDF, PNG, JPG, JPEG (MAX. 5MB each, 10 files max)</p>
                                         </div>
-                                        <Input id="grade-sheet-upload" type="file" className="hidden" onChange={handleFileChange} accept="image/*,application/pdf" />
+                                        <Input id="grade-sheet-upload" type="file" className="hidden" onChange={handleFileChange} accept="image/*,application/pdf" multiple />
                                         <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-tr from-emerald-400/5 via-blue-400/5 to-fuchsia-500/5 rounded-xl sm:rounded-2xl" />
                                     </label>
                                 </div>
@@ -452,13 +554,38 @@ const exportToPDF = () => {
                                         <p className="text-xs sm:text-sm text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-2 sm:p-3 break-all">{fileInfo}</p>
                                     </MotionDiv>
                                 )}
+                                
+                                {/* Selected Files List */}
+                                {uploadedFiles && uploadedFiles.length > 1 && (
+                                    <MotionDiv initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-2">
+                                        <p className="text-sm text-gray-300 font-medium">Selected Files:</p>
+                                        <div className="space-y-2 max-h-40 overflow-y-auto">
+                                            {uploadedFiles.map((file, index) => (
+                                                <div key={index} className="flex items-center justify-between p-2 bg-white/5 border border-white/10 rounded-lg">
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-xs text-white truncate">{file.name}</p>
+                                                        <p className="text-xs text-gray-400">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                                                    </div>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => removeFile(index)}
+                                                        className="text-red-400 hover:text-red-300 hover:bg-red-500/10 p-1 h-auto"
+                                                    >
+                                                        <X className="h-3 w-3" />
+                                                    </Button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </MotionDiv>
+                                )}
                             </div>
 
                             {/* Action Button */}
                             <div className="text-center space-y-3 sm:space-y-4">
                                 <Button 
                                     onClick={handleExtractCourses} 
-                                    disabled={isLoading || !uploadedFile} 
+                                    disabled={isLoading || !uploadedFiles || uploadedFiles.length === 0} 
                                     size="lg" 
                                     className="w-full sm:w-auto gap-2 sm:gap-3 bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 shadow-lg shadow-emerald-500/25 px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg rounded-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                                 >
@@ -468,7 +595,7 @@ const exportToPDF = () => {
                                         <Calculator className="h-4 w-4 sm:h-5 sm:w-5" />
                                     )}
                                     <span className="hidden sm:inline">
-                                        {isLoading ? 'Processing... This may take up to 30 seconds' : 'Extract Courses with AI'}
+                                        {isLoading ? 'Processing... This may take up to 45 seconds for multiple files' : 'Extract Courses with AI'}
                                     </span>
                                     <span className="sm:hidden">
                                         {isLoading ? 'Processing...' : 'Extract with AI'}
@@ -541,7 +668,7 @@ const exportToPDF = () => {
                                                     Performance Summary
                                                 </h2>
                                                 
-                                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+                                                <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
                                                     <div className="space-y-1 sm:space-y-2 col-span-2 md:col-span-1">
                                                         <p className="text-xs sm:text-sm text-gray-400 uppercase tracking-wide">CGPA</p>
                                                         <MotionP
@@ -557,7 +684,7 @@ const exportToPDF = () => {
                                                     
                                                     <div className="space-y-1 sm:space-y-2">
                                                         <p className="text-xs sm:text-sm text-gray-400 uppercase tracking-wide">Total Credits</p>
-                                                        <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-300">{totalCredits}</p>
+                                                        <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-300">{totalCredits.toFixed(1)}</p>
                                                     </div>
                                                     
                                                     <div className="space-y-1 sm:space-y-2">
@@ -566,8 +693,13 @@ const exportToPDF = () => {
                                                     </div>
                                                     
                                                     <div className="space-y-1 sm:space-y-2">
+                                                        <p className="text-xs sm:text-sm text-gray-400 uppercase tracking-wide">Counted Courses</p>
+                                                        <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-300">{courses.filter(c => isCourseCountedInCgpa(c)).length}</p>
+                                                    </div>
+                                                    
+                                                    <div className="space-y-1 sm:space-y-2">
                                                         <p className="text-xs sm:text-sm text-gray-400 uppercase tracking-wide">Total Courses</p>
-                                                        <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-300">{courses.length}</p>
+                                                        <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-300">{courses.length}</p>
                                                     </div>
                                                 </div>
                                             </CardContent>
@@ -630,6 +762,7 @@ const exportToPDF = () => {
                                                             const credits = parseFloat(course.credits) || 0;
                                                             const gradePoint = gradeScale[course.grade.toUpperCase()] || 0;
                                                             const courseGradePoints = credits * gradePoint;
+                                                            const isCountedInCgpa = isCourseCountedInCgpa(course);
                                                             
                                                             return (
                                                                 <MotionDiv
@@ -640,11 +773,11 @@ const exportToPDF = () => {
                                                                     exit={{ opacity: 0, scale: 0.95 }}
                                                                     className="group relative"
                                                                 >
-                                                                    <Card className="border-white/20 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm hover:border-emerald-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10">
+                                                                    <Card className={`border-white/20 bg-gradient-to-br ${isCountedInCgpa ? 'from-white/5 to-white/10' : 'from-red-500/5 to-orange-500/5'} backdrop-blur-sm hover:border-emerald-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 ${!isCountedInCgpa ? 'opacity-75' : ''}`}>
                                                                         <CardContent className="p-3 space-y-2">
                                                                             {/* Header with Grade Badge and Delete Button */}
                                                                             <div className="flex items-center justify-between mb-1">
-                                                                                <div className="flex items-center gap-1">
+                                                                                <div className="flex items-center gap-1 flex-wrap">
                                                                                     {course.grade && (
                                                                                         <Badge className={`${getGradeColor(course.grade)} border text-xs font-medium px-1.5 py-0.5`}>
                                                                                             {course.grade.toUpperCase()}
@@ -653,6 +786,11 @@ const exportToPDF = () => {
                                                                                     {course.grade && (
                                                                                         <Badge variant="outline" className="text-xs text-gray-300 border-gray-500/30 px-1.5 py-0.5">
                                                                                             {gradePoint.toFixed(1)}
+                                                                                        </Badge>
+                                                                                    )}
+                                                                                    {!isCountedInCgpa && course.courseCode && (
+                                                                                        <Badge className="bg-red-500/20 text-red-300 border-red-500/40 text-xs font-medium px-1.5 py-0.5">
+                                                                                            Not Counted
                                                                                         </Badge>
                                                                                     )}
                                                                                 </div>
@@ -677,6 +815,15 @@ const exportToPDF = () => {
                                                                                     placeholder="e.g., CS101" 
                                                                                     className="border-white/20 bg-white/10 focus:border-emerald-400/50 focus:bg-white/20 text-sm h-8"
                                                                                 />
+                                                                                {/* Retake Indicator */}
+                                                                                {course.courseCode && courses.filter(c => c.courseCode.trim().toUpperCase() === course.courseCode.trim().toUpperCase()).length > 1 && (
+                                                                                    <div className="flex items-center gap-1">
+                                                                                        { isCountedInCgpa ? <div className="w-1.5 h-1.5 rounded-full bg-yellow-400"></div> : null }
+                                                                                        <span className="text-xs text-yellow-400">
+                                                                                            {isCountedInCgpa ? 'Best grade (counted)' : ''}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                )}
                                                                             </div>
 
                                                                             {/* Credits and Grade Row */}
@@ -770,6 +917,9 @@ const exportToPDF = () => {
                                                 <div className="flex flex-col gap-2 text-center sm:text-left">
                                                     <p className="text-xs sm:text-sm text-gray-400">
                                                         💡 Adjust any field and watch your CGPA update in real-time
+                                                    </p>
+                                                    <p className="text-xs sm:text-sm text-yellow-400">
+                                                        🔄 For retaken courses (same course code), only the highest grade counts towards CGPA
                                                     </p>
                                                     <div className="flex flex-wrap gap-1 sm:gap-2 justify-center sm:justify-start">
                                                         <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/40 text-xs">A+/A: 4.0</Badge>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { motion, useDeprecatedInvertedScale, TransformProperties } from "framer-motion";
+import { motion, TransformProperties } from "framer-motion";
 import { closeSpring, openSpring } from "./animations";
 
 interface TitleProps {
@@ -9,7 +9,6 @@ interface TitleProps {
 }
 
 export const Title: React.FC<TitleProps> = ({ title, techStack, isSelected }) => {
-  const inverted = useDeprecatedInvertedScale();
   const x = isSelected ? 30 : 15;
   const y = x;
 
@@ -20,7 +19,7 @@ export const Title: React.FC<TitleProps> = ({ title, techStack, isSelected }) =>
       animate={{ x, y }}
       transition={isSelected ? openSpring as any : closeSpring as any}
       transformTemplate={scaleTranslate}
-      style={{ ...inverted, originX: 0, originY: 0 }}
+      style={{ originX: 0, originY: 0 }}
     >
       <div className="tech-stack">
         {techStack.slice(0,3).map((tech) => (

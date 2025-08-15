@@ -1,5 +1,5 @@
 import * as React from "react";
-import { motion, useDeprecatedInvertedScale } from "framer-motion";
+import { motion } from "framer-motion";
 import { closeSpring, openSpring } from "./animations";
 
 interface ImageProps {
@@ -17,13 +17,10 @@ export const Image: React.FC<ImageProps> = ({
   alt, 
   backgroundColor 
 }) => {
-  const inverted = useDeprecatedInvertedScale();
-
   return (
     <motion.div
       className="card-image-container"
       style={{ 
-        ...inverted, 
         backgroundColor: backgroundColor || '#f0f0f0',
         originX: 0.5, 
         originY: 0 

@@ -62,9 +62,9 @@ export async function POST(req: NextRequest) {
     }
 
     // Limit number of images to prevent timeout
-    if (images.length > 5) {
+    if (images.length > 15) {
       return NextResponse.json({ 
-        error: 'Too many images. Please limit to 5 pages maximum.' 
+        error: 'Too many images. Please limit to 15 images maximum.' 
       }, { status: 400 });
     }
 
@@ -73,8 +73,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Server missing GEMINI_API_KEY.' }, { status: 500 });
     }
 
-    // Optimize prompt for faster processing
-    const prompt = `Extract course data from this grade sheet. Return JSON only: {"courses":[{"courseCode":"","courseName":"","credits":"","grade":""}]}. Include all visible courses.`;
+    // Optimize prompt for faster processing with multiple images
+    const prompt = `Extract course data from ${images.length > 1 ? 'these grade sheets' : 'this grade sheet'}. Return JSON only: {"courses":[{"courseCode":"","courseName":"","credits":"","grade":""}]}. Include all visible courses from all images.`;
 
     const parts: any[] = [{ text: prompt }];
     images.forEach(data => parts.push({ inlineData: { mimeType, data } }));
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
     const payload = { 
       contents: [{ parts }],
       generationConfig: {
-        maxOutputTokens: 2048, // Limit output to speed up response
+        maxOutputTokens: 4096, // Increased limit for multiple images with more courses
         temperature: 0.1, // Lower temperature for more consistent output
       }
     };
