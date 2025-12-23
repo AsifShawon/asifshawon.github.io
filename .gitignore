@@ -38,5 +38,5 @@ yarn-error.log*
 next-env.d.ts
 
 .next_corrupted
-
+.git_backups/
 node_modules_corrupted
