@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "Portfolio of Asif Bhuiyan Shawon - Computer Science student at North South University, specializing in AI, Machine Learning, and Full-Stack Development.",
   keywords: "Asif Bhuiyan Shawon, Computer Science, AI, Machine Learning, Full-Stack Developer, North South University, Portfolio",
   authors: [{ name: "Asif Bhuiyan Shawon" }],
-  viewport: "width=device-width, initial-scale=1",
+  // viewport moved to `export const viewport` per Next.js generate-viewport API
   robots: "index, follow",
   openGraph: {
     title: "Asif Bhuiyan Shawon - AI Developer & Computer Science Student",
@@ -17,6 +17,11 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({
