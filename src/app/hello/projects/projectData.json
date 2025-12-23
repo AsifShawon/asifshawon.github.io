@@ -1,23 +1,25 @@
 [
   {
     "id": "project-1",
-    "projectTitle": "E-commerce Website",
-    "image": "/assets/dhakaia_jamdani.webp",
+    "projectTitle": "Dhakaiaa Jamdani E-commerce",
+    "image": "/assets/dhakaia_jamdani_001.webp",
     "techStack": [
       "Next.js",
-      "DaisyUI",
-      "Supabase",
       "React",
-      "Redux Toolkit",
+      "TypeScript",
+      "Supabase",
+      "PostgreSQL",
       "Tailwind CSS",
-      "Supabase (Database, Auth, Storage)",
-      "Resend (Email Service)",
+      "Redux Toolkit",
+      "DaisyUI",
+      "Resend",
       "Nodemailer"
     ],
-    "shortDescription": "**Short Description:** A modern e-commerce platform specializing in Dhakaiaa Jamdani products, built with Next.js and Supabase.",
-  "description": "# Detailed Overview\n\nThe Dhakaiaa Jamdani project is a full-featured e-commerce website leveraging the power of `Next.js` for a performant and SEO-friendly frontend, with `React` and `Redux Toolkit` handling dynamic UI and state management.\n\nStyling is efficiently managed with `Tailwind CSS` and `DaisyUI` for a clean, responsive design. For backend services, it utilizes `Supabase` for database management, user authentication, and image storage. Order confirmations and other transactional emails are handled through `Resend` and `Nodemailer`.\n\nThe platform features a product catalog, a robust shopping cart, secure user authentication, a personalized user dashboard, and a comprehensive admin panel for efficient product and order management.\n\n### Key Features:\n\n* Product Catalog with Filtering and Sorting\n* Shopping Cart Functionality\n* User Authentication and Authorization\n* User Dashboard for Order History and Favorites\n* Admin Panel for Product and Order Management\n* Email Notifications for Order Confirmations",
-  "links": {
-      "live": "https://dhakaiaajamdani.com.bd/"
+    "shortDescription": "**Featured Project:** A modern e-commerce platform specializing in traditional Dhakaiaa Jamdani products with advanced features.",
+    "description": "# Dhakaiaa Jamdani E-commerce Platform\n\nA comprehensive e-commerce solution built with Next.js and modern web technologies. This platform showcases traditional Dhakaiaa Jamdani products with a seamless shopping experience.\n\n## Key Features:\n\n* **Modern UI/UX**: Clean, responsive design with Tailwind CSS and DaisyUI\n* **Advanced Product Catalog**: Filtering, sorting, and search functionality\n* **Secure Authentication**: User registration, login, and profile management\n* **Shopping Cart & Checkout**: Full e-commerce functionality with order tracking\n* **Admin Dashboard**: Complete product and order management system\n* **Email Integration**: Automated order confirmations and notifications\n* **Database Management**: PostgreSQL with Supabase for real-time data\n* **Payment Integration**: Secure payment processing\n* **Responsive Design**: Mobile-first approach for all devices\n\n## Technical Implementation:\n\n* **Frontend**: Next.js 14 with TypeScript for type safety\n* **State Management**: Redux Toolkit for efficient state handling\n* **Backend**: Supabase for database, authentication, and storage\n* **Styling**: Tailwind CSS with DaisyUI components\n* **Email Services**: Resend and Nodemailer for transactional emails\n* **Deployment**: Vercel with optimized performance",
+    "links": {
+      "live": "https://dhakaiaajamdani.com.bd/",
+      "github": "https://github.com/AsifShawon/dhakaiaa-jamdani-next-js"
     },
     "modalImages": [
       "/assets/dhakaia_jamdani_001.webp",
@@ -30,25 +32,98 @@
   },
   {
     "id": "project-2",
-    "projectTitle": "Physics ChatBot",
-    "image": "/assets/physics_cb.avif",
+    "projectTitle": "AI-Powered Physics Chatbot",
+    "image": "/assets/physics_cb.webp",
     "techStack": [
-      "python",
-      "LLM",
-      "RAG",
+      "Python",
       "LangChain",
+      "RAG",
+      "Gemini API",
       "Flask",
-      "Gradle",
-      "Gemini-API"
+      "Machine Learning",
+      "Natural Language Processing",
+      "Vector Databases"
     ],
-    "shortDescription": "A simple and intuitive physics chatbot application.",
-    "description": "A physics chatbot application that helps users with their physics-related queries. Built with Flask for the backend and a variety of AI technologies for natural language processing.",
+    "shortDescription": "**AI/ML Project:** An intelligent physics chatbot using advanced RAG architecture and Google's Gemini API.",
+    "description": "# AI-Powered Physics Learning Assistant\n\nAn advanced chatbot application designed to help students with physics concepts using Retrieval-Augmented Generation (RAG) and Google's Gemini API.\n\n## Features:\n\n* **Intelligent Q&A**: Natural language processing for physics queries\n* **RAG Architecture**: Combines retrieval and generation for accurate responses\n* **Context-Aware**: Maintains conversation context for better understanding\n* **Educational Focus**: Specialized knowledge base for physics concepts\n* **Real-time Responses**: Fast and accurate answer generation\n* **User-Friendly Interface**: Clean and intuitive chat interface\n\n## Technical Stack:\n\n* **Backend Framework**: Flask for lightweight and efficient API\n* **AI/ML Stack**: LangChain for workflow orchestration\n* **Language Model**: Google Gemini API for advanced reasoning\n* **Vector Database**: Efficient similarity search for relevant content\n* **NLP Pipeline**: Advanced text processing and understanding\n* **Deployment**: Scalable cloud infrastructure\n\n## Innovation:\n\n* Custom-trained knowledge base specifically for physics education\n* Advanced prompt engineering for educational contexts\n* Efficient retrieval mechanisms for fast response times\n* Continuous learning capabilities for improved accuracy",
     "links": {
-      "github": "https://github.com/AsifShawon/physics-bot"
+      "github": "https://github.com/AsifShawon/LangGraph/tree/main/Basic_Chatbot/lang-agent"
     },
     "modalImages": [
-      "/assets/physics_cb.avif"
+      "/assets/physics_cb.webp"
     ],
-    "backgroundColor": "#959684"
+    "backgroundColor": "#2C5F41"
+  },
+  {
+    "id": "project-3",
+    "projectTitle": "Stock Price Prediction System",
+    "image": "/assets/project-project-3.svg",
+    "techStack": [
+      "Python",
+      "Machine Learning",
+      "Deep Learning",
+      "TensorFlow",
+      "Pandas",
+      "NumPy",
+      "Scikit-learn",
+      "Data Analysis",
+      "Time Series Analysis"
+    ],
+    "shortDescription": "**Machine Learning:** Advanced stock price prediction using deep learning models and technical analysis.",
+    "description": "# Stock Price Prediction System\n\nA sophisticated machine learning system for predicting stock prices using advanced algorithms and technical analysis indicators.\n\n## Features:\n\n* **Multiple ML Models**: LSTM, GRU, and traditional algorithms\n* **Technical Indicators**: RSI, MACD, Moving Averages, Bollinger Bands\n* **Data Processing**: Real-time data fetching and preprocessing\n* **Visualization**: Interactive charts and performance metrics\n* **Backtesting**: Historical performance validation\n* **Risk Assessment**: Volatility and risk metrics calculation\n\n## Technical Implementation:\n\n* **Deep Learning Models**: LSTM and GRU for time series prediction\n* **Feature Engineering**: Technical indicators and market sentiment\n* **Data Sources**: Multiple financial APIs for comprehensive data\n* **Performance Metrics**: Accuracy, MSE, MAE, and Sharpe ratio\n* **Visualization**: Matplotlib and Plotly for data representation\n* **Model Optimization**: Hyperparameter tuning and cross-validation\n\n## Key Achievements:\n\n* Achieved high prediction accuracy on multiple stock indices\n* Implemented advanced feature engineering techniques\n* Developed comprehensive backtesting framework\n* Created intuitive visualization dashboard",
+    "links": {
+      "github": "https://github.com/AsifShawon/CSE_445-Stock-Price-Prediction"
+    },
+    "modalImages": [
+      "/assets/learn_to_protect.avif"
+    ],
+    "backgroundColor": "#1B4332"
+  },
+  {
+    "id": "project-4",
+    "projectTitle": "Hospital Management System",
+    "image": "/assets/project-project-4.svg",
+    "techStack": [
+      "Django",
+      "Python",
+      "PostgreSQL",
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "Bootstrap",
+      "SQLite"
+    ],
+    "shortDescription": "**Full-Stack:** Comprehensive hospital management system with patient records, appointments, and staff management.",
+    "description": "# Hospital Management System\n\nA complete hospital management solution built with Django framework, featuring comprehensive patient care and administrative functionalities.\n\n## Core Features:\n\n* **Patient Management**: Registration, medical records, and history tracking\n* **Appointment System**: Scheduling, reminders, and calendar integration\n* **Staff Management**: Doctor and nurse profiles, schedules, and assignments\n* **Medical Records**: Secure storage and retrieval of patient data\n* **Billing System**: Invoice generation and payment tracking\n* **Pharmacy Integration**: Medication management and inventory\n* **Reports & Analytics**: Healthcare statistics and performance metrics\n\n## Technical Features:\n\n* **Security**: Role-based access control and data encryption\n* **Database Design**: Normalized PostgreSQL schema\n* **API Integration**: RESTful APIs for external system connectivity\n* **Responsive Design**: Mobile-friendly interface\n* **Backup System**: Automated data backup and recovery\n* **Audit Trail**: Complete activity logging for compliance\n\n## System Architecture:\n\n* **Backend**: Django with robust ORM and security features\n* **Database**: PostgreSQL for production, SQLite for development\n* **Frontend**: Bootstrap-based responsive UI\n* **Authentication**: Django's built-in security with custom extensions\n* **Deployment**: Docker containerization for scalability",
+    "links": {
+      "github": "https://github.com/AsifShawon/django-hospital-management"
+    },
+    "modalImages": [
+      "/assets/dhakaiaa_jamdani.avif"
+    ],
+    "backgroundColor": "#6F1D1B"
+  },
+  {
+    "id": "project-5",
+    "projectTitle": "CGPA Calculator",
+    "image": "/assets/project-project-5.svg",
+    "techStack": [
+      "React",
+      "JavaScript",
+      "Node.js",
+      "CSS3",
+      "HTML5",
+      "Local Storage",
+      "Responsive Design"
+    ],
+    "shortDescription": "**Utility App:** Interactive CGPA calculator for academic grade point average calculations with data persistence.",
+    "description": "# CGPA Calculator Application\n\nA user-friendly web application for calculating Cumulative Grade Point Average (CGPA) with advanced features for academic planning.\n\n## Features:\n\n* **Grade Calculation**: Accurate CGPA and GPA calculations\n* **Course Management**: Add, edit, and delete course entries\n* **Credit Hours**: Support for variable credit hour courses\n* **Data Persistence**: Local storage for saving calculations\n* **Academic Planning**: What-if scenarios for grade improvement\n* **Export Options**: PDF and Excel export functionality\n* **Responsive Design**: Works seamlessly on all devices\n\n## Technical Implementation:\n\n* **Frontend Framework**: React with modern hooks and state management\n* **Data Storage**: Browser local storage for persistence\n* **Calculations**: Accurate weighted average algorithms\n* **UI/UX**: Clean, intuitive interface with real-time updates\n* **Validation**: Input validation and error handling\n* **Performance**: Optimized rendering and smooth interactions\n\n## Educational Value:\n\n* Helps students track academic progress\n* Enables grade planning and goal setting\n* Provides insights into academic performance trends\n* Supports different grading systems and scales",
+    "links": {
+      "github": "https://github.com/AsifShawon/CSE482-Project"
+    },
+    "modalImages": [
+      "/assets/cgpa-calculator-preview.svg"
+    ],
+    "backgroundColor": "#2D5016"
   }
 ]

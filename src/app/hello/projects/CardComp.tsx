@@ -1,28 +1,32 @@
 "use client";
 
-import * as React from "react";
-import { Card } from "@/app/components/Card";
-import { CardData } from "@/app/types";
-import cardData from './projectData.json'; // Importing the project data
+import React, { useState } from "react";
+import EnhancedProjectCard from "./EnhancedProjectCard";
+import ProjectModal from "./ProjectModal";
+import cardData from "./projectData.json";
 
 const List = () => {
-  const [selectedId, setSelectedId] = React.useState<string | null>(null);
-
-  const handleNavigation = (id: string | null) => {
-    setSelectedId(id);
-  };
+  const [selectedProject, setSelectedProject] = useState<any>(null);
 
   return (
-    <ul className="card-list">
-      {cardData.map((card: CardData) => (
-        <Card
-          key={card.id}
-          isSelected={selectedId === card.id}
-          history={{ push: handleNavigation }}
-          {...card}
-        />
-      ))}
-    </ul>
+    <>
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 px-4">
+        {cardData.map((project, index) => (
+          <EnhancedProjectCard
+            key={project.id}
+            project={project}
+            onClick={() => setSelectedProject(project)}
+            index={index}
+          />
+        ))}
+      </div>
+
+      <ProjectModal
+        isOpen={!!selectedProject}
+        onClose={() => setSelectedProject(null)}
+        project={selectedProject || cardData[0]}
+      />
+    </>
   );
 };
 

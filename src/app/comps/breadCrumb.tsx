@@ -21,19 +21,19 @@ const CustomBreadcrumb: React.FC<BreadcrumbProps> = ({ pageNames }) => {
     <Breadcrumb className="flex items-center">
       <BreadcrumbList className="flex">
         {breadcrumbItems.map((page, index) => (
-          <>
-            <BreadcrumbItem key={index} className="flex items-center">
+          <React.Fragment key={`crumb-${index}`}>
+            <BreadcrumbItem className="flex items-center">
               <BreadcrumbLink href={page.href}>
                 {page.name}
               </BreadcrumbLink>
             </BreadcrumbItem>
             {/* Separator should not be inside the <li> */}
-            <BreadcrumbSeparator key={`sep-${index}`} />
-          </>
+            <BreadcrumbSeparator />
+          </React.Fragment>
         ))}
 
         {/* Last item as BreadcrumbPage without a link */}
-        <BreadcrumbItem>
+        <BreadcrumbItem key={`last-${lastPage?.name}`}>
           <BreadcrumbPage>{lastPage.name}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
