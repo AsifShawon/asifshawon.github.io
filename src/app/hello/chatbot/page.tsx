@@ -1,96 +1,39 @@
-"use client"
-import React, { useState } from 'react'
+"use client";
 
-const Page = () => {
-    interface Message {
-      sender: string;
-      content: string;
-    }
-    
-    const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{ sender: string; content: string }[]>([]);
-  const [userInput, setUserInput] = useState("");
+import React from 'react';
+import PageTransition from '@/app/components/PageTransition';
+import AnimatedSection from '@/app/components/AnimatedSection';
+import { motion } from 'framer-motion';
+import { MessageSquare } from 'lucide-react';
 
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const sendMessage = async () => {
-    if (!userInput.trim()) return;
-
-    const newMessages = [...messages, { sender: "user", content: userInput }];
-    setMessages(newMessages);
-    setUserInput("");
-
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userInput }),
-      });
-
-      const data = await response.json();
-      if (data.response) {
-        setMessages([...newMessages, { sender: "bot", content: data.response }]);
-      } else {
-        throw new Error("No response from the chatbot");
-      }
-    } catch (error) {
-      console.error("Error sending message:", error);
-      setMessages([...newMessages, { sender: "bot", content: "Error: Unable to fetch response" }]);
-    }
-  };
-
+export default function ChatbotPage() {
   return (
-    <div className="fixed bottom-5 right-5">
-      {/* Chat Button */}
-      <button
-        onClick={toggleChat}
-        className="bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-600"
-      >
-        Chat
-      </button>
-
-      {/* Chat Popup */}
-      {isOpen && (
-        <div className="fixed bottom-20 right-5 w-80 bg-white shadow-lg rounded-lg overflow-hidden">
-          <div className="p-4 border-b bg-blue-500 text-white">Chat with Us</div>
-          <div className="p-4 h-64 overflow-y-scroll">
-            {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`my-2 ${msg.sender === "user" ? "text-right" : "text-left"}`}
-              >
-                <span
-                  className={`inline-block p-2 rounded-lg ${
-                    msg.sender === "user" ? "bg-blue-500 text-white" : "bg-gray-200"
-                  }`}
-                >
-                  {msg.content}
-                </span>
+    <PageTransition>
+      <div className="min-h-screen p-8 bg-background">
+        <div className="max-w-5xl mx-auto">
+          <AnimatedSection>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center mb-8">
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <MessageSquare className="text-emerald-400" size={56} />
+                <h1 className="text-4xl font-bold gradient-text">AI Chatbot</h1>
               </div>
-            ))}
-          </div>
-          <div className="p-4 border-t flex items-center">
-            <input
-              type="text"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-              placeholder="Type your message..."
-              className="flex-grow p-2 border rounded-lg mr-2"
-            />
-            <button
-              onClick={sendMessage}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-            >
-              Send
-            </button>
-          </div>
+              <p className="text-gray-300 max-w-2xl mx-auto">An experimental conversational assistant demonstrating RAG-powered retrieval and simple chat UI. Click a project to explore live demos.</p>
+            </motion.div>
+          </AnimatedSection>
+
+          <AnimatedSection delay={0.3}>
+            <div className="glass-card p-6 rounded-xl">
+              <div className="flex items-start gap-4">
+                <MessageSquare className="w-8 h-8 text-emerald-400" />
+                <div>
+                  <h3 className="text-lg font-semibold text-white">Try the demo</h3>
+                  <p className="text-sm text-gray-400">This page contains a simple demo placeholder. The full chatbot integrates a conversational UI, system prompts, and external knowledge sources.</p>
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
         </div>
-      )}
-    </div>
+      </div>
+    </PageTransition>
   );
 }
-
-export default Page
