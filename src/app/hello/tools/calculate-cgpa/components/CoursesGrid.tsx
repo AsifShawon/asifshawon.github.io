@@ -5,10 +5,7 @@ import { CourseCard } from './CourseCard';
 import { SearchBar } from './SearchBar';
 import { Button } from '@/components/ui/button';
 import { Download, Plus, Search } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
 import { Course, GradeScale } from '../types';
-
-const MotionDiv = motion.div;
 
 interface CoursesGridProps {
     courses: Course[];
@@ -66,23 +63,29 @@ export function CoursesGrid({
             
             {/* Course Cards Grid */}
             <div className="p-2 sm:p-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3">
-                    {filteredCourses.map((course) => (
-                        <CourseCard
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
+                    {filteredCourses.map((course, index) => (
+                        <motion.div
                             key={course.id}
-                            course={course}
-                            gradeScale={gradeScale}
-                            isCountedInCgpa={isCourseCountedInCgpa(course)}
-                            courses={courses}
-                            onCourseChange={onCourseChange}
-                            onRemoveCourse={onRemoveCourse}
-                            getGradeColor={getGradeColor}
-                        />
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, delay: index * 0.05 }}
+                        >
+                            <CourseCard
+                                course={course}
+                                gradeScale={gradeScale}
+                                isCountedInCgpa={isCourseCountedInCgpa(course)}
+                                courses={courses}
+                                onCourseChange={onCourseChange}
+                                onRemoveCourse={onRemoveCourse}
+                                getGradeColor={getGradeColor}
+                            />
+                        </motion.div>
                     ))}
                     
                     {/* No results message */}
                     {filteredCourses.length === 0 && searchQuery && (
-                        <div className="col-span-full flex flex-col items-center justify-center py-8 text-center">
+                        <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
                             <Search className="h-12 w-12 text-gray-500 mb-4" />
                             <h4 className="text-lg font-semibold text-gray-300 mb-2">No courses found</h4>
                             <p className="text-sm text-gray-400 mb-4">
@@ -100,23 +103,23 @@ export function CoursesGrid({
                     
                     {/* Add New Course Card */}
                     {(!searchQuery || filteredCourses.length > 0) && (
-                        <MotionDiv
+                        <motion.div
                             layout
-                            className="min-h-[140px] flex items-center justify-center"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.3, delay: filteredCourses.length * 0.05 }}
                         >
-                            <Card className="w-full h-full border-dashed border-2 border-white/20 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm hover:border-emerald-400/40 transition-all duration-300 hover:bg-emerald-500/5 cursor-pointer group">
-                                <CardContent 
-                                    className="h-full flex flex-col items-center justify-center p-4 text-center"
-                                    onClick={onAddCourse}
-                                >
-                                    <div className="p-2 rounded-full bg-gradient-to-br from-emerald-500/20 to-blue-500/20 mb-2 group-hover:scale-110 transition-transform duration-300">
-                                        <Plus className="h-5 w-5 text-emerald-400" />
-                                    </div>
-                                    <h4 className="font-semibold text-gray-200 mb-1 text-sm">Add Course</h4>
-                                    <p className="text-xs text-gray-400">Click to add</p>
-                                </CardContent>
-                            </Card>
-                        </MotionDiv>
+                            <div 
+                                onClick={onAddCourse}
+                                className="h-full min-h-[180px] flex flex-col items-center justify-center p-6 rounded-xl border-2 border-dashed border-white/20 bg-gradient-to-br from-white/[0.03] to-white/[0.06] backdrop-blur-sm hover:border-emerald-400/50 hover:bg-emerald-500/5 transition-all duration-300 cursor-pointer group"
+                            >
+                                <div className="p-3 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 mb-3 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-emerald-500/20 transition-all duration-300">
+                                    <Plus className="h-6 w-6 text-emerald-400" />
+                                </div>
+                                <h4 className="font-semibold text-gray-200 mb-1">Add New Course</h4>
+                                <p className="text-xs text-gray-500">Click to add a course manually</p>
+                            </div>
+                        </motion.div>
                     )}
                 </div>
             </div>

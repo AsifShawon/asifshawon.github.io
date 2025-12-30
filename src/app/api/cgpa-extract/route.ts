@@ -73,8 +73,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Server missing GEMINI_API_KEY.' }, { status: 500 });
     }
 
-    // Optimize prompt for faster processing with multiple images
-    const prompt = `Extract course data from ${images.length > 1 ? 'these grade sheets' : 'this grade sheet'}. Return JSON only: {"courses":[{"courseCode":"","courseName":"","credits":"","grade":""}]}. Include all visible courses from all images.`;
+    // Detailed prompt for accurate extraction
+    const prompt = `You are an expert at reading academic grade sheets and transcripts. Extract ALL course information from ${images.length > 1 ? 'these grade sheet images' : 'this grade sheet image'}.
+
+IMPORTANT INSTRUCTIONS:
+1. Read EVERY course visible in the image(s) carefully
+2. Extract the COMPLETE course code (e.g., "CSE101", "MATH201", "ENG102") - do not truncate
+3. Extract the FULL course name (e.g., "Introduction to Computer Science") - do not shorten
+4. Extract credit hours as a number (e.g., "3", "4", "1.5")
+5. Extract the letter grade (e.g., "A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F")
+6. If you see semester/term info, include courses from ALL semesters shown
+7. Do NOT skip any courses - extract everything visible
+
+Return ONLY valid JSON in this exact format:
+{"courses":[{"courseCode":"CSE101","courseName":"Introduction to Computer Science","credits":"3","grade":"A"}]}
+
+Extract all courses now:`;
 
     const parts: any[] = [{ text: prompt }];
     images.forEach(data => parts.push({ inlineData: { mimeType, data } }));
@@ -82,12 +96,12 @@ export async function POST(req: NextRequest) {
     const payload = { 
       contents: [{ parts }],
       generationConfig: {
-        maxOutputTokens: 4096, // Increased limit for multiple images with more courses
+        maxOutputTokens: 8192, // Higher limit for more courses
         temperature: 0.1, // Lower temperature for more consistent output
       }
     };
 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     const response = await makeGeminiRequest(apiUrl, payload);
     const result = await response.json();

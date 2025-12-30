@@ -2,6 +2,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Course, GradeScale } from '../types';
 
+// Tesseract is imported dynamically to reduce bundle size
+
 export function useCgpaCalculation() {
     // File upload state
     const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
@@ -31,6 +33,34 @@ export function useCgpaCalculation() {
     
     // Search functionality
     const [searchQuery, setSearchQuery] = useState<string>('');
+
+    // User API key for Gemini (stored in localStorage)
+    const [userApiKey, setUserApiKey] = useState<string>('');
+    const [showApiKeyInput, setShowApiKeyInput] = useState<boolean>(false);
+
+    // Load API key from localStorage on mount
+    useEffect(() => {
+        const savedKey = localStorage.getItem('gemini_api_key');
+        if (savedKey) {
+            setUserApiKey(savedKey);
+        }
+    }, []);
+
+    // Save API key to localStorage
+    const saveApiKey = (key: string) => {
+        setUserApiKey(key);
+        if (key) {
+            localStorage.setItem('gemini_api_key', key);
+        } else {
+            localStorage.removeItem('gemini_api_key');
+        }
+    };
+
+    // Clear API key
+    const clearApiKey = () => {
+        setUserApiKey('');
+        localStorage.removeItem('gemini_api_key');
+    };
 
     // Grade scale (editable)
     const [gradeScale, setGradeScale] = useState<GradeScale>({
@@ -228,7 +258,119 @@ export function useCgpaCalculation() {
         }
     };
 
-    // Course extraction
+    // OCR text extraction using Tesseract.js (fallback method) - dynamically imported
+    const extractTextFromImage = async (imageSource: string | File): Promise<string> => {
+        try {
+            // Dynamic import to reduce bundle size
+            const Tesseract = await import('tesseract.js');
+            const result = await Tesseract.recognize(imageSource, 'eng');
+            return result.data.text;
+        } catch (error) {
+            console.error('OCR error:', error);
+            throw new Error('Failed to extract text from image');
+        }
+    };
+
+    // Fallback extraction using Tesseract OCR + Groq
+    const extractWithOcrAndGroq = async (base64Images: string[]): Promise<any> => {
+        console.log('Falling back to Tesseract OCR + Groq...');
+        let allExtractedText = '';
+
+        // Extract text from all images using Tesseract
+        for (let i = 0; i < base64Images.length; i++) {
+            const imageDataUrl = `data:image/png;base64,${base64Images[i]}`;
+            const text = await extractTextFromImage(imageDataUrl);
+            allExtractedText += `\n--- Page ${i + 1} ---\n${text}`;
+        }
+
+        if (!allExtractedText.trim()) {
+            throw new Error('Could not extract any text from the images.');
+        }
+
+        // Send to Groq for parsing
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+        const response = await fetch('/api/cgpa-extract-groq', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: allExtractedText }),
+            signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+            const err = await response.json().catch(() => ({}));
+            throw new Error(err.error || `Groq API error (${response.status})`);
+        }
+
+        return response.json();
+    };
+
+    // Direct Gemini API call from frontend (using user's API key)
+    const extractWithGeminiDirect = async (base64Images: string[], mimeType: string, apiKey: string): Promise<any> => {
+        const prompt = `You are an expert at reading academic grade sheets and transcripts. Extract ALL course information from ${base64Images.length > 1 ? 'these grade sheet images' : 'this grade sheet image'}.
+
+IMPORTANT INSTRUCTIONS:
+1. Read EVERY course visible in the image(s) carefully
+2. Extract the COMPLETE course code (e.g., "CSE101", "MATH201", "ENG102") - do not truncate
+3. Extract the FULL course name (e.g., "Introduction to Computer Science") - do not shorten
+4. Extract credit hours as a number (e.g., "3", "4", "1.5")
+5. Extract the letter grade (e.g., "A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F")
+6. If you see semester/term info, include courses from ALL semesters shown
+7. Do NOT skip any courses - extract everything visible
+
+Return ONLY valid JSON in this exact format:
+{"courses":[{"courseCode":"CSE101","courseName":"Introduction to Computer Science","credits":"3","grade":"A"}]}
+
+Extract all courses now:`;
+
+        const parts: any[] = [{ text: prompt }];
+        base64Images.forEach(data => parts.push({ inlineData: { mimeType, data } }));
+
+        const payload = {
+            contents: [{ parts }],
+            generationConfig: {
+                maxOutputTokens: 8192,
+                temperature: 0.1,
+            }
+        };
+
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error?.message || `Gemini API error (${response.status})`);
+        }
+
+        const result = await response.json();
+        const rawText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!rawText) {
+            throw new Error('No valid content from Gemini model.');
+        }
+
+        // Parse JSON from response
+        const jsonText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+        try {
+            return JSON.parse(jsonText);
+        } catch (e) {
+            const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+                return JSON.parse(jsonMatch[0]);
+            }
+            throw new Error('Failed to parse Gemini response as JSON');
+        }
+    };
+
+    // Course extraction - User API key first, then server, then fallback
     const handleExtractCourses = async () => {
         if (!uploadedFiles || uploadedFiles.length === 0) {
             setError('Please select at least one file first.');
@@ -241,20 +383,20 @@ export function useCgpaCalculation() {
 
         try {
             let base64Images: string[] = [];
-            let mimeType: string = 'image/png'; // Default mime type
+            let mimeType: string = 'image/png';
 
-            // Process all files
+            // Process all files to base64 images
             for (const file of uploadedFiles) {
                 if (file.type.startsWith('image/')) {
                     base64Images.push(await toBase64(file));
-                    mimeType = file.type; // Use the actual image mime type
+                    mimeType = file.type;
                 } else if (file.type === 'application/pdf') {
                     if (!(window as any).pdfjsLib) {
                         throw new Error("PDF library is not loaded yet. Please wait a moment and try again.");
                     }
                     const pdfImages = await handlePdfToImages(file);
                     base64Images.push(...pdfImages);
-                    mimeType = 'image/png'; // PDFs are converted to PNG
+                    mimeType = 'image/png';
                 } else {
                     throw new Error(`Unsupported file type: ${file.name}. Please upload images or PDFs only.`);
                 }
@@ -263,41 +405,76 @@ export function useCgpaCalculation() {
             // Limit total images to prevent timeout
             if (base64Images.length > 15) {
                 base64Images = base64Images.slice(0, 15);
-                setError(`Processing first 15 images only to prevent timeout. Total images found: ${base64Images.length}`);
             }
 
             if (base64Images.length === 0) {
                 throw new Error('No valid images found in the uploaded files.');
             }
 
-            // Create AbortController for timeout handling
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 second timeout for multiple images
+            let extractedData: any = null;
+            let usedMethod = '';
 
-            const extractedData = await fetch('/api/cgpa-extract', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ images: base64Images, mimeType }),
-                signal: controller.signal
-            }).then(async r => {
-                clearTimeout(timeoutId);
-                if (!r.ok) {
-                    const err = await r.json().catch(() => ({}));
-                    if (r.status === 504) {
-                        throw new Error('Request timed out. Please try with fewer files or smaller files.');
+            // Method 1: Try user's Gemini API key first (direct call from browser)
+            if (userApiKey) {
+                try {
+                    console.log('Trying extraction with user API key...');
+                    extractedData = await extractWithGeminiDirect(base64Images, mimeType, userApiKey);
+                    usedMethod = 'user-gemini';
+                    
+                    if (!extractedData.courses || extractedData.courses.length === 0) {
+                        throw new Error('No courses found');
                     }
-                    throw new Error(err.error || `Server error (${r.status})`);
+                } catch (userKeyError: any) {
+                    console.warn('User API key extraction failed:', userKeyError.message);
+                    extractedData = null;
                 }
-                return r.json();
-            }).catch(error => {
-                clearTimeout(timeoutId);
-                if (error.name === 'AbortError') {
-                    throw new Error('Request timed out. Please try with fewer files or smaller files.');
-                }
-                throw error;
-            });
+            }
 
-            const coursesWithIds = (extractedData.courses || []).map((course: any) => ({
+            // Method 2: Try server-side Gemini API
+            if (!extractedData) {
+                try {
+                    console.log('Trying server-side Gemini...');
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 45000);
+
+                    const response = await fetch('/api/cgpa-extract', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ images: base64Images, mimeType }),
+                        signal: controller.signal
+                    });
+
+                    clearTimeout(timeoutId);
+
+                    if (response.ok) {
+                        extractedData = await response.json();
+                        usedMethod = 'server-gemini';
+                        
+                        if (!extractedData.courses || extractedData.courses.length === 0) {
+                            throw new Error('Server Gemini returned no courses');
+                        }
+                    } else {
+                        const err = await response.json().catch(() => ({}));
+                        throw new Error(err.error || `Server error (${response.status})`);
+                    }
+                } catch (serverError: any) {
+                    console.warn('Server Gemini extraction failed:', serverError.message);
+                    extractedData = null;
+                }
+            }
+
+            // Method 3: Fallback to Tesseract OCR + Groq
+            if (!extractedData) {
+                try {
+                    console.log('Falling back to OCR + Groq...');
+                    extractedData = await extractWithOcrAndGroq(base64Images);
+                    usedMethod = 'ocr-groq';
+                } catch (fallbackError: any) {
+                    throw new Error(`All extraction methods failed. Please try with a clearer image or add courses manually.`);
+                }
+            }
+
+            const coursesWithIds = (extractedData?.courses || []).map((course: any) => ({
                 ...course,
                 id: Math.random().toString(36).substring(2, 9)
             }));
@@ -305,7 +482,9 @@ export function useCgpaCalculation() {
             setCourses(coursesWithIds);
             
             if (coursesWithIds.length === 0) {
-                setError('No courses found in the uploaded images. Please try with a clearer image of your grade sheet or add courses manually.');
+                setError('No courses found. Please try with a clearer image or add courses manually.');
+            } else {
+                console.log(`Extraction completed using: ${usedMethod}`);
             }
         } catch (err: any) {
             setError(err.message);
@@ -479,6 +658,12 @@ export function useCgpaCalculation() {
         isCourseCountedInCgpa,
         getCgpaColor,
         getGradeColor,
-        updateGradeScale
+        updateGradeScale,
+        // API Key management
+        userApiKey,
+        saveApiKey,
+        clearApiKey,
+        showApiKeyInput,
+        setShowApiKeyInput
     };
 }

@@ -1,9 +1,8 @@
-const { ChatGoogleGenerativeAI } = require("@langchain/google-genai");
+const Groq = require("groq-sdk").default;
 require("dotenv").config();
 
-const llm = new ChatGoogleGenerativeAI({
-  model: "gemini-1.5-flash",
-  googleApiKey: process.env.GOOGLE_API_KEY,
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
 });
 
 // Utility function to clean AI responses
@@ -68,14 +67,17 @@ async function matchSkills(users, jobs) {
           ]
         `;
 
-        const response = await llm.invoke([
-          { role: "system", content: SystemMessage },
-        ]);
+        const completion = await groq.chat.completions.create({
+          model: "openai/gpt-oss-120b",
+          messages: [
+            { role: "system", content: SystemMessage },
+          ],
+        });
 
         return {
           userId: userInput.userId,
           userName: userInput.userName,
-          recommendations: sanitizeAIResponse(response.content || ""),
+          recommendations: sanitizeAIResponse(completion.choices[0]?.message?.content || ""),
         };
       })
     );

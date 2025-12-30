@@ -12,6 +12,7 @@ import { ActionButtons } from './components/ActionButtons';
 import { CoursesGrid } from './components/CoursesGrid';
 import { AddCourseModal } from './components/AddCourseModal';
 import { GradingPolicy } from './components/GradingPolicy';
+import { ApiKeyInput } from './components/ApiKeyInput';
 
 // Hook and type imports
 import { useCgpaCalculation } from './hooks/useCgpaCalculation';
@@ -71,7 +72,13 @@ export default function CgpaCalculatorPage() {
         isCourseCountedInCgpa,
         getCgpaColor,
         getGradeColor,
-        updateGradeScale
+        updateGradeScale,
+        // API Key management
+        userApiKey,
+        saveApiKey,
+        clearApiKey,
+        showApiKeyInput,
+        setShowApiKeyInput
     } = useCgpaCalculation();
 
     return (
@@ -113,6 +120,15 @@ export default function CgpaCalculatorPage() {
                     </div>
                     
                     <div className="space-y-6 sm:space-y-8 lg:space-y-10 px-4 sm:px-6 pb-6 sm:pb-8">
+                        {/* API Key Input */}
+                        <ApiKeyInput
+                            userApiKey={userApiKey}
+                            onSaveApiKey={saveApiKey}
+                            onClearApiKey={clearApiKey}
+                            showApiKeyInput={showApiKeyInput}
+                            onToggleInput={setShowApiKeyInput}
+                        />
+
                         {/* File Upload Component */}
                         <FileUpload
                             uploadedFiles={uploadedFiles}
