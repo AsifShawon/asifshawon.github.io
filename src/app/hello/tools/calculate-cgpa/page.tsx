@@ -78,7 +78,8 @@ export default function CgpaCalculatorPage() {
         saveApiKey,
         clearApiKey,
         showApiKeyInput,
-        setShowApiKeyInput
+        setShowApiKeyInput,
+        clearSavedCourses
     } = useCgpaCalculation();
 
     return (
@@ -198,6 +199,7 @@ export default function CgpaCalculatorPage() {
                                 isCourseCountedInCgpa={isCourseCountedInCgpa}
                                 getGradeColor={getGradeColor}
                                 filteredCourses={filteredCourses}
+                                onClearAll={clearSavedCourses}
                             />
                         )}
 

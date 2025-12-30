@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { CourseCard } from './CourseCard';
 import { SearchBar } from './SearchBar';
 import { Button } from '@/components/ui/button';
-import { Download, Plus, Search } from 'lucide-react';
+import { Download, Plus, Search, Trash2 } from 'lucide-react';
 import { Course, GradeScale } from '../types';
 
 interface CoursesGridProps {
@@ -19,6 +19,7 @@ interface CoursesGridProps {
     onExportPDF: () => void;
     onSearchChange: (query: string) => void;
     getGradeColor: (grade: string) => string;
+    onClearAll?: () => void;
 }
 
 export function CoursesGrid({
@@ -32,7 +33,8 @@ export function CoursesGrid({
     onAddCourse,
     onExportPDF,
     onSearchChange,
-    getGradeColor
+    getGradeColor,
+    onClearAll
 }: CoursesGridProps) {
     return (
         <div>
@@ -40,16 +42,34 @@ export function CoursesGrid({
                 <h3 className="text-base sm:text-lg lg:text-xl font-semibold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                     <span className="hidden sm:inline">Course Details</span>
                     <span className="sm:hidden">Courses</span>
+                    {courses.length > 0 && (
+                        <span className="ml-2 text-xs font-normal text-gray-500">
+                            ({courses.length} courses)
+                        </span>
+                    )}
                 </h3>
-                <Button 
-                    onClick={onExportPDF}
-                    className="gap-1 sm:gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/25 text-sm sm:text-base px-3 sm:px-4 py-2"
-                    size="sm"
-                >
-                    <Download className="h-3 w-3 sm:h-4 sm:w-4" />
-                    <span className="hidden sm:inline">Export PDF</span>
-                    <span className="sm:hidden">PDF</span>
-                </Button>
+                <div className="flex items-center gap-2">
+                    {courses.length > 0 && onClearAll && (
+                        <Button 
+                            onClick={onClearAll}
+                            variant="outline"
+                            className="gap-1 sm:gap-2 border-red-500/30 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-sm px-3 py-2"
+                            size="sm"
+                        >
+                            <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
+                            <span className="hidden sm:inline">Clear All</span>
+                        </Button>
+                    )}
+                    <Button 
+                        onClick={onExportPDF}
+                        className="gap-1 sm:gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/25 text-sm sm:text-base px-3 sm:px-4 py-2"
+                        size="sm"
+                    >
+                        <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="hidden sm:inline">Export PDF</span>
+                        <span className="sm:hidden">PDF</span>
+                    </Button>
+                </div>
             </div>
 
             {/* Search Bar */}

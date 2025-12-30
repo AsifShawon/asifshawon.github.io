@@ -38,13 +38,40 @@ export function useCgpaCalculation() {
     const [userApiKey, setUserApiKey] = useState<string>('');
     const [showApiKeyInput, setShowApiKeyInput] = useState<boolean>(false);
 
-    // Load API key from localStorage on mount
+    // Load courses and API key from localStorage on mount
     useEffect(() => {
+        // Load API key
         const savedKey = localStorage.getItem('gemini_api_key');
         if (savedKey) {
             setUserApiKey(savedKey);
         }
+        
+        // Load saved courses
+        const savedCourses = localStorage.getItem('cgpa_courses');
+        if (savedCourses) {
+            try {
+                const parsed = JSON.parse(savedCourses);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    setCourses(parsed);
+                }
+            } catch (e) {
+                console.error('Failed to load saved courses:', e);
+            }
+        }
     }, []);
+
+    // Save courses to localStorage whenever they change
+    useEffect(() => {
+        if (courses.length > 0) {
+            localStorage.setItem('cgpa_courses', JSON.stringify(courses));
+        }
+    }, [courses]);
+
+    // Clear all saved courses
+    const clearSavedCourses = () => {
+        setCourses([]);
+        localStorage.removeItem('cgpa_courses');
+    };
 
     // Save API key to localStorage
     const saveApiKey = (key: string) => {
@@ -659,6 +686,7 @@ Extract all courses now:`;
         getCgpaColor,
         getGradeColor,
         updateGradeScale,
+        clearSavedCourses,
         // API Key management
         userApiKey,
         saveApiKey,
