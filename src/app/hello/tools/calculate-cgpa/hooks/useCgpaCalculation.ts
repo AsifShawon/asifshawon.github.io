@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState, useCallback } from 'react';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { Course, GradeScale } from '../types';
 
 // Tesseract is imported dynamically to reduce bundle size
@@ -107,11 +109,11 @@ export function useCgpaCalculation() {
 
     // Helper function to check if a course is counted in CGPA
     const isCourseCountedInCgpa = (course: Course): boolean => {
-        const courseCode = course.courseCode.trim().toUpperCase();
+        const courseCode = (course.courseCode || '').trim().toUpperCase();
         if (!courseCode) return false;
         
         // Find all courses with the same course code
-        const sameCourses = courses.filter(c => c.courseCode.trim().toUpperCase() === courseCode);
+        const sameCourses = courses.filter(c => (c.courseCode || '').trim().toUpperCase() === courseCode);
         
         if (sameCourses.length === 1) return true; // No retakes, so it's counted
         
@@ -120,8 +122,8 @@ export function useCgpaCalculation() {
         let bestCourseId = '';
         
         sameCourses.forEach(c => {
-            const creditValue = parseFloat(c.credits);
-            const grade = c.grade.trim().toUpperCase();
+            const creditValue = parseFloat(c.credits || '0');
+            const grade = (c.grade || '').trim().toUpperCase();
             const gradePoint = gradeScale[grade];
             
             if (!isNaN(creditValue) && creditValue > 0 && gradePoint !== undefined) {
@@ -144,7 +146,7 @@ export function useCgpaCalculation() {
         const courseGroups: { [courseCode: string]: Course[] } = {};
         
         courses.forEach(course => {
-            const courseCode = course.courseCode.trim().toUpperCase();
+            const courseCode = (course.courseCode || '').trim().toUpperCase();
             if (!courseCode) return; // Skip courses without course code
             
             if (!courseGroups[courseCode]) {
@@ -159,8 +161,8 @@ export function useCgpaCalculation() {
             let bestGradePoint = -1;
             
             courseGroup.forEach(course => {
-                const creditValue = parseFloat(course.credits);
-                const grade = course.grade.trim().toUpperCase();
+                const creditValue = parseFloat(course.credits || '0');
+                const grade = (course.grade || '').trim().toUpperCase();
                 const gradePoint = gradeScale[grade];
                 
                 if (!isNaN(creditValue) && creditValue > 0 && gradePoint !== undefined) {
@@ -174,8 +176,8 @@ export function useCgpaCalculation() {
             // Add the best course to CGPA calculation
             if (bestCourse !== null) {
                 const bestCourseTyped = bestCourse as Course;
-                const creditValue = parseFloat(bestCourseTyped.credits);
-                const gradePoint = gradeScale[bestCourseTyped.grade.trim().toUpperCase()];
+                const creditValue = parseFloat(bestCourseTyped.credits || '0');
+                const gradePoint = gradeScale[(bestCourseTyped.grade || '').trim().toUpperCase()];
                 credits += creditValue;
                 gradePoints += creditValue * gradePoint;
             }
@@ -564,15 +566,6 @@ Extract all courses now:`;
 
     // Export function
     const exportToPDF = () => {
-        // Import jsPDF and autoTable dynamically
-        const jsPDF = (window as any).jsPDF;
-        const autoTable = (window as any).autoTable;
-        
-        if (!jsPDF || !autoTable) {
-            setError('PDF export library not loaded. Please refresh the page and try again.');
-            return;
-        }
-
         const doc = new jsPDF();
         
         // Title
@@ -590,14 +583,14 @@ Extract all courses now:`;
         
         // Course table
         const tableData = courses.map(course => {
-            const credits = parseFloat(course.credits) || 0;
-            const gradePoint = gradeScale[course.grade.toUpperCase()] || 0;
+            const credits = parseFloat(course.credits || '0') || 0;
+            const gradePoint = gradeScale[(course.grade || '').toUpperCase()] || 0;
             const courseGradePoints = credits * gradePoint;
             const isCountedInCgpa = isCourseCountedInCgpa(course);
             
             return [
-                course.courseCode,
-                course.courseName,
+                course.courseCode || '',
+                course.courseName || '',
                 course.credits,
                 course.grade,
                 gradePoint.toFixed(1),
@@ -606,6 +599,7 @@ Extract all courses now:`;
             ];
         });
 
+        // Use autoTable function with doc as first argument
         autoTable(doc, {
             head: [['Course Code', 'Course Name', 'Credits', 'Grade', 'Grade Point', 'Course GP', 'Counted']],
             body: tableData,
@@ -637,7 +631,7 @@ Extract all courses now:`;
     };
 
     const getGradeColor = (grade: string): string => {
-        const upperGrade = grade.toUpperCase();
+        const upperGrade = (grade || '').toUpperCase();
         if (upperGrade === 'A+' || upperGrade === 'A') return "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
         if (upperGrade === 'A-') return "bg-blue-500/20 text-blue-300 border-blue-500/40";
         if (upperGrade === 'B+') return "bg-cyan-500/20 text-cyan-300 border-cyan-500/40";
@@ -651,9 +645,9 @@ Extract all courses now:`;
 
     // Filtered courses for search
     const filteredCourses = courses.filter(course =>
-        course.courseCode.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        course.courseName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        course.grade.toLowerCase().includes(searchQuery.toLowerCase())
+        (course.courseCode || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (course.courseName || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (course.grade || '').toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return {

@@ -31,9 +31,8 @@ const useScript = (url: string) => {
 };
 
 export default function CgpaCalculatorPage() {
-    // Load the PDF.js and jsPDF libraries from CDN
+    // Load the PDF.js library from CDN (for PDF reading)
     useScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js');
-    useScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
     
     // Set PDF.js worker source once the library is loaded
     useEffect(() => {

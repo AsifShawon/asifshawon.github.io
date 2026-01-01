@@ -88,7 +88,7 @@ export function CourseCard({
               <BookOpen className="w-4 h-4 text-gray-400" />
             </div>
             <Input
-              value={course.courseCode}
+              value={course.courseCode || ''}
               onChange={(e) => onCourseChange(course.id, "courseCode", e.target.value)}
               placeholder="CSE101"
               className="w-28 h-8 text-sm font-semibold tracking-wide uppercase border-0 bg-transparent focus:bg-white/10 rounded-md px-2 placeholder:text-gray-600"
@@ -103,7 +103,7 @@ export function CourseCard({
               )} bg-white/10 border border-white/10`}
             >
               <Input
-                value={course.grade}
+                value={course.grade || ''}
                 onChange={(e) => onCourseChange(course.id, "grade", e.target.value.toUpperCase())}
                 placeholder="A"
                 className={`w-10 h-6 text-center text-sm font-bold uppercase border-0 bg-transparent p-0 ${getGradeTextColor(
@@ -128,7 +128,7 @@ export function CourseCard({
         {/* Course Name */}
         <div className="mb-4">
           <Input
-            value={course.courseName}
+            value={course.courseName || ''}
             onChange={(e) => onCourseChange(course.id, "courseName", e.target.value)}
             placeholder="Course Name"
             className="w-full h-9 text-sm text-gray-200 border-0 bg-white/5 hover:bg-white/10 focus:bg-white/10 rounded-lg px-3 placeholder:text-gray-600"
@@ -144,7 +144,7 @@ export function CourseCard({
               <div className="flex items-baseline gap-1">
                 <Input
                   type="number"
-                  value={course.credits}
+                  value={course.credits || ''}
                   onChange={(e) => onCourseChange(course.id, "credits", e.target.value)}
                   placeholder="3"
                   className="w-12 h-7 text-center text-sm font-medium border-0 bg-white/5 hover:bg-white/10 focus:bg-white/10 rounded px-1"
