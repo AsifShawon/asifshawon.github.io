@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { FolderCode, FileUser, FilePenLine, NotebookPenIcon, ToolCase } from 'lucide-react'; // import your icon components
 
-export default function NavigationLinks() {
+export default function NavigationLinks({ className = '' }: { className?: string }) {
   const links = [
     {
       href: "/hello/projects",
@@ -33,7 +33,7 @@ export default function NavigationLinks() {
 
   return (
     <div>
-      <div className="flex gap-8 pt-5 text-xl">
+      <div className={`flex gap-8 pt-5 text-xl ${className}`}>
         {links.map((link, index) => (
           <Link key={index} href={link.href} className="relative group hover:text-blue-500">
             <div className="flex justify-normal gap-1 items-center">

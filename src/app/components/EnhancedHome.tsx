@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import TypingEffect from '../comps/textTyping';
 import Menu from '../comps/menu';
 import ScrollIndicator from './ScrollIndicator';
+import FloatingActions from './FloatingActions';
 
 export default function EnhancedHome() {
   return (
@@ -45,6 +46,7 @@ export default function EnhancedHome() {
       </motion.div>
       
       {/* <ScrollIndicator /> */}
+      <FloatingActions />
     </motion.div>
   );
 }

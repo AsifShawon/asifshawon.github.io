@@ -22,30 +22,44 @@ export default function Page() {
     {
       title: "Computer Science & Engineering",
       subtitle: "North South University, Dhaka",
-      period: "2021 - Present",
+      period: "Graduated · Oct 2021 – Dec 2025",
       description:
-        "CGPA: 3.64/4.00 | Pursuing Bachelor's degree with specialization in Artificial Intelligence, Machine Learning, and Full-Stack Development. Active in research projects and competitive programming.",
+        "CGPA: 3.47/4.00 | Bachelor's degree with specialization in Artificial Intelligence, Machine Learning, and Full-Stack Development.",
     },
     {
-      title: "Full-Stack Developer & AI Engineer",
-      subtitle: "Freelance & Research Projects",
-      period: "2022 - Present",
-      description:
-        "Developed 15+ production-ready applications including e-commerce platforms, AI chatbots, and data analysis tools. Specialized in Python backends, React frontends, and ML model deployment.",
+      title: "Freelance Full-Stack Developer / AI Engineer",
+      subtitle: "Self-Employed",
+      period: "Jan 2023 – Present",
+      description: [
+        "Delivered end-to-end solutions using React, Next.js, Django, FastAPI, and Node.js.",
+        "Built responsive UIs with Tailwind and ShadCN UI, integrating secure authentication, payments, and AI features.",
+        "Managed the full lifecycle from database design with Supabase, MySQL, and MongoDB to deployment and maintenance.",
+      ],
     },
     {
-      title: "Research & Development",
-      subtitle: "AI/ML Projects & Academic Research",
-      period: "2023 - Present",
-      description:
-        "Leading projects in stock price prediction, natural language processing, and computer vision. Published research work and contributed to open-source AI frameworks.",
+      title: "Technical Lead",
+      subtitle: "EduLens (Beta) · Part-time",
+      period: "Nov 2025 – Present · Dhaka, Bangladesh · Remote",
+      description: [
+        "EduLens is a student operating system—a Google Map for students. As part of the startup, I lead the technical work from building the system to deploying it live.",
+        "Core tools: Python, Next.js, and 6+ additional skills.",
+      ],
+    },
+    {
+      title: "Full-Stack AI Engineer",
+      subtitle: "Fleek Bangladesh · Intern",
+      period: "April 2026 – June 2026",
+      description: [
+        "Built and scaled projects with AI features such as chatbots, job scraping, and summarization across frontend and backend using Next.js, Python, LangChain, Mistral/Groq APIs, Playwright, Redis, Celery, and Docker.",
+        "Implemented ATNLP features, secure authentication, scalable APIs, and optimized MySQL/PostgreSQL databases for production use.",
+      ],
     },
   ];
 
   const achievements = [
     {
       title: "Academic Excellence",
-      description: "Maintaining CGPA 3.64/4.00 in Computer Science & Engineering",
+      description: "Maintaining CGPA 3.47/4.00 in Computer Science & Engineering",
       icon: <Award className="text-[#76ABAE]" size={24} />,
     },
     {
@@ -151,7 +165,7 @@ export default function Page() {
           </div>
         </AnimatedSection>
 
-        {/* Skills Section (replaced with image-like tree) */}
+        {/* Skills Section */}
         <AnimatedSection className="py-20 px-6 md:px-10" delay={0.4}>
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -164,10 +178,9 @@ export default function Page() {
                 <Code className="text-[#76ABAE]" size={32} />
                 <h2 className="text-3xl font-bold gradient-text">Technical Expertise</h2>
               </div>
-              <p className="text-gray-400">Poster-style map with icons & connectors</p>
+              <p className="text-gray-400">A connected view of the tools I use to build, learn, and ship.</p>
             </motion.div>
 
-            {/* 🔁 Drop-in image-like tree */}
             <SkillTreeImage />
           </div>
         </AnimatedSection>

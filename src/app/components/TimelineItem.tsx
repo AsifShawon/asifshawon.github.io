@@ -6,7 +6,7 @@ interface TimelineItemProps {
   title: string;
   subtitle: string;
   period: string;
-  description: string;
+  description: string | string[];
   delay?: number;
 }
 
@@ -30,7 +30,18 @@ export default function TimelineItem({ title, subtitle, period, description, del
         <h4 className="text-lg text-[#76ABAE]">{subtitle}</h4>
         <span className="text-sm text-gray-400">{period}</span>
       </div>
-      <p className="text-gray-300 leading-relaxed">{description}</p>
+      {Array.isArray(description) ? (
+        <ul className="space-y-2 text-gray-300 leading-relaxed">
+          {description.map((item) => (
+            <li key={item} className="flex gap-2">
+              <span className="text-[#76ABAE]" aria-hidden="true">✓</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-300 leading-relaxed">{description}</p>
+      )}
     </motion.div>
   );
 }

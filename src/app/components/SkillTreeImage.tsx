@@ -1,174 +1,187 @@
 "use client";
+
 import { motion } from "framer-motion";
-import React from "react";
+import {
+  Atom,
+  BrainCircuit,
+  Braces,
+  Boxes,
+  ChartNoAxesCombined,
+  Cloud,
+  Code2,
+  Container,
+  Database,
+  FileCode2,
+  FlaskConical,
+  Github,
+  GitBranch,
+  Languages,
+  Layers3,
+  MonitorCog,
+  Palette,
+  Route,
+  ServerCog,
+  Sigma,
+  Table2,
+  Terminal,
+  Type,
+  Triangle,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
 
 interface TechItem {
   name: string;
-  icon?: string;
+  icon: LucideIcon;
 }
 
 interface CategoryData {
   title: string;
+  eyebrow: string;
   color: string;
+  icon: LucideIcon;
   items: TechItem[];
 }
 
-const SkillTreeImage = () => {
-  const categories: CategoryData[] = [
-    {
-      title: "FRONTEND",
-      color: "#76ABAE",
-      items: [
-        { name: "HTML" },
-        { name: "CSS" },
-        { name: "JavaScript" },
-        { name: "React" },
-        { name: "Next.js" },
-        { name: "TailwindCSS" },
-        { name: "TypeScript" },
-      ],
-    },
-    {
-      title: "BACKEND",
-      color: "#5a9ca0",
-      items: [
-        { name: "Node.js" },
-        { name: "Express" },
-        { name: "Python" },
-        { name: "Flask" },
-        { name: "Django" },
-        { name: "PostgreSQL" },
-        { name: "MongoDB" },
-      ],
-    },
-    {
-      title: "AI / ML",
-      color: "#88c0d0",
-      items: [
-        { name: "Machine Learning" },
-        { name: "TensorFlow" },
-        { name: "Pandas" },
-        { name: "NumPy" },
-        { name: "Scikit-learn" },
-        { name: "NLP" },
-      ],
-    },
-    {
-      title: "TOOLS",
-      color: "#7aa2a2",
-      items: [
-        { name: "Git" },
-        { name: "GitHub" },
-        { name: "Docker" },
-        { name: "AWS" },
-        { name: "Vercel" },
-        { name: "Linux" },
-      ],
-    },
-  ];
+const categories: CategoryData[] = [
+  {
+    title: "Frontend",
+    eyebrow: "Build interfaces",
+    color: "#76ABAE",
+    icon: MonitorCog,
+    items: [
+      { name: "HTML", icon: FileCode2 },
+      { name: "CSS", icon: Palette },
+      { name: "JavaScript", icon: Braces },
+      { name: "React", icon: Atom },
+      { name: "Next.js", icon: Layers3 },
+      { name: "Tailwind CSS", icon: Palette },
+      { name: "TypeScript", icon: Type },
+    ],
+  },
+  {
+    title: "Backend",
+    eyebrow: "Power products",
+    color: "#5A9CA0",
+    icon: ServerCog,
+    items: [
+      { name: "Node.js", icon: Terminal },
+      { name: "Express", icon: Route },
+      { name: "Python", icon: Braces },
+      { name: "FastAPI", icon: Route },
+      { name: "Django", icon: Boxes },
+      { name: "PostgreSQL", icon: Database },
+      { name: "MongoDB", icon: Database },
+    ],
+  },
+  {
+    title: "AI / ML",
+    eyebrow: "Find intelligence",
+    color: "#88C0D0",
+    icon: BrainCircuit,
+    items: [
+      { name: "Machine Learning", icon: BrainCircuit },
+      { name: "TensorFlow", icon: Sigma },
+      { name: "Pandas", icon: Table2 },
+      { name: "NumPy", icon: ChartNoAxesCombined },
+      { name: "Scikit-learn", icon: FlaskConical },
+      { name: "NLP", icon: Languages },
+    ],
+  },
+  {
+    title: "Tools",
+    eyebrow: "Ship with confidence",
+    color: "#7AA2A2",
+    icon: Wrench,
+    items: [
+      { name: "Git", icon: GitBranch },
+      { name: "GitHub", icon: Github },
+      { name: "Docker", icon: Container },
+      { name: "AWS", icon: Cloud },
+      { name: "Vercel", icon: Triangle },
+      { name: "Linux", icon: Terminal },
+    ],
+  },
+];
+
+function SkillNode({ item, color, index }: { item: TechItem; color: string; index: number }) {
+  const Icon = item.icon;
 
   return (
-    <div className="w-full py-8">
-      {/* Root Node */}
-      <motion.div
-        className="text-center mb-12"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="inline-block relative">
-          <div className="glass-card px-8 py-4 rounded-lg border-2 border-[#76ABAE]">
-            <h3 className="text-2xl font-bold gradient-text">Technical Skills</h3>
-          </div>
-          {/* Vertical line from root */}
-          <div className="absolute left-1/2 top-full w-0.5 h-12 bg-gradient-to-b from-[#76ABAE] to-transparent transform -translate-x-1/2"></div>
-        </div>
-      </motion.div>
+    <motion.li
+      className="skill-tree__item"
+      initial={{ opacity: 0, x: -14 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.35, delay: index * 0.045 }}
+    >
+      <div className="skill-tree__skill" style={{ "--category-color": color } as React.CSSProperties}>
+        <span className="skill-tree__skill-icon" aria-hidden="true">
+          <Icon size={15} strokeWidth={1.8} />
+        </span>
+        <span>{item.name}</span>
+      </div>
+    </motion.li>
+  );
+}
 
-      {/* Categories Grid - Responsive */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 max-w-7xl mx-auto px-4">
-        {categories.map((category, catIndex) => (
-          <motion.div
-            key={category.title}
-            className="relative"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: catIndex * 0.15 }}
-          >
-            {/* Connector line to root (hidden on mobile) */}
-            <div className="hidden lg:block absolute bottom-full left-1/2 w-0.5 h-12 bg-gradient-to-t from-[#76ABAE] to-transparent transform -translate-x-1/2"></div>
-            
-            {/* Category Header */}
-            <div className="mb-6">
-              <div
-                className="glass-card px-6 py-3 rounded-lg text-center border-2 hover:scale-105 transition-transform duration-300"
-                style={{ borderColor: category.color }}
-              >
-                <h4
-                  className="text-lg font-bold uppercase tracking-wider"
-                  style={{ color: category.color }}
-                >
-                  {category.title}
-                </h4>
-              </div>
-              {/* Vertical line from category */}
-              <div
-                className="mx-auto w-0.5 h-8"
-                style={{
-                  background: `linear-gradient(to bottom, ${category.color}, transparent)`,
-                }}
-              ></div>
-            </div>
+function CategoryBranch({ category, index }: { category: CategoryData; index: number }) {
+  const Icon = category.icon;
 
-            {/* Skills Items */}
-            <div className="space-y-4">
-              {category.items.map((item, itemIndex) => (
-                <motion.div
-                  key={item.name}
-                  className="relative"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{
-                    duration: 0.4,
-                    delay: catIndex * 0.15 + itemIndex * 0.05,
-                  }}
-                >
-                  {/* Horizontal connector */}
-                  <div className="absolute -left-4 top-1/2 w-4 h-0.5 bg-gradient-to-r from-transparent to-[#76ABAE] transform -translate-y-1/2 opacity-50"></div>
-                  
-                  {/* Skill Badge */}
-                  <div
-                    className="glass-card px-4 py-2.5 rounded-md hover:scale-105 hover:shadow-lg transition-all duration-300 cursor-pointer border border-transparent hover:border-[#76ABAE]/50"
-                    style={{
-                      background: `linear-gradient(135deg, rgba(118, 171, 174, 0.1), rgba(90, 156, 160, 0.05))`,
-                    }}
-                  >
-                    <div className="flex items-center gap-2">
-                      <div
-                        className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: category.color }}
-                      ></div>
-                      <span className="text-gray-300 text-sm font-medium">
-                        {item.name}
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        ))}
+  return (
+    <motion.article
+      className="skill-tree__branch"
+      style={{ "--category-color": category.color } as React.CSSProperties}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+    >
+      <div className="skill-tree__category">
+        <span className="skill-tree__category-icon" aria-hidden="true">
+          <Icon size={21} strokeWidth={1.8} />
+        </span>
+        <span>
+          <span className="skill-tree__eyebrow">{category.eyebrow}</span>
+          <strong>{category.title}</strong>
+        </span>
+        <span className="skill-tree__count">{category.items.length}</span>
       </div>
 
-      {/* Mobile Connection Hint */}
+      <ul className="skill-tree__skills">
+        {category.items.map((item, itemIndex) => (
+          <SkillNode key={item.name} item={item} color={category.color} index={itemIndex} />
+        ))}
+      </ul>
+    </motion.article>
+  );
+}
+
+const SkillTreeImage = () => {
+  return (
+    <div className="skill-tree" aria-label="Technical skills grouped by discipline">
       <motion.div
-        className="lg:hidden text-center mt-8 text-gray-500 text-sm"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
+        className="skill-tree__root"
+        initial={{ opacity: 0, scale: 0.92 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
       >
-        Swipe to explore all skill categories
+        <span className="skill-tree__root-icon" aria-hidden="true">
+          <Code2 size={22} strokeWidth={1.8} />
+        </span>
+        <span>
+          <span className="skill-tree__eyebrow">My toolkit</span>
+          <strong>Technical Skills</strong>
+        </span>
       </motion.div>
+
+      <div className="skill-tree__trunk" aria-hidden="true" />
+      <div className="skill-tree__branches">
+        {categories.map((category, index) => (
+          <CategoryBranch key={category.title} category={category} index={index} />
+        ))}
+      </div>
     </div>
   );
 };
