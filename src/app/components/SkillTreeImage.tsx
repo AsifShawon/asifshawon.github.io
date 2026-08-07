@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import {
   Atom,
+  BarChart3,
   BrainCircuit,
   Braces,
   Boxes,
@@ -17,15 +18,19 @@ import {
   GitBranch,
   Languages,
   Layers3,
+  Megaphone,
   MonitorCog,
   Palette,
   Route,
+  Search,
   ServerCog,
   Sigma,
   Table2,
+  Target,
   Terminal,
   Type,
   Triangle,
+  TrendingUp,
   Wrench,
   type LucideIcon,
 } from "lucide-react";
@@ -45,9 +50,21 @@ interface CategoryData {
 
 const categories: CategoryData[] = [
   {
+    title: "Commerce & Growth",
+    eyebrow: "Learning now",
+    color: "#76ABAE",
+    icon: TrendingUp,
+    items: [
+      { name: "Marketing", icon: Megaphone },
+      { name: "Facebook Ads", icon: Target },
+      { name: "SEO", icon: Search },
+      { name: "Market Analysis", icon: BarChart3 },
+    ],
+  },
+  {
     title: "Frontend",
     eyebrow: "Build interfaces",
-    color: "#76ABAE",
+    color: "#5A9CA0",
     icon: MonitorCog,
     items: [
       { name: "HTML", icon: FileCode2 },
@@ -62,7 +79,7 @@ const categories: CategoryData[] = [
   {
     title: "Backend",
     eyebrow: "Power products",
-    color: "#5A9CA0",
+    color: "#7AA2A2",
     icon: ServerCog,
     items: [
       { name: "Node.js", icon: Terminal },
@@ -76,7 +93,7 @@ const categories: CategoryData[] = [
   },
   {
     title: "AI / ML",
-    eyebrow: "Find intelligence",
+    eyebrow: "Academic background",
     color: "#88C0D0",
     icon: BrainCircuit,
     items: [
@@ -91,7 +108,7 @@ const categories: CategoryData[] = [
   {
     title: "Tools",
     eyebrow: "Ship with confidence",
-    color: "#7AA2A2",
+    color: "#93B1A6",
     icon: Wrench,
     items: [
       { name: "Git", icon: GitBranch },
@@ -159,7 +176,7 @@ function CategoryBranch({ category, index }: { category: CategoryData; index: nu
 
 const SkillTreeImage = () => {
   return (
-    <div className="skill-tree" aria-label="Technical skills grouped by discipline">
+    <div className="skill-tree" aria-label="Skills grouped by discipline">
       <motion.div
         className="skill-tree__root"
         initial={{ opacity: 0, scale: 0.92 }}
@@ -172,7 +189,7 @@ const SkillTreeImage = () => {
         </span>
         <span>
           <span className="skill-tree__eyebrow">My toolkit</span>
-          <strong>Technical Skills</strong>
+          <strong>Skills &amp; Focus</strong>
         </span>
       </motion.div>
 

@@ -1,38 +1,31 @@
 import Link from 'next/link';
 import React from 'react';
-import { FolderCode, FileUser, FilePenLine, NotebookPenIcon, ToolCase, Newspaper } from 'lucide-react'; // import your icon components
 
 export default function NavigationLinks({ className = '' }: { className?: string }) {
   const links = [
     {
       href: "/hello/projects",
       label: "Projects",
-      icon: <FolderCode size={24} />,
     },
     {
       href: "/hello/aboutme",
       label: "About me",
-      icon: <FileUser size={24} />,
     },
     {
       href: "/hello/tools",
       label: "Tools",
-      icon: <ToolCase size={24} />,
     },
     {
       href: "/blog",
       label: "Blog",
-      icon: <Newspaper size={24} />,
     },
     // {
     //   href: "/hello/academics",
     //   label: "Academics",
-    //   icon: <FilePenLine size={24} />, // No icon for this one
     // },
     // {
     //   href: "/hello/notes",
     //   label: "Notes",
-    //   icon: <NotebookPenIcon size={24}/>, // No icon for this one
     // },
   ];
 
@@ -42,7 +35,6 @@ export default function NavigationLinks({ className = '' }: { className?: string
         {links.map((link, index) => (
           <Link key={index} href={link.href} className="relative group hover:text-blue-500">
             <div className="flex justify-normal gap-1 items-center">
-              {link.icon}
               <span className="group-hover:pr-8 transition-all duration-300 ease-in-out sm:block hidden">
                 {link.label}
               </span>

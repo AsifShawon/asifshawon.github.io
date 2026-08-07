@@ -2,7 +2,10 @@
 import React, { useState, useEffect } from 'react';
 
 const TypingEffect = () => {
-  const words = React.useMemo(() => ["Student", "Teacher", "Web Developer"], []);
+  const words = React.useMemo(
+    () => ["Ecommerce Executive", "Marketing Learner", "Full-Stack Engineer"],
+    []
+  );
   const [index, setIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [text, setText] = useState("");
@@ -33,9 +36,12 @@ const TypingEffect = () => {
     return () => clearTimeout(typingTimeout);
   }, [text, isDeleting, index, words]);
 
+  // "a" vs "an" depends on the word currently being typed
+  const article = /^[aeiou]/i.test(words[index]) ? "an" : "a";
+
   return (
     <div className="text-2xl font-bold text-[#EEEEEE]">
-      <p>I&apos;m a <span className="text-[#76ABAE]">{text}</span>|</p>
+      <p>I&apos;m {article} <span className="text-[#76ABAE]">{text}</span>|</p>
     </div>
   );
 };

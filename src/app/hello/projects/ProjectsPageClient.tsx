@@ -50,8 +50,9 @@ export default function ProjectsPageClient({ projects }: { projects: LegacyProje
               Driven by my passion for technology and problem-solving, I
               developed expertise in both full-stack development and machine
               learning, allowing me to bridge the gap between elegant interfaces
-              and intelligent systems. Below you&apos;ll find a selection of
-              projects showcasing my capabilities.
+              and intelligent systems. These days that same instinct for testing
+              and iterating shows up in ecommerce — but here&apos;s the technical
+              work that built the foundation.
             </p>
           </motion.div>
         </div>

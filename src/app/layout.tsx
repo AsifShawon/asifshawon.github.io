@@ -7,15 +7,15 @@ const inter = Inter({ subsets: ["latin"] });
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
 
 export const metadata: Metadata = {
-  title: "Asif Bhuiyan Shawon - AI Developer & Computer Science Student",
-  description: "Portfolio of Asif Bhuiyan Shawon - Computer Science student at North South University, specializing in AI, Machine Learning, and Full-Stack Development.",
-  keywords: "Asif Bhuiyan Shawon, Computer Science, AI, Machine Learning, Full-Stack Developer, North South University, Portfolio",
+  title: "Asif Bhuiyan Shawon - Ecommerce Executive & Former Software Engineer",
+  description: "Portfolio of Asif Bhuiyan Shawon — Ecommerce Executive learning marketing, ads, and growth, with a background in AI and full-stack software engineering.",
+  keywords: "Asif Bhuiyan Shawon, Ecommerce Executive, Ecommerce, Marketing, Facebook Ads, SEO, Market Analysis, Full-Stack Developer, AI, Portfolio",
   authors: [{ name: "Asif Bhuiyan Shawon" }],
   // viewport moved to `export const viewport` per Next.js generate-viewport API
   robots: "index, follow",
   openGraph: {
-    title: "Asif Bhuiyan Shawon - AI Developer & Computer Science Student",
-    description: "Portfolio showcasing AI projects, web development, and academic journey in Computer Science.",
+    title: "Asif Bhuiyan Shawon - Ecommerce Executive & Former Software Engineer",
+    description: "Ecommerce Executive learning marketing, ads, and growth — backed by a Computer Science foundation and a track record of shipping software.",
     type: "website",
     locale: "en_US",
   },

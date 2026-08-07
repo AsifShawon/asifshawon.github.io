@@ -72,7 +72,7 @@ export default async function BlogPage() {
             Blog
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-gray-400">
-            Notes on building AI systems, full-stack projects, and everything in between.
+            Notes from a builder now learning ecommerce — marketing, growth, and the code that got me here.
           </p>
         </div>
       </div>

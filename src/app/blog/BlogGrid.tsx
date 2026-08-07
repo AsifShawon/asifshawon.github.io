@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import type { BlogPost } from "@/lib/supabase/types";
 import BlogCard, { type BlogCardVariant } from "./BlogCard";
 
@@ -55,49 +55,45 @@ export default function BlogGrid({
   return (
     <div>
       {tagCounts.length > 0 && (
-        <div className="mb-8 flex flex-wrap gap-2">
-          <button
-            onClick={() => setActiveTag(null)}
-            className={`rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors ${
-              activeTag === null
-                ? "border-[#76ABAE] bg-[#76ABAE]/15 text-[#76ABAE]"
-                : "border-white/10 text-gray-400 hover:text-white"
-            }`}
-          >
-            All <span className="text-gray-500">{posts.length}</span>
-          </button>
-          {tagCounts.map(({ tag, count }) => (
+        <div className="relative mb-8 flex flex-wrap items-center justify-between gap-3 py-3">
+          <div className="pointer-events-none absolute left-1/2 top-0 h-px w-screen -translate-x-1/2 bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+          <div className="pointer-events-none absolute bottom-0 left-1/2 h-px w-screen -translate-x-1/2 bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+          <div className="flex flex-wrap gap-2">
             <button
-              key={tag}
-              onClick={() => setActiveTag(tag === activeTag ? null : tag)}
-              className={`rounded-full border px-3.5 py-1.5 text-xs font-semibold capitalize transition-colors ${
-                activeTag === tag
+              onClick={() => setActiveTag(null)}
+              className={`rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors ${
+                activeTag === null
                   ? "border-[#76ABAE] bg-[#76ABAE]/15 text-[#76ABAE]"
                   : "border-white/10 text-gray-400 hover:text-white"
               }`}
             >
-              {tag} <span className="text-gray-500">{count}</span>
+              All <span className="text-gray-500">{posts.length}</span>
             </button>
-          ))}
+            {tagCounts.map(({ tag, count }) => (
+              <button
+                key={tag}
+                onClick={() => setActiveTag(tag === activeTag ? null : tag)}
+                className={`rounded-full border px-3.5 py-1.5 text-xs font-semibold capitalize transition-colors ${
+                  activeTag === tag
+                    ? "border-[#76ABAE] bg-[#76ABAE]/15 text-[#76ABAE]"
+                    : "border-white/10 text-gray-400 hover:text-white"
+                }`}
+              >
+                {tag} <span className="text-gray-500">{count}</span>
+              </button>
+            ))}
+          </div>
+          {showArchiveLink && (
+            <Link
+              href="/blog/archive"
+              className="flex shrink-0 items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-semibold text-gray-300 transition-colors hover:border-[#76ABAE] hover:text-[#76ABAE]"
+            >
+              View all
+              <ArrowRight size={14} />
+            </Link>
+          )}
         </div>
       )}
-
-      <div className="mb-8 flex items-center gap-3 rounded-2xl border border-white/[0.06] bg-[#0C161C] px-5 py-4">
-        <Sparkles size={18} className="shrink-0 text-[#76ABAE]" />
-        <div className="flex-1">
-          <p className="font-display text-sm font-bold text-white">Latest Posts</p>
-          <p className="text-xs text-gray-500">Fresh from the notebook</p>
-        </div>
-        {showArchiveLink && (
-          <Link
-            href="/blog/archive"
-            className="flex shrink-0 items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-semibold text-gray-300 transition-colors hover:border-[#76ABAE] hover:text-[#76ABAE]"
-          >
-            View all
-            <ArrowRight size={14} />
-          </Link>
-        )}
-      </div>
 
       {filteredPosts.length === 0 ? (
         <p className="text-sm text-gray-500">No posts in this category yet.</p>

@@ -80,38 +80,41 @@ async function seedProjects() {
 async function seedProfile() {
   const bio = {
     intro:
-      "A passionate Computer Science student at North South University with a strong foundation in artificial intelligence, machine learning, and full-stack development. I specialize in building intelligent applications that solve real-world problems using cutting-edge technologies like Python, React, and modern AI frameworks.",
+      "I'm an Ecommerce Executive at London Boy, working full-time on the ground in Narayanganj, Dhaka — learning marketing, Facebook Ads, SEO, and market analysis, and noting what to try next as I go. I came into commerce from a Computer Science background: a CSE degree, freelance full-stack work, and a stint leading tech at a startup. That same habit of testing, measuring, and iterating is what I'm now applying to product listings, ad performance, and growth experiments — just with a different toolkit.",
     achievements: [
       {
-        title: "Academic Excellence",
+        title: "Ecommerce Execution — Live",
         description:
-          "Maintaining CGPA 3.47/4.00 in Computer Science & Engineering",
-        icon: "award",
+          "Full-time on the ground at London Boy since Aug 2026, learning marketing, Facebook Ads, SEO, and market analysis by doing the work.",
+        icon: "growth",
       },
       {
-        title: "15+ Projects Completed",
+        title: "Builder's Track Record",
         description:
-          "Successfully delivered various web applications and AI solutions",
+          "15+ web and AI projects shipped, plus a Technical Lead role — the habits of testing, measuring, and iterating carry straight into ecommerce.",
         icon: "code",
       },
       {
-        title: "Research Contributor",
-        description: "Active in AI research and open-source development",
-        icon: "brain",
+        title: "Academic Foundation",
+        description:
+          "CGPA 3.47/4.00, Computer Science & Engineering, North South University.",
+        icon: "award",
       },
     ],
     timeline: [
       {
-        title: "Computer Science & Engineering",
-        subtitle: "North South University, Dhaka",
-        period: "Graduated · Oct 2021 – Dec 2025",
-        description:
-          "CGPA: 3.47/4.00 | Bachelor's degree with specialization in Artificial Intelligence, Machine Learning, and Full-Stack Development.",
+        title: "Ecommerce Executive",
+        subtitle: "London Boy · Full-time, On-site",
+        period: "Aug 2026 – Present · Narayanganj, Dhaka",
+        description: [
+          "Learning the fundamentals of ecommerce execution on the job: marketing strategy, Facebook Ads, SEO, and market analysis.",
+          "Tracking what's working, documenting next steps, and building toward running campaigns and product positioning independently.",
+        ],
       },
       {
         title: "Freelance Full-Stack Developer / AI Engineer",
         subtitle: "Self-Employed",
-        period: "Jan 2023 – Present",
+        period: "Jan 2023 – Aug 2026",
         description: [
           "Delivered end-to-end solutions using React, Next.js, Django, FastAPI, and Node.js.",
           "Built responsive UIs with Tailwind and ShadCN UI, integrating secure authentication, payments, and AI features.",
@@ -121,9 +124,9 @@ async function seedProfile() {
       {
         title: "Technical Lead",
         subtitle: "EduLens (Beta) · Part-time",
-        period: "Nov 2025 – Present · Dhaka, Bangladesh · Remote",
+        period: "Nov 2025 – Aug 2026 · Dhaka, Bangladesh · Remote",
         description: [
-          "EduLens is a student operating system—a Google Map for students. As part of the startup, I lead the technical work from building the system to deploying it live.",
+          "EduLens is a student operating system—a Google Map for students. As part of the startup, I led the technical work from building the system to deploying it live.",
           "Core tools: Python, Next.js, and 6+ additional skills.",
         ],
       },
@@ -135,6 +138,13 @@ async function seedProfile() {
           "Built and scaled projects with AI features such as chatbots, job scraping, and summarization across frontend and backend using Next.js, Python, LangChain, Mistral/Groq APIs, Playwright, Redis, Celery, and Docker.",
           "Implemented ATNLP features, secure authentication, scalable APIs, and optimized MySQL/PostgreSQL databases for production use.",
         ],
+      },
+      {
+        title: "Computer Science & Engineering",
+        subtitle: "North South University, Dhaka",
+        period: "Graduated · Oct 2021 – Dec 2025",
+        description:
+          "CGPA: 3.47/4.00 | Bachelor's degree with specialization in Artificial Intelligence, Machine Learning, and Full-Stack Development.",
       },
     ],
   };
@@ -160,7 +170,7 @@ async function seedProfile() {
   const row = {
     full_name: "Asif Bhuiyan Shawon",
     tagline:
-      "Computer Science & Engineering Student | AI/ML Engineer | Full-Stack Developer",
+      "Ecommerce Executive | Learning Growth, Ads & SEO | Ex-Software Engineer",
     bio,
     avatar_url: null,
     resume_url: "/Resume_Asif_Bhuiyan.pdf",
