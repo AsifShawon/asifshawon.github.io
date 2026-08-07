@@ -9,12 +9,16 @@ import {
 import { Download, ExternalLink, FileText, Share2 } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { FocusEvent, PointerEvent as ReactPointerEvent, SVGProps } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import type { ProfileSocials } from '@/lib/supabase/types';
 
 type FloatingActionKind = 'cv' | 'socials';
 
 type FloatingActionProps = {
   kind: FloatingActionKind;
   placement: 'floating' | 'navbar';
+  resumeUrl: string;
+  socialsList: SocialLink[];
 };
 
 type DriftAnimation = {
@@ -66,7 +70,16 @@ function DiscordIcon({ size = 22, ...props }: BrandIconProps) {
   );
 }
 
-const socials = [
+type SocialLink = {
+  name: string;
+  handle: string;
+  href: string;
+  icon: (props: BrandIconProps) => React.JSX.Element;
+};
+
+const DEFAULT_RESUME_URL = '/Resume_Asif_Bhuiyan.pdf';
+
+const DEFAULT_SOCIALS: SocialLink[] = [
   {
     name: 'Facebook',
     handle: 'withshawon',
@@ -93,6 +106,64 @@ const socials = [
   },
 ];
 
+function handleFromUrl(url: string, fallback: string): string {
+  try {
+    const path = new URL(url).pathname.replace(/\/+$/, '');
+    const last = path.split('/').filter(Boolean).pop();
+    return last || fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function socialsFromProfile(socials: ProfileSocials): SocialLink[] {
+  const platforms: { key: keyof ProfileSocials; name: string; icon: SocialLink['icon']; fallbackHandle: string }[] = [
+    { key: 'facebook', name: 'Facebook', icon: FacebookIcon, fallbackHandle: 'withshawon' },
+    { key: 'instagram', name: 'Instagram', icon: InstagramIcon, fallbackHandle: 'withshawon' },
+    { key: 'linkedin', name: 'LinkedIn', icon: LinkedinIcon, fallbackHandle: 'asif-bhuiyan-shawon' },
+    { key: 'discord', name: 'Discord', icon: DiscordIcon, fallbackHandle: 'misir.ali' },
+  ];
+
+  return platforms
+    .filter((p) => socials[p.key])
+    .map((p) => ({
+      name: p.name,
+      href: socials[p.key] as string,
+      handle: handleFromUrl(socials[p.key] as string, p.fallbackHandle),
+      icon: p.icon,
+    }));
+}
+
+function useProfileQuickLinks() {
+  const [resumeUrl, setResumeUrl] = useState(DEFAULT_RESUME_URL);
+  const [socialsList, setSocialsList] = useState<SocialLink[]>(DEFAULT_SOCIALS);
+
+  useEffect(() => {
+    let cancelled = false;
+    const supabase = createClient();
+
+    supabase
+      .from('profiles')
+      .select('resume_url, socials')
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (cancelled || !data) return;
+        if (data.resume_url) setResumeUrl(data.resume_url);
+        if (data.socials) {
+          const mapped = socialsFromProfile(data.socials as ProfileSocials);
+          if (mapped.length > 0) setSocialsList(mapped);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return { resumeUrl, socialsList };
+}
+
 function createDriftAnimation(kind: FloatingActionKind): DriftAnimation {
   const compact = window.innerWidth < 640;
   const rangeX = compact ? 18 : kind === 'cv' ? 86 : 74;
@@ -111,7 +182,7 @@ function createDriftAnimation(kind: FloatingActionKind): DriftAnimation {
   };
 }
 
-function FloatingAction({ kind, placement }: FloatingActionProps) {
+function FloatingAction({ kind, placement, resumeUrl, socialsList }: FloatingActionProps) {
   const controls = useAnimationControls();
   const reducedMotion = useReducedMotion();
   const actionRef = useRef<HTMLDivElement>(null);
@@ -219,7 +290,7 @@ function FloatingAction({ kind, placement }: FloatingActionProps) {
                 <span>Available to download</span>
               </div>
               <strong>Asif Bhuiyan Shawon CV</strong>
-              <a className="floating-action__download" href="/Resume_Asif_Bhuiyan.pdf" download>
+              <a className="floating-action__download" href={resumeUrl} download>
                 <Download size={16} />
                 Download CV
               </a>
@@ -236,7 +307,7 @@ function FloatingAction({ kind, placement }: FloatingActionProps) {
               transition={{ duration: 0.2, ease: 'easeOut' }}
               className="floating-action__expanded floating-action__expanded--socials"
             >
-              {socials.map(({ name, handle, href, icon: Icon }) => (
+              {socialsList.map(({ name, handle, href, icon: Icon }) => (
                 <a
                   key={name}
                   className="floating-action__social"
@@ -260,10 +331,12 @@ function FloatingAction({ kind, placement }: FloatingActionProps) {
 }
 
 export default function FloatingActions({ placement = 'floating' }: { placement?: 'floating' | 'navbar' }) {
+  const { resumeUrl, socialsList } = useProfileQuickLinks();
+
   return (
     <div className={`floating-actions floating-actions--${placement}`} aria-label="Quick links">
-      <FloatingAction kind="cv" placement={placement} />
-      <FloatingAction kind="socials" placement={placement} />
+      <FloatingAction kind="cv" placement={placement} resumeUrl={resumeUrl} socialsList={socialsList} />
+      <FloatingAction kind="socials" placement={placement} resumeUrl={resumeUrl} socialsList={socialsList} />
     </div>
   );
 }

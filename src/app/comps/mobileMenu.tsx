@@ -36,6 +36,11 @@ const MobileMenu = () => {
               Notes
             </Link>
           </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/blog" className="block py-1">
+              Blog
+            </Link>
+          </DropdownMenuItem>
           {/* <DropdownMenuItem asChild>
             <Link href="/academics" className="block py-1">
               Academics

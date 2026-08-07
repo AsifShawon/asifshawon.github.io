@@ -10,6 +10,20 @@ body{
     cursor: none !important;
 }
 
+/* The admin dashboard has no CursorFollower (it's a utility UI, not the
+   portfolio showcase) — restore a normal cursor there, including for
+   things like the Tiptap image resize handle's cursor: nwse-resize. */
+.admin-cursor-reset {
+    cursor: auto;
+}
+
+/* Admin-only display font (Plus Jakarta Sans) for headings/numerals.
+   Public pages never reference this class, so they're unaffected. */
+.font-display {
+    font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+}
+
+
 /* Custom cursor */
 .custom-cursor {
     position: fixed;
@@ -399,6 +413,12 @@ body{
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    /* background-clip:text paints only inside the element box, so descenders
+       (g, y, p) get sheared off at large sizes where Tailwind sets
+       line-height:1. Grow the paint box downward, then pull the following
+       content back up by the same amount so layout is unchanged. */
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
 }
 
 /* Home quick actions */
@@ -730,6 +750,129 @@ body{
 
 .project-card:hover .project-overlay {
     opacity: 1;
+}
+
+/* Tiptap resizable image node view (blog editor + read-only blog render) */
+.resizable-image__handle {
+    position: absolute;
+    right: -6px;
+    bottom: -6px;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #061317;
+    border-radius: 3px;
+    background: #76ABAE;
+    cursor: nwse-resize;
+    opacity: 0;
+    transition: opacity 150ms ease;
+}
+
+.resizable-image:hover .resizable-image__handle {
+    opacity: 1;
+}
+
+.tiptap-content,
+.ProseMirror {
+    outline: none;
+    min-height: 350px;
+}
+
+.tiptap-content h1,
+.ProseMirror h1 {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    font-weight: 700;
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    color: #f4f4f5;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.tiptap-content h2,
+.ProseMirror h2 {
+    font-size: 1.75rem;
+    line-height: 2rem;
+    font-weight: 700;
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    color: #f4f4f5;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.tiptap-content h3,
+.ProseMirror h3 {
+    font-size: 1.35rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    color: #f4f4f5;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.tiptap-content ul,
+.ProseMirror ul {
+    list-style-type: disc !important;
+    padding-left: 1.5rem !important;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.tiptap-content ol,
+.ProseMirror ol {
+    list-style-type: decimal !important;
+    padding-left: 1.5rem !important;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.tiptap-content li,
+.ProseMirror li {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.tiptap-content blockquote,
+.ProseMirror blockquote {
+    border-left: 4px solid #76ABAE;
+    padding-left: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+    color: #a1a1aa;
+}
+
+.tiptap-content a,
+.ProseMirror a {
+    color: #76ABAE;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    cursor: pointer;
+}
+
+.tiptap-content code,
+.ProseMirror code {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #76ABAE;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+.tiptap-content img,
+.ProseMirror img {
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 1rem auto;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+    float: left;
+    height: 0;
+    color: rgba(147, 177, 166, 0.4);
+    content: attr(data-placeholder);
+    pointer-events: none;
 }
 
 /* Page transition */

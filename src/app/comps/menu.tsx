@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { FolderCode, FileUser, FilePenLine, NotebookPenIcon, ToolCase } from 'lucide-react'; // import your icon components
+import { FolderCode, FileUser, FilePenLine, NotebookPenIcon, ToolCase, Newspaper } from 'lucide-react'; // import your icon components
 
 export default function NavigationLinks({ className = '' }: { className?: string }) {
   const links = [
@@ -18,6 +18,11 @@ export default function NavigationLinks({ className = '' }: { className?: string
       href: "/hello/tools",
       label: "Tools",
       icon: <ToolCase size={24} />,
+    },
+    {
+      href: "/blog",
+      label: "Blog",
+      icon: <Newspaper size={24} />,
     },
     // {
     //   href: "/hello/academics",
