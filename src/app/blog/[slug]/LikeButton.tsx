@@ -48,33 +48,38 @@ export default function LikeButton({ postId }: { postId: string }) {
   }
 
   return (
-    <button
-      onClick={handleLike}
-      disabled={liked || busy}
-      aria-pressed={liked}
-      aria-label={liked ? "Liked" : "Like this article"}
-      className={`group relative flex items-center gap-2.5 rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
-        liked
-          ? "border-rose-500/30 bg-rose-500/10 text-rose-400 shadow-sm shadow-rose-950/40"
-          : "border-zinc-800 bg-zinc-900/80 text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/80 hover:text-zinc-100"
-      }`}
-    >
-      <Heart
-        size={18}
-        className={`transition-transform group-hover:scale-110 ${
-          liked ? "fill-rose-500 text-rose-500" : "text-zinc-400 group-hover:text-rose-400"
-        }`}
-      />
-      <span>{liked ? "Liked" : "Like"}</span>
-      {count !== null && (
-        <span
-          className={`ml-1 rounded-full px-2 py-0.5 text-xs ${
-            liked ? "bg-rose-500/20 text-rose-300" : "bg-zinc-800 text-zinc-400"
-          }`}
-        >
-          {count}
-        </span>
-      )}
-    </button>
+    <div className="flex flex-wrap items-center gap-4">
+      <button
+        type="button"
+        onClick={handleLike}
+        disabled={liked || busy}
+        aria-pressed={liked}
+        aria-label={liked ? "You liked this article" : "Like this article"}
+        className="group inline-flex items-center gap-2.5 rounded-full px-4 py-2.5 text-[0.875rem] font-medium transition-colors duration-200 disabled:cursor-default"
+        style={{
+          color: liked ? "#F8A0AE" : "var(--blog-text-secondary)",
+          border: `1px solid ${liked ? "rgba(248, 160, 174, 0.32)" : "var(--blog-border)"}`,
+          background: liked ? "rgba(248, 160, 174, 0.08)" : "transparent",
+        }}
+      >
+        <Heart
+          size={16}
+          strokeWidth={1.9}
+          aria-hidden="true"
+          fill={liked ? "currentColor" : "none"}
+          className="transition-transform duration-200 group-hover:scale-110"
+        />
+        {liked ? "Liked" : "Like this post"}
+        {count !== null && count > 0 && (
+          <span className="tabular-nums" style={{ color: "var(--blog-text-subtle)" }}>
+            {count}
+          </span>
+        )}
+      </button>
+
+      <p className="text-[0.8125rem]" style={{ color: "var(--blog-text-subtle)" }}>
+        Found this useful? Let me know.
+      </p>
+    </div>
   );
 }

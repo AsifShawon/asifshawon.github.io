@@ -20,12 +20,17 @@ export function formatReadingTime(content: JSONContent): string {
   return `${minutes} ${minutes === 1 ? "min" : "mins"} read`;
 }
 
-/** "Jun 13, 2025" */
-export function formatPostDate(isoDate: string | null): string | null {
+/**
+ * "Jun 13, 2025". Pinned to UTC so a server render and a client render in a
+ * different timezone always agree (publication dates are editorial facts, not
+ * local ones) — this is what keeps the client components hydration-safe.
+ */
+export function formatPostDate(isoDate: string | null | undefined): string | null {
   if (!isoDate) return null;
   return new Date(isoDate).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
+    timeZone: "UTC",
   });
 }

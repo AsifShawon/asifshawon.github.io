@@ -10,7 +10,7 @@ const TopMenu = () => {
             <Link href='/' className='text-[22px] font-medium text-[#EEEEEE] sm:text-[30px]'>Asif Bhuiyan Shawon</Link>
             <div className="flex items-center gap-3 sm:gap-5">
                 <div className="top-menu__links lg:block hidden">
-                    <Menu className="pt-0" />
+                    <Menu className="pt-0" withBlogMenu />
                 </div>
                 <FloatingActions placement="navbar" />
                 <div className="lg:hidden block">
