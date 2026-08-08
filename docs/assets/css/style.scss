@@ -4,7 +4,7 @@
 /* =============================================================
    Asif Bhuiyan Shawon — Personal CV & Professional Homepage
    Color Palette: Ash Grey, Muted Teal, Deep Teal, Dark Slate Grey, Charcoal Blue
-   Layout: Sticky Right Navigation Rail (Desktop) / Bottom Nav (Mobile)
+   Layout: Full-Viewport Grid with Sticky Right Navigation Rail (Desktop)
    ============================================================= */
 
 /* ─────────────────────────────────────────────────────────────
@@ -30,9 +30,8 @@
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Monaco, monospace;
 
-  /* Layout dimensions */
-  --site-max-width: 1180px;
-  --rail-width: 260px;
+  /* Desktop rail width */
+  --rail-width: 280px;
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -81,24 +80,36 @@ ul, ol {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   SITE LAYOUT (DESKTOP GRID)
+   FULL-VIEWPORT DESKTOP GRID LAYOUT
    ───────────────────────────────────────────────────────────── */
 .site-layout {
-  max-width: var(--site-max-width);
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
   display: grid;
-  grid-template-columns: 1fr var(--rail-width);
+  grid-template-columns: minmax(0, 1fr) var(--rail-width);
   min-height: 100vh;
 }
 
+/* Main content area (Left flexible viewport space) */
 .main-content {
-  padding: 4rem 4rem 5rem 3rem;
+  background-color: var(--page-bg);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers .main-container in available left space */
+  padding: 4rem 3rem 5rem 3rem;
+}
+
+/* Constrained CV content container */
+.main-container {
+  width: 100%;
   max-width: 860px;
-  min-width: 0;
 }
 
 /* ─────────────────────────────────────────────────────────────
-   RIGHT NAVIGATION RAIL (DESKTOP)
+   RIGHT NAVIGATION RAIL (FLUSH TO BROWSER RIGHT EDGE)
    ───────────────────────────────────────────────────────────── */
 .nav-rail {
   background-color: var(--charcoal-blue);
@@ -111,15 +122,19 @@ ul, ol {
 }
 
 .rail-inner {
-  padding: 3rem 1.75rem;
+  padding: 3.25rem 2rem 2.75rem 2rem;
   display: flex;
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
-  gap: 2rem;
 }
 
-/* Wordmark & Descriptor */
+/* Top rail group */
+.rail-top {
+  display: flex;
+  flex-direction: column;
+}
+
 .rail-header {
   display: flex;
   flex-direction: column;
@@ -150,7 +165,10 @@ ul, ol {
   text-transform: uppercase;
 }
 
-/* Menu Links */
+.rail-nav {
+  margin-top: 3.5rem;
+}
+
 .rail-menu {
   display: flex;
   flex-direction: column;
@@ -185,7 +203,6 @@ ul, ol {
   transition: border-color 0.2s ease;
 }
 
-/* Active Section Indicator */
 .rail-link.is-active {
   color: #ffffff;
   font-weight: 600;
@@ -199,7 +216,14 @@ ul, ol {
   border-bottom: 1.5px solid var(--muted-teal);
 }
 
-/* Freelance Status Badge */
+/* Bottom rail group */
+.rail-bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .rail-status {
   display: flex;
   align-items: center;
@@ -227,7 +251,6 @@ ul, ol {
   font-weight: 500;
 }
 
-/* External Links */
 .rail-ext-links {
   display: flex;
   flex-direction: column;
@@ -256,7 +279,7 @@ ul, ol {
    HERO SECTION
    ───────────────────────────────────────────────────────────── */
 .hero {
-  padding-bottom: 5rem;
+  padding-bottom: 4.5rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -307,6 +330,10 @@ ul, ol {
   margin-bottom: 2rem;
 }
 
+.hero-photo {
+  flex-shrink: 0;
+}
+
 .hero-photo img {
   width: 120px;
   height: 120px;
@@ -314,7 +341,7 @@ ul, ol {
   object-fit: cover;
   object-position: center top;
   border: 1px solid var(--border);
-  flex-shrink: 0;
+  margin-top: 0;
 }
 
 /* Hero Metadata */
@@ -394,7 +421,7 @@ ul, ol {
    SECTION ANATOMY & HEADERS
    ───────────────────────────────────────────────────────────── */
 .section {
-  padding: 5rem 0;
+  padding: 4.5rem 0;
   border-bottom: 1px solid var(--border);
 }
 
@@ -1031,11 +1058,14 @@ ul, ol {
   }
 
   .nav-rail {
-    display: none; /* Hide right rail on mobile/tablet */
+    display: none; /* Hide desktop right rail on mobile/tablet */
   }
 
   .main-content {
-    padding: 3rem 2rem 6rem 2rem;
+    padding: 3rem 1.5rem 6rem 1.5rem;
+  }
+
+  .main-container {
     max-width: 100%;
   }
 

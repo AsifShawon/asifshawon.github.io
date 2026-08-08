@@ -41,51 +41,57 @@
 
   <!-- ===== MAIN CONTENT AREA (LEFT/CENTER) ===== -->
   <main id="main-content" class="main-content" role="main">
-    {{ content }}
+    <div class="main-container">
+      {{ content }}
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="site-footer" role="contentinfo">
-      <div class="footer-inner">
-        <span class="footer-copy">© 2026 Asif Bhuiyan Shawon &middot; Built for GitHub Pages</span>
-      </div>
-    </footer>
+      <!-- ===== FOOTER ===== -->
+      <footer class="site-footer" role="contentinfo">
+        <div class="footer-inner">
+          <span class="footer-copy">© 2026 Asif Bhuiyan Shawon &middot; Built for GitHub Pages</span>
+        </div>
+      </footer>
+    </div>
   </main>
 
   <!-- ===== RIGHT NAVIGATION RAIL (DESKTOP) ===== -->
   <aside class="nav-rail" aria-label="CV navigation rail">
     <div class="rail-inner">
 
-      <div class="rail-header">
-        <a class="rail-wordmark" href="#hero" aria-label="Asif Shawon - Top of page">
-          ASIF SHAWON
-        </a>
-        <span class="rail-descriptor">ECOMMERCE &middot; FULL-STACK &middot; AI</span>
+      <div class="rail-top">
+        <div class="rail-header">
+          <a class="rail-wordmark" href="#hero" aria-label="Asif Shawon - Top of page">
+            ASIF SHAWON
+          </a>
+          <span class="rail-descriptor">ECOMMERCE &middot; FULL-STACK &middot; AI</span>
+        </div>
+
+        <nav class="rail-nav" aria-label="CV section index">
+          <ul class="rail-menu" role="list">
+            <li><a href="#about" class="rail-link"><span class="rail-num">01</span><span class="rail-label">About</span></a></li>
+            <li><a href="#work" class="rail-link"><span class="rail-num">02</span><span class="rail-label">Current Work</span></a></li>
+            <li><a href="#projects" class="rail-link"><span class="rail-num">03</span><span class="rail-label">Selected Work</span></a></li>
+            <li><a href="#experience" class="rail-link"><span class="rail-num">04</span><span class="rail-label">Experience</span></a></li>
+            <li><a href="#skills" class="rail-link"><span class="rail-num">05</span><span class="rail-label">Skills</span></a></li>
+            <li><a href="#education" class="rail-link"><span class="rail-num">06</span><span class="rail-label">Education</span></a></li>
+            <li><a href="#contact" class="rail-link"><span class="rail-num">07</span><span class="rail-label">Contact</span></a></li>
+          </ul>
+        </nav>
       </div>
 
-      <nav class="rail-nav" aria-label="CV section index">
-        <ul class="rail-menu" role="list">
-          <li><a href="#about" class="rail-link"><span class="rail-num">01</span><span class="rail-label">About</span></a></li>
-          <li><a href="#work" class="rail-link"><span class="rail-num">02</span><span class="rail-label">Current Work</span></a></li>
-          <li><a href="#projects" class="rail-link"><span class="rail-num">03</span><span class="rail-label">Selected Work</span></a></li>
-          <li><a href="#experience" class="rail-link"><span class="rail-num">04</span><span class="rail-label">Experience</span></a></li>
-          <li><a href="#skills" class="rail-link"><span class="rail-num">05</span><span class="rail-label">Skills</span></a></li>
-          <li><a href="#education" class="rail-link"><span class="rail-num">06</span><span class="rail-label">Education</span></a></li>
-          <li><a href="#contact" class="rail-link"><span class="rail-num">07</span><span class="rail-label">Contact</span></a></li>
-        </ul>
-      </nav>
+      <div class="rail-bottom">
+        <div class="rail-status">
+          <span class="status-dot"></span>
+          <span class="status-text">Open to freelance work</span>
+        </div>
 
-      <div class="rail-status">
-        <span class="status-dot"></span>
-        <span class="status-text">Open to freelance work</span>
-      </div>
-
-      <div class="rail-footer">
-        <ul class="rail-ext-links" role="list">
-          <li><a href="https://withshawon.vercel.app/" target="_blank" rel="noreferrer noopener" class="rail-ext-link rail-ext-link--primary">Portfolio ↗</a></li>
-          <li><a href="https://github.com/AsifShawon" target="_blank" rel="noreferrer noopener" class="rail-ext-link">GitHub ↗</a></li>
-          <li><a href="https://www.linkedin.com/in/asif-bhuiyan-shawon/" target="_blank" rel="noreferrer noopener" class="rail-ext-link">LinkedIn ↗</a></li>
-          <li><a href="https://github.com/AsifShawon/asifshawon.github.io/raw/main/Resume_Asif_Bhuiyan.pdf" target="_blank" rel="noreferrer noopener" class="rail-ext-link">Resume ↗</a></li>
-        </ul>
+        <div class="rail-footer">
+          <ul class="rail-ext-links" role="list">
+            <li><a href="https://withshawon.vercel.app/" target="_blank" rel="noreferrer noopener" class="rail-ext-link rail-ext-link--primary">Portfolio ↗</a></li>
+            <li><a href="https://github.com/AsifShawon" target="_blank" rel="noreferrer noopener" class="rail-ext-link">GitHub ↗</a></li>
+            <li><a href="https://www.linkedin.com/in/asif-bhuiyan-shawon/" target="_blank" rel="noreferrer noopener" class="rail-ext-link">LinkedIn ↗</a></li>
+            <li><a href="https://github.com/AsifShawon/asifshawon.github.io/raw/main/Resume_Asif_Bhuiyan.pdf" target="_blank" rel="noreferrer noopener" class="rail-ext-link">Resume ↗</a></li>
+          </ul>
+        </div>
       </div>
 
     </div>
