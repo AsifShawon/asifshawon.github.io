@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 const TypingEffect = () => {
   const words = React.useMemo(
-    () => ["Ecommerce Executive", "Marketing Learner", "Full-Stack Engineer"],
+    () => ["Ecommerce Executive", "Freelance Full-Stack Developer", "AI Feature Developer"],
     []
   );
   const [index, setIndex] = useState(0);
@@ -40,8 +40,8 @@ const TypingEffect = () => {
   const article = /^[aeiou]/i.test(words[index]) ? "an" : "a";
 
   return (
-    <div className="text-2xl font-bold text-[#EEEEEE]">
-      <p>I&apos;m {article} <span className="text-[#76ABAE]">{text}</span>|</p>
+    <div className="text-xl sm:text-2xl font-bold text-[#EEEEEE]">
+      <p className="flex flex-wrap items-baseline gap-x-1">I&apos;m {article} <span className="text-[#76ABAE]">{text}</span><span className="animate-pulse">|</span></p>
     </div>
   );
 };

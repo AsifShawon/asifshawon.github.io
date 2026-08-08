@@ -1,0 +1,15 @@
+PROFILE IMAGE PLACEHOLDER
+=========================
+
+The file `profile.jpg` needs to be placed in this directory:
+  docs/assets/profile.jpg
+
+Recommended source: Download your GitHub profile picture from:
+  https://avatars.githubusercontent.com/u/90594450?v=4
+
+Save it as `profile.jpg` in this folder, then commit and push.
+
+Alternatively, you may use any professional headshot photo you prefer.
+The image will appear in the Jekyll minimal theme sidebar and at the top of the CV.
+
+Recommended dimensions: at least 400×400 pixels, square crop.

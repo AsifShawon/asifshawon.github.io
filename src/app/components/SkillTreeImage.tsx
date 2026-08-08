@@ -51,7 +51,7 @@ interface CategoryData {
 const categories: CategoryData[] = [
   {
     title: "Commerce & Growth",
-    eyebrow: "Learning now",
+    eyebrow: "Current Role",
     color: "#76ABAE",
     icon: TrendingUp,
     items: [
@@ -93,7 +93,7 @@ const categories: CategoryData[] = [
   },
   {
     title: "AI / ML",
-    eyebrow: "Academic background",
+    eyebrow: "Active & Applied",
     color: "#88C0D0",
     icon: BrainCircuit,
     items: [

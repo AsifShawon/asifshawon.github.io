@@ -1,0 +1,45 @@
+title: "Asif Bhuiyan Shawon"
+description: "Ecommerce Executive · Freelance Full-Stack Developer · AI Feature Developer"
+url: "https://asifshawon.github.io"
+
+# No theme — fully custom layout
+# theme: (intentionally omitted)
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter_opts:
+    disable: true
+
+sass:
+  style: compressed
+
+# Exclude everything that is not part of the CV site
+exclude:
+  - node_modules/
+  - src/
+  - public/
+  - supabase/
+  - scripts/
+  - package.json
+  - package-lock.json
+  - next.config.mjs
+  - postcss.config.mjs
+  - tailwind.config.ts
+  - tsconfig.json
+  - components.json
+  - .env.local.example
+  - .eslintrc.json
+  - README.md
+  - "*.lock"
+
+# Author metadata
+author:
+  name: "Asif Bhuiyan Shawon"
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
