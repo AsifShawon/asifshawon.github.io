@@ -7,15 +7,15 @@ const inter = Inter({ subsets: ["latin"] });
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
 
 export const metadata: Metadata = {
-  title: "Asif Bhuiyan Shawon - Ecommerce Executive & Former Software Engineer",
-  description: "Portfolio of Asif Bhuiyan Shawon — Ecommerce Executive learning marketing, ads, and growth, with a background in AI and full-stack software engineering.",
-  keywords: "Asif Bhuiyan Shawon, Ecommerce Executive, Ecommerce, Marketing, Facebook Ads, SEO, Market Analysis, Full-Stack Developer, AI, Portfolio",
+  title: "Asif Bhuiyan Shawon | Ecommerce Executive & Full-Stack/AI Developer",
+  description: "Portfolio of Asif Bhuiyan Shawon — Ecommerce Executive and freelance Full-Stack & AI Developer building web applications, ecommerce solutions, AI-powered features and automation.",
+  keywords: "Asif Bhuiyan Shawon, Ecommerce Executive, Ecommerce, Full-Stack Developer, Freelance Developer, Web Developer, Next.js Developer, React Developer, AI Developer, AI Feature Development, AI Integration, LLM, RAG, Automation, Software Development, Portfolio",
   authors: [{ name: "Asif Bhuiyan Shawon" }],
   // viewport moved to `export const viewport` per Next.js generate-viewport API
   robots: "index, follow",
   openGraph: {
-    title: "Asif Bhuiyan Shawon - Ecommerce Executive & Former Software Engineer",
-    description: "Ecommerce Executive learning marketing, ads, and growth — backed by a Computer Science foundation and a track record of shipping software.",
+    title: "Asif Bhuiyan Shawon | Ecommerce Executive & Full-Stack/AI Developer",
+    description: "Ecommerce Executive and freelance Full-Stack & AI Developer building ecommerce solutions, web applications, AI-powered features and automation.",
     type: "website",
     locale: "en_US",
   },

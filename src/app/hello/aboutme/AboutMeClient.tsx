@@ -30,7 +30,7 @@ export default function AboutMeClient({ profile }: { profile: Profile | null }) 
   const fullName = profile?.full_name || "Asif Bhuiyan Shawon";
   const tagline =
     profile?.tagline ||
-    "Ecommerce Executive | Learning Growth, Ads & SEO | Ex-Software Engineer";
+    "Ecommerce Executive · Freelance Full-Stack Developer · AI Feature Developer";
   const intro = profile?.bio?.intro || "";
   const timeline = profile?.bio?.timeline ?? [];
   const achievements = profile?.bio?.achievements ?? [];
@@ -163,7 +163,7 @@ export default function AboutMeClient({ profile }: { profile: Profile | null }) 
                 <Code className="text-[#76ABAE]" size={32} />
                 <h2 className="text-3xl font-bold gradient-text">Skills & Focus</h2>
               </div>
-              <p className="text-gray-400">A connected view of what I&apos;m building now — and the technical foundation underneath it.</p>
+              <p className="text-gray-400">My active professional tracks — ecommerce by role, full-stack and AI development through freelance and independent work.</p>
             </motion.div>
 
             <SkillTreeImage />
@@ -216,7 +216,7 @@ export default function AboutMeClient({ profile }: { profile: Profile | null }) 
                 <Brain className="text-[#76ABAE]" size={32} />
                 <h2 className="text-3xl font-bold gradient-text">Where I&apos;m Focused</h2>
               </div>
-              <p className="text-gray-400">Current focus, and the foundation underneath it.</p>
+              <p className="text-gray-400">Ecommerce is my current professional focus, while full-stack and AI development remain active through freelance and independent work.</p>
             </motion.div>
 
             <div className="grid md:grid-cols-2 gap-8">
@@ -229,21 +229,25 @@ export default function AboutMeClient({ profile }: { profile: Profile | null }) 
                 <div className="flex flex-wrap items-center gap-3 mb-6">
                   <h3 className="text-xl font-bold gradient-text">Ecommerce & Growth</h3>
                   <span className="bg-[#76ABAE]/10 text-[#76ABAE] rounded-full text-xs px-3 py-1">
-                    Learning now
+                    Current Role
                   </span>
                 </div>
                 <p className="text-gray-300 leading-relaxed mb-6">
-                  Hands-on and full-time at London Boy, building real skill in the channels that move an online
-                  storefront: paid social, search visibility, and reading the market before acting.
+                  Working professionally in ecommerce at London Boy, with hands-on involvement across online storefront
+                  operations and continued development in paid social, search visibility, market analysis and ecommerce growth.
                 </p>
                 <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-[#76ABAE] rounded-full"></div>
+                    <span className="text-sm text-gray-400">Ecommerce Operations</span>
+                  </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-[#76ABAE] rounded-full"></div>
                     <span className="text-sm text-gray-400">Marketing Fundamentals & Strategy</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-[#76ABAE] rounded-full"></div>
-                    <span className="text-sm text-gray-400">Facebook Ads</span>
+                    <span className="text-sm text-gray-400">Facebook Ads / Paid Social</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-[#76ABAE] rounded-full"></div>
@@ -251,7 +255,7 @@ export default function AboutMeClient({ profile }: { profile: Profile | null }) 
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-[#76ABAE] rounded-full"></div>
-                    <span className="text-sm text-gray-400">Market Analysis & Next-Step Planning</span>
+                    <span className="text-sm text-gray-400">Market Analysis & Growth Planning</span>
                   </div>
                 </div>
               </motion.div>
@@ -262,10 +266,15 @@ export default function AboutMeClient({ profile }: { profile: Profile | null }) 
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                <h3 className="text-xl font-bold gradient-text mb-6">Technical Background</h3>
+                <div className="flex flex-wrap items-center gap-3 mb-6">
+                  <h3 className="text-xl font-bold gradient-text">Full-Stack & AI Development</h3>
+                  <span className="bg-[#76ABAE]/10 text-[#76ABAE] rounded-full text-xs px-3 py-1">
+                    Active Development
+                  </span>
+                </div>
                 <p className="text-gray-300 leading-relaxed mb-6">
-                  Built on a Computer Science foundation — AI/ML, full-stack development, and a track record of shipping
-                  production software. The analytical habits carry over directly.
+                  Alongside my ecommerce role, I continue to build full-stack applications and AI-powered features
+                  through freelance and independent work — shipping practical web products, integrations and automation.
                 </p>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
@@ -274,15 +283,23 @@ export default function AboutMeClient({ profile }: { profile: Profile | null }) 
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-[#76ABAE] rounded-full"></div>
-                    <span className="text-sm text-gray-400">Python, AI/ML & Automation</span>
+                    <span className="text-sm text-gray-400">Full-Stack Application Development</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-[#76ABAE] rounded-full"></div>
-                    <span className="text-sm text-gray-400">Full-Stack App Delivery</span>
+                    <span className="text-sm text-gray-400">Python & Backend Development</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-[#76ABAE] rounded-full"></div>
+                    <span className="text-sm text-gray-400">AI/LLM Integration & RAG</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-[#76ABAE] rounded-full"></div>
                     <span className="text-sm text-gray-400">Database Design & Cloud Deployment</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-[#76ABAE] rounded-full"></div>
+                    <span className="text-sm text-gray-400">Automation & API Integration</span>
                   </div>
                 </div>
               </motion.div>

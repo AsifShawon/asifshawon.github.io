@@ -1,0 +1,36 @@
+title: "Asif Bhuiyan Shawon"
+description: "Ecommerce Executive · Freelance Full-Stack & AI Developer"
+url: "https://asifshawon.github.io"
+
+# Profile image shown by the minimal theme in the sidebar
+logo: /assets/profile.jpg
+
+# Use the GitHub Pages-supported minimal theme
+theme: jekyll-theme-minimal
+
+show_downloads: false
+
+# Social links displayed by the minimal theme
+github:
+  username: AsifShawon
+
+# SEO / Open Graph (jekyll-seo-tag is included with github-pages gem)
+author:
+  name: "Asif Bhuiyan Shawon"
+
+# Markdown processor
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# Exclude non-site files from Jekyll build
+exclude:
+  - "*.json"
+  - "*.lock"
+  - node_modules/
+  - src/
+  - public/
+  - supabase/
+  - scripts/
+  - README.md
