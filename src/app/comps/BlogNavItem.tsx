@@ -78,7 +78,14 @@ function PanelSkeleton() {
  * come from the same Supabase source the blog pages use — nothing is
  * hard-coded — and are fetched lazily the first time the panel is opened.
  */
-export default function BlogNavItem({ label = "Blog" }: { label?: string }) {
+export default function BlogNavItem({
+  label = "Blog",
+  active = false,
+}: {
+  label?: string;
+  /** Drives the same underline indicator the plain nav links use. */
+  active?: boolean;
+}) {
   const panelId = useId();
   const [open, setOpen] = useState(false);
   const [data, setData] = useState<MenuData | null>(cache);
@@ -157,8 +164,10 @@ export default function BlogNavItem({ label = "Blog" }: { label?: string }) {
         href="/blog"
         aria-expanded={open}
         aria-controls={open ? panelId : undefined}
-        // Matches the hover treatment of its sibling nav links.
-        className="group flex items-center gap-1.5 transition-colors hover:text-blue-500"
+        aria-current={active ? "page" : undefined}
+        // Shares the sibling links' hover/active treatment.
+        className="site-nav__link"
+        data-active={active}
       >
         {label}
         <ChevronDown

@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { createClient } from "@/lib/supabase/server";
 import { getSiteOrigin } from "@/lib/siteUrl";
+import { OG_IMAGE, SITE_NAME } from "@/lib/site";
 import type { BlogPost, Comment, Profile } from "@/lib/supabase/types";
 import {
   fetchCommentCounts,
@@ -59,26 +60,33 @@ export async function generateMetadata({
 
   const description = post.excerpt ?? undefined;
   const url = `/blog/${post.slug}`;
-  const images = post.cover_image_url ? [{ url: post.cover_image_url, alt: post.title }] : undefined;
+  // Posts without a cover fall back to the site's generated social card rather
+  // than sharing with no image at all.
+  const images = post.cover_image_url
+    ? [{ url: post.cover_image_url, alt: post.title }]
+    : [OG_IMAGE];
 
   return {
     title: post.title,
     description,
     alternates: { canonical: url },
+    authors: [{ name: SITE_NAME }],
     openGraph: {
       type: "article",
       title: post.title,
       description,
       url,
+      siteName: SITE_NAME,
       images,
       publishedTime: post.published_at ?? undefined,
+      authors: [SITE_NAME],
       tags: post.tags ?? undefined,
     },
     twitter: {
-      card: images ? "summary_large_image" : "summary",
+      card: "summary_large_image",
       title: post.title,
       description,
-      images: post.cover_image_url ? [post.cover_image_url] : undefined,
+      images: [post.cover_image_url ?? OG_IMAGE.url],
     },
   };
 }

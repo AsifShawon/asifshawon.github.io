@@ -1,18 +1,15 @@
+// Mirrors `hello/layout.tsx` so /contact sits inside the same shell — same
+// header, same cursor, same page transition — rather than looking bolted on.
 import React from 'react';
 import TopMenu from '../comps/topMenu';
 import CursorFollower from '../components/CursorFollower';
 import PageTransition from '../components/PageTransition';
 
-/**
- * `.blog-shell` carries the blog design tokens and the editorial surface
- * colour. It wraps the shared header too, so there is no seam between the
- * site navigation and the blog canvas.
- */
-const BlogLayout = ({ children }: { children: React.ReactNode }) => {
+export default function ContactLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <CursorFollower />
-      <div className="blog-shell">
+      <div className="relative z-10">
         <TopMenu />
         <main id="main-content">
           <PageTransition>{children}</PageTransition>
@@ -20,6 +17,4 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
       </div>
     </>
   );
-};
-
-export default BlogLayout;
+}

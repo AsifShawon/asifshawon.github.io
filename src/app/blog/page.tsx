@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
+import { pageMetadata } from "@/lib/site";
 import {
   collectTagCounts,
   fetchCommentCounts,
@@ -24,18 +25,13 @@ import { AUTHOR_FALLBACK_AVATAR } from "./_components/types";
  *  mosaic below, so no post is ever shown twice on the page. */
 const FEATURED_COUNT = 3;
 
-export const metadata: Metadata = {
-  title: "Writing — Asif Bhuiyan Shawon",
+// The root layout's title template appends "| Asif Bhuiyan Shawon".
+export const metadata: Metadata = pageMetadata({
+  title: "Blog",
   description:
     "A builder learning ecommerce — marketing, growth, technology, and everything else I pick up along the way.",
-  alternates: { canonical: "/blog" },
-  openGraph: {
-    title: "Writing — Asif Bhuiyan Shawon",
-    description:
-      "A builder learning ecommerce — marketing, growth, technology, and everything else I pick up along the way.",
-    type: "website",
-  },
-};
+  path: "/blog",
+});
 
 function firstParam(value: string | string[] | undefined): string | null {
   if (Array.isArray(value)) return value[0] ?? null;

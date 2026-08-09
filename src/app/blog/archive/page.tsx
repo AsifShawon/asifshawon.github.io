@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { createClient } from "@/lib/supabase/server";
+import { pageMetadata } from "@/lib/site";
 import type { BlogPost } from "@/lib/supabase/types";
 import { collectTagCounts, fetchCommentCounts, POSTS_PER_PAGE } from "@/lib/blogQueries";
 import CustomBreadcrumb from "@/app/comps/breadCrumb";
@@ -15,11 +16,13 @@ import { Eyebrow } from "../_components/ui";
 /** Below this the sidebar would just mirror the list, so it is hidden. */
 const SIDEBAR_MIN_POSTS = 6;
 
-export const metadata: Metadata = {
-  title: "All writing — Asif Bhuiyan Shawon",
-  description: "Every published post, newest first.",
-  alternates: { canonical: "/blog/archive" },
-};
+// The root layout's title template appends "| Asif Bhuiyan Shawon".
+export const metadata: Metadata = pageMetadata({
+  title: "All writing",
+  description:
+    "Every post published on the blog, newest first — ecommerce, growth, web development and AI.",
+  path: "/blog/archive",
+});
 
 export default async function BlogArchivePage() {
   const supabase = await createClient();

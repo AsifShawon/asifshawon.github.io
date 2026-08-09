@@ -24,7 +24,9 @@
     --blog-text: #EEF4F3;
     --blog-text-secondary: #B3C3C1;
     --blog-text-muted: #8A9C9A;
-    --blog-text-subtle: #6A7C7A;
+    /* Was #6A7C7A, which measured 4.17:1 on --blog-surface — below AA at the
+       11–12px sizes this token is used at. #7B8D8B clears 5.2:1. */
+    --blog-text-subtle: #7B8D8B;
 
     /* Accent (inherited from the portfolio brand) */
     --blog-accent: #76ABAE;

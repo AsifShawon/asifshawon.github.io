@@ -1,62 +1,57 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React from 'react';
+
+import { isActivePath, navigationItems } from '@/lib/navigation';
 import BlogNavItem from './BlogNavItem';
 
+/**
+ * The site's link list, rendered from the shared `navigationItems` config so
+ * the header and the mobile sheet can never fall out of sync.
+ *
+ * Two presentations, one source:
+ *   `header` — compact row inside the sticky navbar
+ *   `hero`   — the larger, airier list on the home page
+ */
 export default function NavigationLinks({
   className = '',
+  variant = 'hero',
   withBlogMenu = false,
 }: {
   className?: string;
+  variant?: 'header' | 'hero';
   /** Header-only: replaces the plain Blog link with the editorial mega-menu. */
   withBlogMenu?: boolean;
 }) {
-  const links = [
-    {
-      href: "/hello/projects",
-      label: "Projects",
-    },
-    {
-      href: "/hello/aboutme",
-      label: "About me",
-    },
-    {
-      href: "/hello/tools",
-      label: "Tools",
-    },
-    {
-      href: "/blog",
-      label: "Blog",
-    },
-    // {
-    //   href: "/hello/academics",
-    //   label: "Academics",
-    // },
-    // {
-    //   href: "/hello/notes",
-    //   label: "Notes",
-    // },
-  ];
+  const pathname = usePathname() ?? '';
 
   return (
-    <div>
-      <div className={`flex gap-8 pt-5 text-xl ${className}`}>
-        {links.map((link, index) =>
-          withBlogMenu && link.href === "/blog" ? (
-            <BlogNavItem key={index} label={link.label} />
-          ) : (
-            <Link key={index} href={link.href} className="relative group hover:text-blue-500">
-              <div className="flex justify-normal gap-1 items-center">
-                <span className="group-hover:pr-8 transition-all duration-300 ease-in-out sm:block hidden">
-                  {link.label}
+    <ul className={`site-nav site-nav--${variant} ${className}`}>
+      {navigationItems.map((link) => {
+        const active = isActivePath(pathname, link.href);
+
+        return (
+          <li key={link.href}>
+            {withBlogMenu && link.hasMegaMenu ? (
+              <BlogNavItem label={link.label} active={active} />
+            ) : (
+              <Link
+                href={link.href}
+                className="site-nav__link"
+                data-active={active}
+                aria-current={active ? 'page' : undefined}
+              >
+                <span>{link.label}</span>
+                <span className="site-nav__arrow" aria-hidden="true">
+                  →
                 </span>
-                <span className="absolute right-[-20px] top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:right-[-2px] transition-all duration-300 ease-in-out">
-                  ➜
-                </span>
-              </div>
-            </Link>
-          )
-        )}
-      </div>
-    </div>
+              </Link>
+            )}
+          </li>
+        );
+      })}
+    </ul>
   );
 }
