@@ -72,7 +72,7 @@ export default function OpengraphImage() {
               letterSpacing: -0.5,
             }}
           >
-            Ecommerce Executive · Full-Stack &amp; AI Developer
+            {JOB_TITLE}
           </div>
         </div>
 

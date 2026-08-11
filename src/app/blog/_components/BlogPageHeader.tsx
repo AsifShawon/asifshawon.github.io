@@ -12,12 +12,10 @@ export default function BlogPageHeader({
   authorName,
   authorTagline,
   authorAvatarUrl,
-  postCount,
 }: {
   authorName: string;
   authorTagline: string | null;
   authorAvatarUrl: string;
-  postCount: number;
 }) {
   return (
     <header className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-12">
@@ -75,30 +73,19 @@ export default function BlogPageHeader({
 
           <hr className="blog-divider my-4" />
 
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-[0.75rem]" style={{ color: "var(--blog-text-muted)" }}>
-              <span
-                className="text-[0.9375rem] font-semibold tabular-nums"
-                style={{ color: "var(--blog-text)" }}
-              >
-                {postCount}
-              </span>{" "}
-              published {postCount === 1 ? "post" : "posts"}
-            </p>
-            <Link
-              href="/hello/aboutme"
-              className="group inline-flex items-center gap-1.5 text-[0.75rem] font-medium"
-              style={{ color: "var(--blog-accent-strong)" }}
-            >
-              About me
-              <ArrowUpRight
-                size={13}
-                strokeWidth={2}
-                aria-hidden="true"
-                className="transition-transform duration-200 group-hover:translate-x-[2px] group-hover:-translate-y-[2px]"
-              />
-            </Link>
-          </div>
+          <Link
+            href="/hello/aboutme"
+            className="group inline-flex items-center gap-1.5 text-[0.75rem] font-medium"
+            style={{ color: "var(--blog-accent-strong)" }}
+          >
+            About me
+            <ArrowUpRight
+              size={13}
+              strokeWidth={2}
+              aria-hidden="true"
+              className="transition-transform duration-200 group-hover:translate-x-[2px] group-hover:-translate-y-[2px]"
+            />
+          </Link>
         </div>
       </aside>
     </header>

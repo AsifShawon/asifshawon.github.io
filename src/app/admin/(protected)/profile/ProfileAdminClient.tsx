@@ -122,6 +122,7 @@ export default function ProfileAdminClient({
     facebook: initialProfile?.socials?.facebook ?? "",
     instagram: initialProfile?.socials?.instagram ?? "",
     linkedin: initialProfile?.socials?.linkedin ?? "",
+    github: initialProfile?.socials?.github ?? "",
     discord: initialProfile?.socials?.discord ?? "",
   });
 
@@ -265,6 +266,7 @@ export default function ProfileAdminClient({
                 ["facebook", "Facebook URL"],
                 ["instagram", "Instagram URL"],
                 ["linkedin", "LinkedIn URL"],
+                ["github", "GitHub URL"],
                 ["discord", "Discord URL"],
               ] as const
             ).map(([key, label]) => (

@@ -4,7 +4,7 @@ import EnhancedHome from "./components/EnhancedHome";
 import CursorFollower from "./components/CursorFollower";
 import { createClient } from "@/lib/supabase/server";
 import type { Profile } from "@/lib/supabase/types";
-import { absoluteUrl, JOB_TITLE, SITE_NAME, SOCIAL_PROFILES } from "@/lib/site";
+import { absoluteUrl, JOB_TITLE, PROFILE_DESCRIPTION, SITE_NAME, SOCIAL_PROFILES } from "@/lib/site";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -24,8 +24,7 @@ const personLd = {
     name: SITE_NAME,
     url: absoluteUrl("/"),
     jobTitle: JOB_TITLE,
-    description:
-      "Ecommerce Executive and freelance Full-Stack & AI Developer building ecommerce solutions, web applications and AI-powered features.",
+    description: PROFILE_DESCRIPTION,
     email: "mailto:asifbhuiyanshawon@gmail.com",
     sameAs: [...SOCIAL_PROFILES],
   },

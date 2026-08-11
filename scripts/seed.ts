@@ -157,6 +157,7 @@ async function seedProfile() {
     facebook: "https://www.facebook.com/withshawon",
     instagram: "https://www.instagram.com/withshawon",
     linkedin: "https://www.linkedin.com/in/asif-bhuiyan-shawon/",
+    github: "https://github.com/AsifShawon",
     discord: "https://discord.com/users/misir.ali",
   };
 
@@ -169,8 +170,7 @@ async function seedProfile() {
 
   const row = {
     full_name: "Asif Bhuiyan Shawon",
-    tagline:
-      "Ecommerce Executive | Learning Growth, Ads & SEO | Ex-Software Engineer",
+    tagline: "Ecommerce Executive · Full-Stack Developer · AI Engineer",
     bio,
     avatar_url: null,
     resume_url: "/Resume_Asif_Bhuiyan.pdf",

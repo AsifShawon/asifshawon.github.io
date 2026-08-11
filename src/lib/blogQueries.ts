@@ -52,23 +52,6 @@ export async function fetchPublishedPosts(supabase: SupabaseClient): Promise<Blo
   return data ?? [];
 }
 
-/** Lightweight previews for the navigation mega-menu / sidebars. */
-export async function fetchRecentPostPreviews(
-  supabase: SupabaseClient,
-  limit = 3
-): Promise<PostPreview[]> {
-  const { data } = await supabase
-    .from("blog_posts")
-    .select(PREVIEW_COLUMNS)
-    .eq("published", true)
-    .eq("archived", false)
-    .order("published_at", { ascending: false })
-    .limit(limit)
-    .returns<PostPreview[]>();
-
-  return data ?? [];
-}
-
 /**
  * The whole published index without the (potentially large) `content`
  * documents — enough to compute neighbours and related posts on an article
@@ -91,18 +74,6 @@ export async function fetchPublishedPostPreviews(
 export interface TagCount {
   tag: string;
   count: number;
-}
-
-/** Tag histogram across the whole published index (tags column only). */
-export async function fetchTagCounts(supabase: SupabaseClient): Promise<TagCount[]> {
-  const { data } = await supabase
-    .from("blog_posts")
-    .select("tags")
-    .eq("published", true)
-    .eq("archived", false)
-    .returns<Pick<BlogPost, "tags">[]>();
-
-  return collectTagCounts(data ?? []);
 }
 
 /** Tags present in the given posts, most-used first, ties broken alphabetically. */

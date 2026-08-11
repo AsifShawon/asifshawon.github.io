@@ -24,15 +24,31 @@ export const SITE_URL = resolveSiteUrl();
 
 export const SITE_NAME = "Asif Bhuiyan Shawon";
 
+/**
+ * Professional identity — the one place this is decided.
+ *
+ * Asif's ecommerce role is his primary current employment; the developer/AI
+ * work is independent/freelance. Every identity string below is built from
+ * these three values so the site can't describe them as three simultaneous
+ * full-time jobs in one place and something else elsewhere.
+ */
+export const PRIMARY_ROLE = "Ecommerce Executive";
+export const INDEPENDENT_ROLES = ["Full-Stack Developer", "AI Engineer"] as const;
+
+/** "Ecommerce Executive · Full-Stack Developer · AI Engineer" */
+export const JOB_TITLE = [PRIMARY_ROLE, ...INDEPENDENT_ROLES].join(" · ");
+
+/** Longer-form identity sentence for hero subtext, About and Contact intros. */
+export const PROFILE_DESCRIPTION =
+  "Currently working as an Ecommerce Executive while independently building full-stack applications and practical AI-powered solutions.";
+
 export const SITE_TITLE =
-  "Asif Bhuiyan Shawon | Ecommerce Executive & Full-Stack/AI Developer";
+  "Asif Bhuiyan Shawon | Ecommerce Executive, Full-Stack Developer & AI Engineer";
 
 export const SITE_DESCRIPTION =
-  "Portfolio of Asif Bhuiyan Shawon — Ecommerce Executive and freelance Full-Stack & AI Developer building ecommerce solutions, web applications and AI-powered features.";
+  "Portfolio of Asif Bhuiyan Shawon, an Ecommerce Executive who also works independently as a Full-Stack Developer and AI Engineer, building ecommerce solutions, web applications and practical AI-powered features.";
 
 export const CONTACT_EMAIL = "asifbhuiyanshawon@gmail.com";
-
-export const JOB_TITLE = "Ecommerce Executive · Full-Stack & AI Developer";
 
 /**
  * Verified profile URLs that already exist in the repository

@@ -23,7 +23,6 @@
 }
 
 body{
-    font-family: 'Roboto', sans-serif;
     background: var(--site-bg);
     color: var(--site-text);
     /* `clip` rather than `hidden`: both contain horizontal overflow, but
@@ -613,8 +612,8 @@ select {
 /* Placement rules are scoped to `--floating`: the same element also carries
    `--cv` / `--socials` in the navbar, where these offsets would drag the two
    buttons on top of each other. */
-/* Sits in the upper-left field, clear of the hero text block below it — the
-   ±86px drift is accounted for, so the bubble never lands on the H1. */
+/* Stationary — sits in the upper-left field, clear of the hero text block
+   below it. No drift/wander animation: predictable position beats motion. */
 .floating-action--floating.floating-action--cv {
     top: clamp(6rem, 19vh, 13rem);
     left: clamp(2rem, 7vw, 8rem);
@@ -1229,6 +1228,244 @@ select {
     color: var(--site-text-strong);
     border-color: var(--site-border-strong);
     background: rgba(118, 171, 174, 0.16);
+}
+
+/* ---------------------------------------------------------------- footer
+   Sits on a slightly raised surface so the page above reads as "content" and
+   this reads as "the end of the page". Three bands: the statement + link
+   columns, a hairline meta row, and the oversized wordmark bleeding off the
+   bottom edge.
+
+   Never mounted on `/` — the home page is one full-height hero and a footer
+   underneath it would undo that. See `siteFooter.tsx`. */
+.site-footer {
+    position: relative;
+    margin-top: 6rem;
+    overflow: hidden;
+    border-top: 1px solid var(--site-border);
+    background: #071319;
+    color: var(--site-text);
+    isolation: isolate;
+}
+
+/* The blog runs on its own surface ramp, so the footer follows it rather than
+   introducing a third background colour mid-scroll. */
+.blog-shell .site-footer {
+    margin-top: 0;
+    border-top-color: var(--blog-border);
+    background: var(--blog-surface-sunken);
+    color: var(--blog-text-secondary);
+}
+
+.site-footer__inner {
+    position: relative;
+    z-index: 1;
+    padding-block: 4rem 2rem;
+}
+
+@media (min-width: 768px) {
+    .site-footer__inner {
+        padding-block: 5.5rem 2.25rem;
+    }
+}
+
+.site-footer__top {
+    display: grid;
+    gap: 3rem;
+}
+
+@media (min-width: 768px) {
+    .site-footer__top {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+        gap: 4rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .site-footer__top {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+}
+
+/* ---- statement column */
+.site-footer__mark {
+    display: block;
+    margin-bottom: 1.75rem;
+    color: var(--site-accent);
+    opacity: 0.75;
+}
+
+.site-footer__statement {
+    color: var(--site-text-strong);
+    font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+    font-weight: 500;
+    line-height: 1.28;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+}
+
+.blog-shell .site-footer__statement {
+    color: var(--blog-text);
+}
+
+.site-footer__email {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding-bottom: 0.2rem;
+    color: var(--site-accent-strong);
+    font-size: 0.9375rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--site-fast) var(--site-ease);
+    /* Long address, narrow phones: break rather than force a scrollbar. */
+    overflow-wrap: anywhere;
+}
+
+.site-footer__email:hover {
+    border-bottom-color: var(--site-border-strong);
+}
+
+.site-footer__email-arrow {
+    transition: transform var(--site-base) var(--site-ease);
+}
+
+.site-footer__email:hover .site-footer__email-arrow {
+    transform: translateX(0.2rem);
+}
+
+/* ---- link columns */
+.site-footer__columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.25rem 1.5rem;
+}
+
+@media (min-width: 480px) {
+    .site-footer__columns {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.site-footer__column-title {
+    margin-bottom: 1rem;
+    color: var(--site-text-muted);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.site-footer__column ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.site-footer__link {
+    display: inline-block;
+    color: var(--site-text);
+    font-size: 0.9375rem;
+    transition: color var(--site-fast) var(--site-ease),
+        transform var(--site-fast) var(--site-ease);
+}
+
+.site-footer__link:hover {
+    color: var(--site-text-strong);
+    transform: translateX(0.15rem);
+}
+
+/* ---- meta row */
+.site-footer__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--site-border);
+    color: var(--site-text-muted);
+    font-size: 0.8125rem;
+}
+
+.blog-shell .site-footer__meta {
+    border-top-color: var(--blog-border);
+}
+
+/* Pushes "Back to top" to the trailing edge on wide viewports and lets it fall
+   into the flow on narrow ones. */
+.site-footer__top-link {
+    margin-left: auto;
+    transition: color var(--site-fast) var(--site-ease);
+}
+
+.site-footer__top-link:hover {
+    color: var(--site-text-strong);
+}
+
+@media (max-width: 639px) {
+    .site-footer__colophon {
+        width: 100%;
+    }
+
+    .site-footer__top-link {
+        margin-left: 0;
+    }
+}
+
+/* ---- oversized wordmark
+   Drawn as SVG so `textLength` can pin it to the exact container width at any
+   viewport, whatever font has loaded. The viewBox is shorter than the glyphs,
+   which is what crops the baseline against the bottom edge. */
+.site-footer__wordmark {
+    position: relative;
+    z-index: 0;
+    padding-inline: 1.25rem;
+    line-height: 0;
+    pointer-events: none;
+}
+
+@media (min-width: 640px) {
+    .site-footer__wordmark {
+        padding-inline: 2rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .site-footer__wordmark {
+        padding-inline: 2.5rem;
+    }
+}
+
+.site-footer__wordmark svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.site-footer__wordmark-text {
+    font-family: inherit;
+    font-size: 130px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    fill: var(--site-text);
+    opacity: 0.11;
+}
+
+.site-footer__wordmark-ring {
+    fill: none;
+    stroke: var(--site-text);
+    stroke-width: 6;
+    opacity: 0.11;
+}
+
+.site-footer__wordmark-copy {
+    font-family: inherit;
+    font-size: 52px;
+    font-weight: 500;
+    fill: var(--site-text);
+    opacity: 0.11;
 }
 
 /* Page transition */

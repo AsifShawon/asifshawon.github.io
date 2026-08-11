@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowUpRight, Mail, MapPin } from 'lucide-react';
 
 import Container from '@/components/ui/container';
+import { Button } from '@/components/ui/button';
 import CustomBreadcrumb from '@/app/comps/breadCrumb';
 import { absoluteUrl, CONTACT_EMAIL, pageMetadata, SITE_NAME } from '@/lib/site';
 
@@ -48,15 +49,12 @@ const contactLd = {
 
 function SocialLink({ name, href }: { name: string; href: string }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      className="inline-flex min-h-11 items-center gap-1.5 rounded-[0.65rem] border border-[rgba(147,177,166,0.2)] bg-[rgba(118,171,174,0.05)] px-3.5 text-[0.875rem] text-[#C3D6D2] transition-colors duration-200 hover:border-[rgba(154,210,210,0.5)] hover:bg-[rgba(118,171,174,0.14)] hover:text-white"
-    >
-      {name}
-      <ArrowUpRight size={14} strokeWidth={1.9} aria-hidden="true" />
-    </a>
+    <Button asChild variant="surface" size="ctaSm">
+      <a href={href} target="_blank" rel="noreferrer">
+        {name}
+        <ArrowUpRight size={14} strokeWidth={1.9} aria-hidden="true" />
+      </a>
+    </Button>
   );
 }
 
@@ -91,10 +89,10 @@ export default function ContactPage() {
             </h1>
 
             <p className="type-body-lg measure mt-5 text-[#93B1A6]">
-              I work across ecommerce, full-stack development and AI — building
-              stores that convert, web applications that hold up, and AI features
-              that do something useful. If any of that overlaps with what you need,
-              I&apos;d like to hear about it.
+              I currently work in ecommerce while independently building full-stack
+              applications and practical AI-powered solutions. If you have a project,
+              collaboration or opportunity that overlaps with those areas, I&apos;d
+              like to hear about it.
             </p>
 
             <ul className="mt-8 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">

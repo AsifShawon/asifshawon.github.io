@@ -95,7 +95,6 @@ export default async function BlogPage({
           authorName={authorName}
           authorTagline={authorTagline}
           authorAvatarUrl={authorAvatarUrl}
-          postCount={posts.length}
         />
 
         {posts.length === 0 ? (

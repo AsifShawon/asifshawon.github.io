@@ -42,7 +42,7 @@ const TopMenu = () => {
                     instead, which is what keeps 320px free of overflow. */}
                 <nav className="flex shrink-0 items-center gap-2 sm:gap-4" aria-label="Main">
                     <div className="hidden lg:block">
-                        <Menu variant="header" withBlogMenu />
+                        <Menu variant="header" />
                     </div>
                     <FloatingActions placement="navbar" />
                     <div className="lg:hidden">

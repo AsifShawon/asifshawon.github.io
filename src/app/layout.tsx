@@ -79,10 +79,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
       <body
         // Horizontal overflow is contained by `overflow-x: clip` in
         // globals.css — the Tailwind `overflow-x-hidden` utility would win on

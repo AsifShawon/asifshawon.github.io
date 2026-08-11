@@ -5,8 +5,7 @@ import { CategoryPill, CoverImage, PostMetaRow } from "./ui";
 
 /**
  * Smallest preview in the system — thumbnail + category + title + date.
- * Shared by the navigation mega-menu and the archive sidebar so recent-post
- * previews stay identical wherever they appear.
+ * Used by the archive sidebar.
  */
 export default function RecentPostMiniCard({
   post,
