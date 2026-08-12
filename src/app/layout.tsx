@@ -1,30 +1,78 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Geist, Instrument_Serif, Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+// Namespaced `.blog-*` design system. Loaded globally because the shared
+// header's blog mega-menu uses the same primitives on non-blog routes.
+import "./blog-system.css";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"] });
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
 
-export const metadata: Metadata = {
-  title: "Asif Bhuiyan Shawon | Ecommerce Executive & Full-Stack/AI Developer",
-  description: "Portfolio of Asif Bhuiyan Shawon — Ecommerce Executive and freelance Full-Stack & AI Developer building web applications, ecommerce solutions, AI-powered features and automation.",
-  keywords: "Asif Bhuiyan Shawon, Ecommerce Executive, Ecommerce, Full-Stack Developer, Freelance Developer, Web Developer, Next.js Developer, React Developer, AI Developer, AI Feature Development, AI Integration, LLM, RAG, Automation, Software Development, Portfolio",
-  authors: [{ name: "Asif Bhuiyan Shawon" }],
-  // viewport moved to `export const viewport` per Next.js generate-viewport API
-  robots: "index, follow",
+// Editorial pairing used by the blog: Geist carries UI/body copy, Instrument
+// Serif carries display headings. Exposed as variables so only the blog opts
+// in — the rest of the portfolio keeps Inter untouched.
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif",
+  display: "swap",
+});
 
+export const metadata: Metadata = {
+  // Makes every relative `alternates.canonical` and OG url in the app resolve
+  // to an absolute production URL.
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_TITLE,
+    // Internal pages set only their own name: "Projects" -> "Projects | Asif…"
+    template: `%s | ${SITE_NAME}`,
+  },
+    verification:{
+    google: "hVJQC9l-c8Rc49y-CIiKBJLI4BXiMnPZq_rTNJ3LrIM",
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  alternates: { canonical: "/" },
+  // viewport moved to `export const viewport` per Next.js generate-viewport API
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
-    title: "Asif Bhuiyan Shawon | Ecommerce Executive & Full-Stack/AI Developer",
-    description: "Ecommerce Executive and freelance Full-Stack & AI Developer building ecommerce solutions, web applications, AI-powered features and automation.",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: "/",
+    siteName: SITE_NAME,
     type: "website",
     locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    creator: "@AsifShawon",
   },
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  themeColor: '#040D12',
+  colorScheme: 'dark',
 };
 
 export default function RootLayout({
@@ -34,11 +82,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className={`${inter.className} ${jakarta.variable} overflow-x-hidden`}>
+      <body
+        // Horizontal overflow is contained by `overflow-x: clip` in
+        // globals.css — the Tailwind `overflow-x-hidden` utility would win on
+        // specificity and break the sticky header.
+        className={`${inter.className} ${jakarta.variable} ${geist.variable} ${instrumentSerif.variable}`}
+      >
         <div className="relative min-h-screen">
           {children}
         </div>
