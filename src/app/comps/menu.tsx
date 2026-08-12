@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 
 import { isActivePath, navigationItems } from '@/lib/navigation';
+import BlogNavItem from './BlogNavItem';
 
 /**
  * The site's link list, rendered from the shared `navigationItems` config so
@@ -17,9 +18,12 @@ import { isActivePath, navigationItems } from '@/lib/navigation';
 export default function NavigationLinks({
   className = '',
   variant = 'hero',
+  withBlogMenu = false,
 }: {
   className?: string;
   variant?: 'header' | 'hero';
+  /** Header-only: replaces the plain Blog link with the editorial mega-menu. */
+  withBlogMenu?: boolean;
 }) {
   const pathname = usePathname() ?? '';
 
@@ -30,17 +34,21 @@ export default function NavigationLinks({
 
         return (
           <li key={link.href}>
-            <Link
-              href={link.href}
-              className="site-nav__link"
-              data-active={active}
-              aria-current={active ? 'page' : undefined}
-            >
-              <span>{link.label}</span>
-              <span className="site-nav__arrow" aria-hidden="true">
-                →
-              </span>
-            </Link>
+            {withBlogMenu && link.hasMegaMenu ? (
+              <BlogNavItem label={link.label} active={active} />
+            ) : (
+              <Link
+                href={link.href}
+                className="site-nav__link"
+                data-active={active}
+                aria-current={active ? 'page' : undefined}
+              >
+                <span>{link.label}</span>
+                <span className="site-nav__arrow" aria-hidden="true">
+                  →
+                </span>
+              </Link>
+            )}
           </li>
         );
       })}

@@ -612,8 +612,8 @@ select {
 /* Placement rules are scoped to `--floating`: the same element also carries
    `--cv` / `--socials` in the navbar, where these offsets would drag the two
    buttons on top of each other. */
-/* Stationary — sits in the upper-left field, clear of the hero text block
-   below it. No drift/wander animation: predictable position beats motion. */
+/* Sits in the upper-left field, clear of the hero text block below it — the
+   ±86px drift is accounted for, so the bubble never lands on the H1. */
 .floating-action--floating.floating-action--cv {
     top: clamp(6rem, 19vh, 13rem);
     left: clamp(2rem, 7vw, 8rem);

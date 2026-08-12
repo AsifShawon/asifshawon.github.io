@@ -8,13 +8,15 @@
 export interface NavItem {
   href: string;
   label: string;
+  /** Header-only: the Blog item swaps in the editorial mega-menu on desktop. */
+  hasMegaMenu?: boolean;
 }
 
 export const navigationItems: NavItem[] = [
   { href: "/hello/projects", label: "Projects" },
   { href: "/hello/aboutme", label: "About" },
   { href: "/hello/tools", label: "Tools" },
-  { href: "/blog", label: "Blog" },
+  { href: "/blog", label: "Blog", hasMegaMenu: true },
   { href: "/contact", label: "Contact" },
 ];
 
