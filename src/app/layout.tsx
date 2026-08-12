@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Asif Bhuiyan Shawon" }],
   // viewport moved to `export const viewport` per Next.js generate-viewport API
   robots: "index, follow",
+  verification:{
+    google: "hVJQC9l-c8Rc49y-CIiKBJLI4BXiMnPZq_rTNJ3LrIM",
+  },
   openGraph: {
     title: "Asif Bhuiyan Shawon | Ecommerce Executive & Full-Stack/AI Developer",
     description: "Ecommerce Executive and freelance Full-Stack & AI Developer building ecommerce solutions, web applications, AI-powered features and automation.",
