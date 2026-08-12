@@ -5,6 +5,7 @@ import AnimatedSection from "@/app/components/AnimatedSection";
 import TimelineItem from "@/app/components/TimelineItem";
 import SkillTreeImage from "@/app/components/SkillTreeImage"; // ⬅️ New image-like skill map
 import { motion } from "framer-motion";
+import { JOB_TITLE } from "@/lib/site";
 import type { Profile } from "@/lib/supabase/types";
 import {
   User,
@@ -28,9 +29,7 @@ const ACHIEVEMENT_ICONS: Record<string, React.ReactNode> = {
 
 export default function AboutMeClient({ profile }: { profile: Profile | null }) {
   const fullName = profile?.full_name || "Asif Bhuiyan Shawon";
-  const tagline =
-    profile?.tagline ||
-    "Ecommerce Executive · Freelance Full-Stack Developer · AI Feature Developer";
+  const tagline = profile?.tagline || JOB_TITLE;
   const intro = profile?.bio?.intro || "";
   const timeline = profile?.bio?.timeline ?? [];
   const achievements = profile?.bio?.achievements ?? [];

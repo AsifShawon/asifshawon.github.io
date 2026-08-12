@@ -1,5 +1,5 @@
 'use client';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ReactNode } from 'react';
 
 interface PageTransitionProps {
@@ -7,12 +7,16 @@ interface PageTransitionProps {
 }
 
 export default function PageTransition({ children }: PageTransitionProps) {
+  // Framer's JS-driven animations aren't covered by the CSS reduced-motion
+  // rules, so opt out explicitly.
+  const reduceMotion = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.5, ease: 'easeInOut' }}
+      exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -20 }}
+      transition={{ duration: reduceMotion ? 0 : 0.5, ease: 'easeInOut' }}
     >
       {children}
     </motion.div>

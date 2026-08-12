@@ -8,7 +8,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'AI-Powered CGPA Calculator | WithShawon',
+  // The root layout's title template appends "| Asif Bhuiyan Shawon".
+  title: 'AI-Powered CGPA Calculator',
   description: 'Calculate your CGPA instantly with our AI-powered tool. Upload your grade sheet and let advanced AI extract courses automatically. Get detailed insights with grade point calculations, export to PDF, and manage your academic performance efficiently.',
   keywords: [
     'CGPA calculator',

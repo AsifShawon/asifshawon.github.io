@@ -27,6 +27,7 @@ export interface ProfileSocials {
   facebook?: string;
   instagram?: string;
   linkedin?: string;
+  github?: string;
   discord?: string;
 }
 

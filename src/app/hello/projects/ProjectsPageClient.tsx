@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import CustomBreadcrumb from "@/app/comps/breadCrumb";
 import ShowcaseProjectCard from "./ShowcaseProjectCard";
@@ -32,11 +33,13 @@ export default function ProjectsPageClient({ projects }: { projects: LegacyProje
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light italic text-white/90 leading-tight">
+            {/* The page's one H1 — same visual treatment as before, but the
+                document now has a top-level heading instead of starting at H2. */}
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light italic text-white/90 leading-tight">
               Transforming vision and ideas into{" "}
               <span className="text-[#76ABAE]">valuable</span> and tangible
               products with measurable impact.
-            </h2>
+            </h1>
           </motion.div>
 
           {/* Right - Description */}
@@ -88,12 +91,14 @@ export default function ProjectsPageClient({ projects }: { projects: LegacyProje
           <p className="text-gray-500 text-sm mb-4">
             Interested in working together?
           </p>
-          <a
-            href="mailto:your-email@example.com"
+          {/* Was a `mailto:your-email@example.com` placeholder — now points at
+              the real contact page. */}
+          <Link
+            href="/contact"
             className="inline-block text-white text-lg font-medium border-b-2 border-[#76ABAE] pb-1 hover:text-[#76ABAE] transition-colors duration-300"
           >
             Let&apos;s Connect
-          </a>
+          </Link>
         </motion.div>
       </div>
 

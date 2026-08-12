@@ -2,12 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    /* Portfolio brand tokens. The palette is unchanged — these just give the
+       existing hex values names so components stop re-typing them. */
+    --site-bg: #040D12;
+    --site-text: #93B1A6;
+    --site-text-strong: #EEEEEE;
+    --site-accent: #76ABAE;
+    --site-accent-strong: #A8DDDA;
+    --site-border: rgba(147, 177, 166, 0.16);
+    --site-border-strong: rgba(154, 210, 210, 0.42);
+    /* Muted ink that still clears WCAG AA (5.4:1 on --site-bg). Anything
+       dimmer than this fails contrast at label sizes. */
+    --site-text-muted: #748D86;
+
+    /* Interaction timing. Direct UI feedback stays in the 150–250ms band. */
+    --site-fast: 160ms;
+    --site-base: 200ms;
+    --site-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
 body{
-    font-family: 'Roboto', sans-serif;
-    background: #040D12;
-    color: #93B1A6;
-    overflow-x: hidden;
+    background: var(--site-bg);
+    color: var(--site-text);
+    /* `clip` rather than `hidden`: both contain horizontal overflow, but
+       `hidden` turns <body> into a scroll container, which silently breaks
+       `position: sticky` for the site header. */
+    overflow-x: clip;
+}
+
+/* The custom cursor hides the native one — but only while `CursorFollower`
+   is actually mounted and active. It adds `.has-custom-cursor` to <html> on
+   pointer-fine, motion-allowed devices, so touch screens and
+   `prefers-reduced-motion` users keep a real cursor instead of none at all. */
+.has-custom-cursor body {
     cursor: none !important;
+}
+
+/* Text entry always keeps a real caret — a decorative cursor must never make
+   a form harder to use. */
+input,
+textarea,
+select {
+    cursor: auto;
 }
 
 /* The admin dashboard has no CursorFollower (it's a utility UI, not the
@@ -15,6 +52,142 @@ body{
    things like the Tiptap image resize handle's cursor: nwse-resize. */
 .admin-cursor-reset {
     cursor: auto;
+}
+
+/* ------------------------------------------------------------------ layout
+   One content wrapper for the public portfolio: max-width + auto margins +
+   responsive gutters. Replaces the assorted per-page widths so the header
+   and the page body share a single alignment grid. */
+@layer components {
+    .site-container {
+        width: 100%;
+        max-width: 80rem;
+        margin-inline: auto;
+        padding-inline: 1.25rem;
+    }
+
+    @media (min-width: 640px) {
+        .site-container {
+            padding-inline: 2rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .site-container {
+            padding-inline: 2.5rem;
+        }
+    }
+
+    .site-container--wide {
+        max-width: 90rem;
+    }
+
+    .site-container--narrow {
+        max-width: 60rem;
+    }
+
+    /* -------------------------------------------------------- typography
+       A single hierarchy for the portfolio. Sizes scale with `clamp()` so
+       the same class works from 320px to 1440px+ without a stack of
+       breakpoint overrides. Declared in the `components` layer, so a
+       Tailwind utility can still override any individual value. */
+    .type-display {
+        font-size: clamp(2.25rem, 1.55rem + 3.5vw, 4rem);
+        font-weight: 600;
+        line-height: 1.04;
+        letter-spacing: -0.03em;
+    }
+
+    .type-h1 {
+        font-size: clamp(1.875rem, 1.4rem + 2.4vw, 3rem);
+        font-weight: 600;
+        line-height: 1.1;
+        letter-spacing: -0.025em;
+    }
+
+    .type-h2 {
+        font-size: clamp(1.5rem, 1.25rem + 1.25vw, 2.125rem);
+        font-weight: 600;
+        line-height: 1.18;
+        letter-spacing: -0.02em;
+    }
+
+    .type-h3 {
+        font-size: clamp(1.125rem, 1.03rem + 0.5vw, 1.375rem);
+        font-weight: 600;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+    }
+
+    .type-body-lg {
+        font-size: clamp(1rem, 0.96rem + 0.22vw, 1.125rem);
+        line-height: 1.65;
+        letter-spacing: -0.005em;
+    }
+
+    .type-body {
+        font-size: 1rem;
+        line-height: 1.65;
+    }
+
+    .type-small {
+        font-size: 0.875rem;
+        line-height: 1.55;
+    }
+
+    .type-meta {
+        font-size: 0.8125rem;
+        line-height: 1.45;
+        color: var(--site-text-muted);
+    }
+
+    .type-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+    }
+
+    /* Readable line length. Long-form copy should never span a 1440px
+       display edge to edge. */
+    .measure {
+        max-width: 68ch;
+    }
+
+    .measure-narrow {
+        max-width: 54ch;
+    }
+}
+
+/* ---------------------------------------------------------------- a11y --
+   A consistent, visible keyboard ring for anything focusable that doesn't
+   already declare one. Pointer clicks are unaffected (`:focus-visible`). */
+:where(a, button, [role="button"], summary):focus-visible {
+    outline: 2px solid var(--site-accent-strong);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* Skip link — first tab stop on every public page. */
+.skip-link {
+    position: absolute;
+    left: 1rem;
+    top: 0.75rem;
+    z-index: 100;
+    padding: 0.55rem 0.9rem;
+    color: #061317;
+    border-radius: 0.5rem;
+    background: var(--site-accent-strong);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transform: translateY(-200%);
+    transition: transform var(--site-base) var(--site-ease);
+}
+
+.skip-link:focus-visible {
+    outline-offset: 2px;
+    transform: translateY(0);
 }
 
 /* Admin-only display font (Plus Jakarta Sans) for headings/numerals.
@@ -436,12 +609,17 @@ body{
     height: 3.75rem;
 }
 
-.floating-action--cv {
-    top: clamp(10rem, 34vh, 25rem);
-    left: clamp(5rem, 24vw, 28rem);
+/* Placement rules are scoped to `--floating`: the same element also carries
+   `--cv` / `--socials` in the navbar, where these offsets would drag the two
+   buttons on top of each other. */
+/* Stationary — sits in the upper-left field, clear of the hero text block
+   below it. No drift/wander animation: predictable position beats motion. */
+.floating-action--floating.floating-action--cv {
+    top: clamp(6rem, 19vh, 13rem);
+    left: clamp(2rem, 7vw, 8rem);
 }
 
-.floating-action--socials {
+.floating-action--floating.floating-action--socials {
     right: clamp(5rem, 24vw, 28rem);
     bottom: clamp(8rem, 30vh, 20rem);
 }
@@ -635,13 +813,13 @@ body{
         height: 3.35rem;
     }
 
-    .floating-action--cv {
+    .floating-action--floating.floating-action--cv {
         top: auto;
         bottom: 22%;
         left: 1rem;
     }
 
-    .floating-action--socials {
+    .floating-action--floating.floating-action--socials {
         right: 1rem;
         bottom: 10%;
     }
@@ -652,10 +830,11 @@ body{
         padding-left: 0.45rem;
     }
 
+    /* 2.75rem = the 44px minimum touch target. */
     .floating-action--navbar,
     .floating-action--navbar .floating-action__trigger {
-        width: 2.45rem;
-        height: 2.45rem;
+        width: 2.75rem;
+        height: 2.75rem;
     }
 
     .floating-action__expanded--socials {
@@ -875,6 +1054,420 @@ body{
     pointer-events: none;
 }
 
+/* ---------------------------------------------------------------- header
+   Sticky site header. Deliberately restrained: it is transparent at the top
+   of the page and only earns a translucent surface + hairline once the page
+   has actually scrolled. */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid transparent;
+    background: transparent;
+    transition: background var(--site-base) var(--site-ease),
+        border-color var(--site-base) var(--site-ease);
+}
+
+.site-header--scrolled {
+    border-bottom-color: var(--site-border);
+    background: rgba(4, 13, 18, 0.78);
+    backdrop-filter: blur(12px);
+}
+
+/* The blog runs on its own surface colour, so the scrolled header matches it
+   rather than the portfolio background. */
+.blog-shell .site-header--scrolled {
+    background: rgba(7, 14, 17, 0.8);
+}
+
+.site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 4.25rem;
+}
+
+@media (min-width: 1024px) {
+    .site-header__inner {
+        min-height: 4.75rem;
+    }
+}
+
+/* Brand wordmark: tracks the header height rather than a fixed px size.
+   Deliberately *not* `nowrap` — at 320px the full name plus the quick-action
+   buttons cannot share one line, so it wraps instead of pushing the page into
+   horizontal overflow. `min-width: 0` lets it actually shrink inside the flex
+   row. */
+.site-header__brand {
+    min-width: 0;
+    color: var(--site-text-strong);
+    font-size: clamp(1rem, 0.86rem + 0.72vw, 1.5rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    text-wrap: balance;
+    transition: color var(--site-fast) var(--site-ease);
+}
+
+.site-header__brand:hover {
+    color: var(--site-accent-strong);
+}
+
+/* ------------------------------------------------------- navigation link
+   Shared by the header (compact) and the home hero (large). The active
+   indicator is a hairline under the label — present but quiet. */
+.site-nav {
+    display: flex;
+    align-items: center;
+}
+
+.site-nav__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--site-text);
+    transition: color var(--site-fast) var(--site-ease);
+}
+
+.site-nav__link:hover,
+.site-nav__link[data-active="true"] {
+    color: var(--site-text-strong);
+}
+
+.site-nav__link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.35rem;
+    height: 1px;
+    background: var(--site-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--site-base) var(--site-ease);
+}
+
+.site-nav__link:hover::after,
+.site-nav__link:focus-visible::after {
+    transform: scaleX(1);
+}
+
+.site-nav__link[data-active="true"]::after {
+    background: var(--site-accent-strong);
+    transform: scaleX(1);
+}
+
+/* Header variant: 0.9375rem label, generous hit area, 8px rhythm. */
+.site-nav--header {
+    gap: 1.75rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+}
+
+.site-nav--header .site-nav__link {
+    padding-block: 0.55rem;
+}
+
+/* Hero variant: keeps the home page's larger, airier navigation. */
+.site-nav--hero {
+    flex-wrap: wrap;
+    gap: 1.25rem 1.75rem;
+    font-size: clamp(1rem, 0.94rem + 0.3vw, 1.25rem);
+}
+
+@media (min-width: 640px) {
+    .site-nav--hero {
+        gap: 2rem;
+    }
+}
+
+.site-nav--hero .site-nav__link {
+    padding-block: 0.4rem;
+}
+
+/* The trailing arrow is the home nav's existing personality — kept, but it
+   no longer pushes the label around on hover. */
+.site-nav__arrow {
+    opacity: 0;
+    transform: translateX(-0.25rem);
+    transition: opacity var(--site-base) var(--site-ease),
+        transform var(--site-base) var(--site-ease);
+}
+
+.site-nav__link:hover .site-nav__arrow,
+.site-nav__link:focus-visible .site-nav__arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Mobile menu trigger: 44px minimum touch target. */
+.site-nav__trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding-inline: 0.7rem;
+    color: var(--site-text);
+    border: 1px solid var(--site-border);
+    border-radius: 0.75rem;
+    background: rgba(118, 171, 174, 0.055);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color var(--site-fast) var(--site-ease),
+        border-color var(--site-fast) var(--site-ease),
+        background var(--site-fast) var(--site-ease);
+}
+
+.site-nav__trigger:hover,
+.site-nav__trigger[data-state="open"] {
+    color: var(--site-text-strong);
+    border-color: var(--site-border-strong);
+    background: rgba(118, 171, 174, 0.16);
+}
+
+/* ---------------------------------------------------------------- footer
+   Sits on a slightly raised surface so the page above reads as "content" and
+   this reads as "the end of the page". Three bands: the statement + link
+   columns, a hairline meta row, and the oversized wordmark bleeding off the
+   bottom edge.
+
+   Never mounted on `/` — the home page is one full-height hero and a footer
+   underneath it would undo that. See `siteFooter.tsx`. */
+.site-footer {
+    position: relative;
+    margin-top: 6rem;
+    overflow: hidden;
+    border-top: 1px solid var(--site-border);
+    background: #071319;
+    color: var(--site-text);
+    isolation: isolate;
+}
+
+/* The blog runs on its own surface ramp, so the footer follows it rather than
+   introducing a third background colour mid-scroll. */
+.blog-shell .site-footer {
+    margin-top: 0;
+    border-top-color: var(--blog-border);
+    background: var(--blog-surface-sunken);
+    color: var(--blog-text-secondary);
+}
+
+.site-footer__inner {
+    position: relative;
+    z-index: 1;
+    padding-block: 4rem 2rem;
+}
+
+@media (min-width: 768px) {
+    .site-footer__inner {
+        padding-block: 5.5rem 2.25rem;
+    }
+}
+
+.site-footer__top {
+    display: grid;
+    gap: 3rem;
+}
+
+@media (min-width: 768px) {
+    .site-footer__top {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+        gap: 4rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .site-footer__top {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+}
+
+/* ---- statement column */
+.site-footer__mark {
+    display: block;
+    margin-bottom: 1.75rem;
+    color: var(--site-accent);
+    opacity: 0.75;
+}
+
+.site-footer__statement {
+    color: var(--site-text-strong);
+    font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+    font-weight: 500;
+    line-height: 1.28;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+}
+
+.blog-shell .site-footer__statement {
+    color: var(--blog-text);
+}
+
+.site-footer__email {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding-bottom: 0.2rem;
+    color: var(--site-accent-strong);
+    font-size: 0.9375rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--site-fast) var(--site-ease);
+    /* Long address, narrow phones: break rather than force a scrollbar. */
+    overflow-wrap: anywhere;
+}
+
+.site-footer__email:hover {
+    border-bottom-color: var(--site-border-strong);
+}
+
+.site-footer__email-arrow {
+    transition: transform var(--site-base) var(--site-ease);
+}
+
+.site-footer__email:hover .site-footer__email-arrow {
+    transform: translateX(0.2rem);
+}
+
+/* ---- link columns */
+.site-footer__columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.25rem 1.5rem;
+}
+
+@media (min-width: 480px) {
+    .site-footer__columns {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.site-footer__column-title {
+    margin-bottom: 1rem;
+    color: var(--site-text-muted);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.site-footer__column ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.site-footer__link {
+    display: inline-block;
+    color: var(--site-text);
+    font-size: 0.9375rem;
+    transition: color var(--site-fast) var(--site-ease),
+        transform var(--site-fast) var(--site-ease);
+}
+
+.site-footer__link:hover {
+    color: var(--site-text-strong);
+    transform: translateX(0.15rem);
+}
+
+/* ---- meta row */
+.site-footer__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--site-border);
+    color: var(--site-text-muted);
+    font-size: 0.8125rem;
+}
+
+.blog-shell .site-footer__meta {
+    border-top-color: var(--blog-border);
+}
+
+/* Pushes "Back to top" to the trailing edge on wide viewports and lets it fall
+   into the flow on narrow ones. */
+.site-footer__top-link {
+    margin-left: auto;
+    transition: color var(--site-fast) var(--site-ease);
+}
+
+.site-footer__top-link:hover {
+    color: var(--site-text-strong);
+}
+
+@media (max-width: 639px) {
+    .site-footer__colophon {
+        width: 100%;
+    }
+
+    .site-footer__top-link {
+        margin-left: 0;
+    }
+}
+
+/* ---- oversized wordmark
+   Drawn as SVG so `textLength` can pin it to the exact container width at any
+   viewport, whatever font has loaded. The viewBox is shorter than the glyphs,
+   which is what crops the baseline against the bottom edge. */
+.site-footer__wordmark {
+    position: relative;
+    z-index: 0;
+    padding-inline: 1.25rem;
+    line-height: 0;
+    pointer-events: none;
+}
+
+@media (min-width: 640px) {
+    .site-footer__wordmark {
+        padding-inline: 2rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .site-footer__wordmark {
+        padding-inline: 2.5rem;
+    }
+}
+
+.site-footer__wordmark svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.site-footer__wordmark-text {
+    font-family: inherit;
+    font-size: 130px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    fill: var(--site-text);
+    opacity: 0.11;
+}
+
+.site-footer__wordmark-ring {
+    fill: none;
+    stroke: var(--site-text);
+    stroke-width: 6;
+    opacity: 0.11;
+}
+
+.site-footer__wordmark-copy {
+    font-family: inherit;
+    font-size: 52px;
+    font-weight: 500;
+    fill: var(--site-text);
+    opacity: 0.11;
+}
+
 /* Page transition */
 .page-transition {
     position: fixed;
@@ -884,4 +1477,160 @@ body{
     height: 100%;
     background: linear-gradient(135deg, #222831, #76ABAE);
     z-index: 10000;
+}
+
+/* ------------------------------------------------------------------ form
+   Field primitives for the contact form. Kept in CSS (rather than a long
+   Tailwind string repeated per input) so every field shares one rest,
+   hover, focus, error and disabled state. */
+.field-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: #C3D6D2;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+.field-optional {
+    margin-left: 0.35rem;
+    color: var(--site-text-muted);
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
+.field-hint {
+    margin-top: 0.4rem;
+    color: var(--site-text-muted);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.field-control {
+    width: 100%;
+    min-height: 2.875rem;
+    padding: 0.7rem 0.85rem;
+    color: var(--site-text-strong);
+    border: 1px solid var(--site-border);
+    border-radius: 0.7rem;
+    background: rgba(118, 171, 174, 0.045);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    transition: border-color var(--site-fast) var(--site-ease),
+        background var(--site-fast) var(--site-ease),
+        box-shadow var(--site-fast) var(--site-ease);
+}
+
+textarea.field-control {
+    min-height: 9rem;
+    resize: vertical;
+}
+
+select.field-control {
+    cursor: pointer;
+    appearance: none;
+    padding-right: 2.25rem;
+    background-image: linear-gradient(45deg, transparent 50%, #8FB9B8 50%),
+        linear-gradient(135deg, #8FB9B8 50%, transparent 50%);
+    background-position: calc(100% - 1.1rem) calc(50% + 2px), calc(100% - 0.75rem) calc(50% + 2px);
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+}
+
+/* The select's own options render on an OS surface — force a dark one so the
+   list isn't white-on-white in the dark theme. */
+.field-control option {
+    color: var(--site-text-strong);
+    background: #08171D;
+}
+
+.field-control::placeholder {
+    color: rgba(147, 177, 166, 0.58);
+}
+
+.field-control:hover:not(:disabled) {
+    border-color: rgba(154, 210, 210, 0.3);
+}
+
+.field-control:focus {
+    outline: none;
+    border-color: var(--site-accent);
+    background: rgba(118, 171, 174, 0.08);
+    box-shadow: 0 0 0 3px rgba(118, 171, 174, 0.18);
+}
+
+.field-control:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.field-control[aria-invalid="true"] {
+    border-color: #E08A8A;
+}
+
+.field-control[aria-invalid="true"]:focus {
+    box-shadow: 0 0 0 3px rgba(224, 138, 138, 0.18);
+}
+
+.field-error {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.4rem;
+    color: #F0A9A9;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+}
+
+/* The Turnstile widget renders a fixed 300px iframe. `overflow: hidden` keeps
+   it from widening the page; the scale steps below keep it fully visible on
+   narrow screens instead of simply clipping it. */
+.turnstile-holder {
+    overflow: hidden;
+}
+
+/* Only the very narrowest screens need scaling: with the form's 1rem mobile
+   padding there is 303px of room at 375px, so the widget renders at its
+   native size everywhere above ~360px. */
+@media (max-width: 22.5rem) {
+    .turnstile-holder>* {
+        transform: scale(0.78);
+        transform-origin: left center;
+    }
+}
+
+/* Honeypot: off-screen rather than `display:none`, so bots that skip hidden
+   inputs still fill it in, while assistive tech is told to ignore it. */
+.field-honeypot {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ------------------------------------------------------- reduced motion --
+   Non-essential motion is dropped wholesale for users who ask for it.
+   Interactive feedback (colour/border transitions) is short enough to keep. */
+@media (prefers-reduced-motion: reduce) {
+
+    .scroll-arrow,
+    .project-card,
+    .project-overlay {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .project-card:hover {
+        transform: none;
+    }
+
+    .site-nav__link::after,
+    .site-nav__arrow {
+        transition: none;
+    }
 }

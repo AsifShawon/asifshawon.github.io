@@ -1,25 +1,57 @@
-import Menu from './menu'
-import Link from 'next/link'
-import React from 'react'
-import MobileMenu from './mobileMenu'
-import FloatingActions from '../components/FloatingActions'
+'use client';
 
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+
+import Container from '@/components/ui/container';
+import FloatingActions from '../components/FloatingActions';
+import Menu from './menu';
+import MobileMenu from './mobileMenu';
+
+/**
+ * Sticky site header.
+ *
+ * Everything sits inside the same `Container` the pages use, so the brand on
+ * the left and the actions on the right line up with the content below rather
+ * than floating on their own margins. The translucent surface only appears
+ * once the page has scrolled — at rest the header is invisible, which is what
+ * keeps the home page's open feeling intact.
+ */
 const TopMenu = () => {
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 8);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
     return (
-        <div className='flex items-center justify-between gap-3 p-4 sm:p-5 sm:pl-10 sm:pr-10'>
-            <Link href='/' className='text-[22px] font-medium text-[#EEEEEE] sm:text-[30px]'>Asif Bhuiyan Shawon</Link>
-            <div className="flex items-center gap-3 sm:gap-5">
-                <div className="top-menu__links lg:block hidden">
-                    <Menu className="pt-0" />
-                </div>
-                <FloatingActions placement="navbar" />
-                <div className="lg:hidden block">
-                    <MobileMenu />
-                </div>
-            </div>
+        <header className={`site-header${scrolled ? ' site-header--scrolled' : ''}`}>
+            <a className="skip-link" href="#main-content">
+                Skip to content
+            </a>
 
-        </div>
-    )
-}
+            <Container className="site-header__inner">
+                <Link href="/" className="site-header__brand">
+                    Asif Bhuiyan Shawon
+                </Link>
 
-export default TopMenu
+                {/* shrink-0: the actions keep their size and the brand wraps
+                    instead, which is what keeps 320px free of overflow. */}
+                <nav className="flex shrink-0 items-center gap-2 sm:gap-4" aria-label="Main">
+                    <div className="hidden lg:block">
+                        <Menu variant="header" />
+                    </div>
+                    <FloatingActions placement="navbar" />
+                    <div className="lg:hidden">
+                        <MobileMenu />
+                    </div>
+                </nav>
+            </Container>
+        </header>
+    );
+};
+
+export default TopMenu;

@@ -20,6 +20,33 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
+## Environment variables
+
+Copy `.env.local.example` to `.env.local` and fill it in. The same variables
+need to exist in the Vercel project settings (all environments).
+
+### Contact form
+
+`/contact` posts to `src/app/api/contact/route.ts`, which sends the message
+over Gmail SMTP with Nodemailer. It needs:
+
+| Variable | Required | Notes |
+| --- | --- | --- |
+| `CONTACT_EMAIL_USER` | yes | Gmail address that sends the notification |
+| `CONTACT_EMAIL_APP_PASSWORD` | yes | Google **App Password**, not the account password |
+| `CONTACT_EMAIL_TO` | no | Delivery address; defaults to `asifbhuiyanshawon@gmail.com` |
+
+Generating the app password requires 2-Step Verification on the Google
+account: <https://myaccount.google.com/apppasswords>.
+
+Spam protection reuses the same Cloudflare Turnstile keys as the blog comment
+form (`NEXT_PUBLIC_TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY`). When those
+are unset the API skips the challenge, so local development works without
+them; the honeypot, server-side validation and rate limit still apply.
+
+All three contact variables are server-only — none carry the `NEXT_PUBLIC_`
+prefix, so they never reach browser JavaScript.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

@@ -1,140 +1,135 @@
-// @ts-nocheck
-"use client";
-
-import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Calculator, BrainCircuit, ArrowRight, BarChart3, FileSpreadsheet } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { ArrowRight, BarChart3, BrainCircuit, Calculator, FileSpreadsheet } from 'lucide-react';
 
-interface ToolDef {
-  slug: string;
+import Container from '@/components/ui/container';
+import { Button } from '@/components/ui/button';
+import CustomBreadcrumb from '@/app/comps/breadCrumb';
+import { pageMetadata } from '@/lib/site';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Tools',
+  description:
+    'AI CGPA Calculator and other small AI-assisted productivity tools, built and shared by Asif Bhuiyan Shawon.',
+  path: '/hello/tools',
+});
+
+interface RoadmapTool {
   name: string;
   description: string;
+  status: string;
   icon: React.ReactNode;
-  badge?: string;
-  soon?: boolean;
 }
 
-const tools: ToolDef[] = [
+const roadmap: RoadmapTool[] = [
   {
-    slug: 'calculate-cgpa',
-    name: 'AI CGPA Calculator',
-    description: 'Upload your transcript / grade sheet image or PDF and let AI extract courses & compute CGPA instantly.',
-    icon: <Calculator className="h-10 w-10 text-emerald-500" />,
-    badge: 'New'
+    name: 'GPA Insights',
+    description: 'Trend analytics and projections based on current performance.',
+    status: 'Planned',
+    icon: <BarChart3 size={18} strokeWidth={1.8} aria-hidden="true" />,
   },
   {
-    slug: 'gpa-insights',
-    name: 'GPA Insights (Coming Soon)',
-    description: 'Trend analytics & projections based on current performance.',
-    icon: <BarChart3 className="h-10 w-10 text-indigo-500" />,
-    soon: true
-  },
-  {
-    slug: 'ai-study-assistant',
-    name: 'AI Study Assistant (Soon)',
+    name: 'AI Study Assistant',
     description: 'Context-aware Q&A over your uploaded course notes.',
-    icon: <BrainCircuit className="h-10 w-10 text-fuchsia-500" />,
-    soon: true
+    status: 'Planned',
+    icon: <BrainCircuit size={18} strokeWidth={1.8} aria-hidden="true" />,
   },
   {
-    slug: 'grade-sheet-formatter',
-    name: 'Grade Sheet Formatter (Soon)',
-    description: 'Convert messy PDFs into clean, exportable spreadsheets.',
-    icon: <FileSpreadsheet className="h-10 w-10 text-cyan-500" />,
-    soon: true
-  }
+    name: 'Grade Sheet Formatter',
+    description: 'Convert messy grade sheets into clean, exportable spreadsheets.',
+    status: 'Planned',
+    icon: <FileSpreadsheet size={18} strokeWidth={1.8} aria-hidden="true" />,
+  },
 ];
 
 export default function ToolsLandingPage() {
   return (
-    <div className="relative min-h-[100dvh] overflow-hidden bg-gradient-to-br from-gray-900 via-gray-950 to-black text-gray-100">
-      {/* Decorative blobs */}
-      <div className="pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-40 -right-40 h-[30rem] w-[30rem] rounded-full bg-fuchsia-600/10 blur-3xl" />
-      <div className="pointer-events-none absolute top-1/3 right-1/4 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl" />
-
-      <div className="relative mx-auto max-w-6xl px-4 pb-24 pt-20 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="mb-12 text-center"
-        >
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs font-medium tracking-wide backdrop-blur">
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-            Tools Hub
-          </div>
-          <h1 className="mt-6 bg-gradient-to-b from-white to-white/60 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl">
-            Academic & Productivity Tools
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-base text-gray-400 sm:text-lg">
-            A growing collection of AI‑assisted utilities to boost your workflow. Start with the CGPA calculator—more smart tools are on the way.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          animate="show"
-          variants={{ hidden: {}, show: { transition: { staggerChildren: 0.07 } } }}
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {tools.map((tool, idx) => (
-            <motion.div
-              key={tool.slug}
-              variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } }}
-              whileHover={{ y: -6 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-            >
-              <Card className="group relative h-full border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm transition-colors hover:border-emerald-400/40">
-                <CardHeader className="space-y-4">
-                  <div className="flex items-start justify-between">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10 backdrop-blur group-hover:ring-emerald-400/40">
-                      {tool.icon}
-                    </div>
-                    {tool.badge && (
-                      <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-semibold text-emerald-300 ring-1 ring-inset ring-emerald-500/30">
-                        {tool.badge}
-                      </span>
-                    )}
-                    {tool.soon && (
-                      <span className="rounded-full bg-gray-500/15 px-3 py-1 text-xs font-medium text-gray-300 ring-1 ring-inset ring-gray-400/30">
-                        Soon
-                      </span>
-                    )}
-                  </div>
-                  <CardTitle className="text-xl font-semibold tracking-tight">
-                    {tool.name}
-                  </CardTitle>
-                  <CardDescription className="text-sm leading-relaxed text-gray-400">
-                    {tool.description}
-                  </CardDescription>
-                  <div className="pt-2">
-                    {tool.soon ? (
-                      <Button variant="outline" disabled className="pointer-events-none w-full justify-between border-white/10 bg-white/5 text-gray-400">
-                        Coming Soon
-                      </Button>
-                    ) : (
-                      <Button asChild className="w-full justify-between bg-emerald-600/90 hover:bg-emerald-600">
-                        <Link href={`/hello/tools/${tool.slug}`}>
-                          Open <ArrowRight className="h-4 w-4" />
-                        </Link>
-                      </Button>
-                    )}
-                  </div>
-                </CardHeader>
-                <div className="pointer-events-none absolute inset-0 rounded-xl opacity-0 ring-1 ring-emerald-400/0 transition-all duration-500 group-hover:opacity-100 group-hover:ring-emerald-400/40" />
-              </Card>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        <div className="mx-auto mt-20 max-w-3xl text-center text-sm text-gray-500">
-          More ideas? Have a tool you wish existed? <span className="text-gray-300">Reach out & contribute.</span>
-        </div>
+    <Container className="pb-24 pt-8 sm:pt-10">
+      <div className="font-mono opacity-70">
+        <CustomBreadcrumb
+          pageNames={[
+            { name: 'Home', href: '/' },
+            { name: 'Tools', href: '/hello/tools' },
+          ]}
+        />
       </div>
-    </div>
+
+      <div className="mt-12 max-w-2xl lg:mt-16">
+        <p className="type-label text-[#76ABAE]">Tools</p>
+        <h1 className="type-h1 gradient-text mt-4">Academic &amp; Productivity Tools</h1>
+        <p className="type-body-lg measure mt-5 text-[#93B1A6]">
+          Small, AI-assisted utilities I build for myself and share here. One is live today —
+          a few more are on the way.
+        </p>
+      </div>
+
+      {/* ------------------------------------------------------- primary tool */}
+      <section className="mt-12 lg:mt-16" aria-labelledby="primary-tool-heading">
+        <div className="rounded-[1.25rem] border border-[rgba(154,210,210,0.28)] bg-[rgba(118,171,174,0.06)] p-6 sm:p-8">
+          <div className="flex items-start gap-4">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[0.85rem] border border-[rgba(154,210,210,0.32)] bg-[rgba(118,171,174,0.12)] text-[#A8DDDA]">
+              <Calculator size={26} strokeWidth={1.8} aria-hidden="true" />
+            </div>
+
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <h2 id="primary-tool-heading" className="type-h3 text-[#EEEEEE]">
+                  AI CGPA Calculator
+                </h2>
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(154,210,210,0.35)] bg-[rgba(118,171,174,0.14)] px-2.5 py-0.5 type-meta !text-[#A8DDDA]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#76ABAE]" aria-hidden="true" />
+                  Live
+                </span>
+              </div>
+              <p className="type-body measure mt-2.5 text-[#93B1A6]">
+                Upload a transcript or grade sheet — image or PDF — and let AI extract the
+                courses and compute your CGPA instantly.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <Button asChild variant="brand" size="cta">
+              <Link href="/hello/tools/calculate-cgpa">
+                Open Tool
+                <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* ------------------------------------------------------- coming next */}
+      <section className="mt-14 lg:mt-16" aria-labelledby="coming-next-heading">
+        <h2 id="coming-next-heading" className="type-label text-[var(--site-text-muted)]">
+          Coming Next
+        </h2>
+
+        <ul className="mt-5 flex flex-col divide-y divide-[var(--site-border)] border-y border-[var(--site-border)]">
+          {roadmap.map((tool) => (
+            <li key={tool.name} className="flex items-start gap-4 py-4">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[0.6rem] border border-[var(--site-border)] bg-[rgba(118,171,174,0.05)] text-[#93B1A6]">
+                {tool.icon}
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <p className="type-small font-medium text-[#EEEEEE]">{tool.name}</p>
+                  <span className="type-meta">{tool.status}</span>
+                </div>
+                <p className="type-small mt-1 text-[var(--site-text-muted)]">{tool.description}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <p className="type-small mt-14 text-[var(--site-text-muted)]">
+        Have a tool you wish existed?{' '}
+        <Link href="/contact" className="text-[#A8DDDA] underline underline-offset-4">
+          Get in touch
+        </Link>
+        .
+      </p>
+    </Container>
   );
 }
