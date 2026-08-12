@@ -8,11 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        // Everything private or non-indexable in this app:
-        //   /admin       dashboard (also gated by middleware)
-        //   /api         JSON endpoints, including the contact form
-        //   /hello/notes static lecture-note dumps, not portfolio content
-        disallow: ["/admin", "/admin/", "/api/", "/hello/notes", "/notes/"],
+        disallow: ["/admin", "/admin/", "/api/", "/hello/notes", "/hello/notes/"],
       },
     ],
     sitemap: absoluteUrl("/sitemap.xml"),
