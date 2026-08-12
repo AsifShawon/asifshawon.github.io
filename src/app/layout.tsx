@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     google: "hVJQC9l-c8Rc49y-CIiKBJLI4BXiMnPZq_rTNJ3LrIM",
 
     other: {
-    "msvalidate.01": "hVJQC9l-c8Rc49y-CIiKBJLI4BXiMnPZq_rTNJ3LrIM",
+    "msvalidate.01": "15962D412ACF8B02ABFE3E82FB58614B",
   },
   },
   description: SITE_DESCRIPTION,
