@@ -227,13 +227,13 @@
     background: linear-gradient(90deg, var(--blog-border) 0%, transparent 82%);
 }
 
-/* Translucent panel that floats over cover art. Used only where a panel sits
-   on top of an image — never as a general surface treatment. */
+/* Translucent light panel that floats over cover art in the mosaic */
 .blog-glass {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(9, 16, 19, 0.66);
+    border: 1px solid var(--site-border);
+    background: rgba(248, 251, 246, 0.92);
     -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
+    color: var(--blog-text);
 }
 
 /* Section header rendered as a bordered bar (title + standfirst inline on the

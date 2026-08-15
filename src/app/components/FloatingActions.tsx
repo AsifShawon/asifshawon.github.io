@@ -219,7 +219,7 @@ function FloatingAction({ kind, placement, resumeUrl, socialsList }: FloatingAct
       onFocusCapture={handleFocus}
       onBlurCapture={handleBlur}
     >
-      <motion.div layout className="floating-action__surface">
+      <div className="floating-action__surface">
         <button
           type="button"
           className="floating-action__trigger"
@@ -284,7 +284,7 @@ function FloatingAction({ kind, placement, resumeUrl, socialsList }: FloatingAct
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.div>
+      </div>
     </div>
   );
 }

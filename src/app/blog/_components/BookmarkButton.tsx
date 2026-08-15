@@ -18,7 +18,15 @@ function readBookmarks(): string[] {
  * Local "save for later" list (localStorage only, same key as before so any
  * existing saves survive the redesign). Sits above the card's stretched link.
  */
-export default function BookmarkButton({ slug, title }: { slug: string; title: string }) {
+export default function BookmarkButton({
+  slug,
+  title,
+  tone = "default",
+}: {
+  slug: string;
+  title: string;
+  tone?: "default" | "solid";
+}) {
   const [bookmarked, setBookmarked] = useState(false);
 
   useEffect(() => {
@@ -36,13 +44,15 @@ export default function BookmarkButton({ slug, title }: { slug: string; title: s
     setBookmarked(next.includes(slug));
   }
 
+  const toneClass = tone === "solid" ? "blog-arrow--solid" : "";
+
   return (
     <button
       type="button"
       onClick={toggle}
       aria-pressed={bookmarked}
       aria-label={bookmarked ? `Remove “${title}” from saved` : `Save “${title}” for later`}
-      className="blog-arrow blog-arrow--sm blog-arrow--solid blog-arrow--isolated relative z-[2]"
+      className={`blog-arrow blog-arrow--sm blog-arrow--isolated ${toneClass} relative z-[2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5260DD]` .trim()}
     >
       <Bookmark size={14} strokeWidth={1.9} fill={bookmarked ? "currentColor" : "none"} />
     </button>

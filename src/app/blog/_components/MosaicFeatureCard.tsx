@@ -40,7 +40,7 @@ export default function MosaicFeatureCard({
       />
 
       <div className="blog-glass absolute bottom-4 left-4 right-4 rounded-[16px] p-4 sm:bottom-5 sm:left-5 sm:right-[4.75rem] sm:p-5">
-        {tag && <CategoryPill label={tag} tone="onImage" className="mb-2.5" />}
+        {tag && <CategoryPill label={tag} className="mb-2.5" />}
 
         <h3 className="blog-clamp-2 text-[1.15rem] font-semibold leading-snug tracking-[-0.015em] sm:text-[1.4rem]">
           <Link href={postHref(post)} className="blog-stretch blog-link-title">

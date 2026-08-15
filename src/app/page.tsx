@@ -3,8 +3,7 @@ import type { Metadata } from "next";
 import EnhancedHome from "./components/EnhancedHome";
 import CursorFollower from "./components/CursorFollower";
 import { createClient } from "@/lib/supabase/server";
-import type { Profile, ProjectRow } from "@/lib/supabase/types";
-import { toProjectCaseStudy } from "./hello/projects/transform";
+import type { Profile } from "@/lib/supabase/types";
 import { absoluteUrl, JOB_TITLE, PROFILE_DESCRIPTION, SITE_NAME, SOCIAL_PROFILES } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -33,23 +32,11 @@ const personLd = {
 
 export default async function Page() {
   const supabase = await createClient();
-  const [profileResult, projectsResult] = await Promise.all([
-    supabase
-      .from("profiles")
-      .select("full_name")
-      .limit(1)
-      .maybeSingle<Pick<Profile, "full_name">>(),
-    supabase
-      .from("projects")
-      .select("*")
-      .order("sort_order", { ascending: true })
-      .returns<ProjectRow[]>(),
-  ]);
-
-  const projects = (projectsResult.data ?? []).map((row, index) => toProjectCaseStudy(row, index));
-  // Prefers the project marked featured; falls back to the first project so
-  // the preview still has something to show if none is flagged yet.
-  const featuredProject = projects.find((p) => p.featured) ?? projects[0] ?? null;
+  const profileResult = await supabase
+    .from("profiles")
+    .select("full_name")
+    .limit(1)
+    .maybeSingle<Pick<Profile, "full_name">>();
 
   return (
     <>
@@ -58,8 +45,8 @@ export default async function Page() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }}
       />
       <CursorFollower />
-      <main id="main-content" className="relative py-20">
-        <EnhancedHome fullName={profileResult.data?.full_name} featuredProject={featuredProject} />
+      <main id="main-content" className="relative flex min-h-screen min-h-[100dvh] flex-col justify-center py-6 sm:py-8 lg:py-12">
+        <EnhancedHome fullName={profileResult.data?.full_name} />
       </main>
     </>
   );

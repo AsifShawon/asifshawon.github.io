@@ -400,13 +400,13 @@ select {
    content — so it sits in genuinely empty space regardless of how the text
    on the left wraps. */
 .floating-action--floating.floating-action--cv {
-    top: clamp(5rem, 12vh, 9rem);
-    right: clamp(1.5rem, 6vw, 5rem);
+    top: clamp(4.5rem, 12vh, 8.5rem);
+    right: clamp(4rem, 14vw, 16rem);
 }
 
 .floating-action--floating.floating-action--socials {
-    right: clamp(5rem, 24vw, 28rem);
-    bottom: clamp(8rem, 30vh, 20rem);
+    right: clamp(5rem, 16vw, 18rem);
+    bottom: clamp(4.5rem, 12vh, 8.5rem);
 }
 
 .floating-action__surface {
@@ -448,6 +448,11 @@ select {
     border-radius: var(--ml-radius-card);
     background: var(--ml-paper);
     box-shadow: var(--ml-shadow-lg);
+}
+
+.floating-action--floating.floating-action--cv .floating-action__expanded {
+    top: calc(100% + 0.9rem);
+    bottom: auto;
 }
 
 .floating-action__expanded--cv {
@@ -602,13 +607,26 @@ select {
     .floating-action--floating.floating-action--cv {
         top: auto;
         right: auto;
-        bottom: 22%;
-        left: 1rem;
+        left: 1.25rem;
+        left: max(1.25rem, env(safe-area-inset-left));
+        bottom: 1.25rem;
+        bottom: max(1.25rem, env(safe-area-inset-bottom));
+    }
+
+    .floating-action--floating.floating-action--cv .floating-action__expanded {
+        top: auto;
+        bottom: calc(100% + 0.75rem);
+        left: 0;
+        right: auto;
     }
 
     .floating-action--floating.floating-action--socials {
-        right: 1rem;
-        bottom: 10%;
+        top: auto;
+        left: auto;
+        right: 1.25rem;
+        right: max(1.25rem, env(safe-area-inset-right));
+        bottom: 1.25rem;
+        bottom: max(1.25rem, env(safe-area-inset-bottom));
     }
 
     .floating-actions--navbar {
