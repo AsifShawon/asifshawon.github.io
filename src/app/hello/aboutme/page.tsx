@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { pageMetadata } from "@/lib/site";
 import type { Profile } from "@/lib/supabase/types";
-import AboutMeClient from "./AboutMeClient";
+import AboutView from "./AboutView";
 
 export const metadata: Metadata = pageMetadata({
   title: "About",
@@ -21,5 +21,5 @@ export default async function Page() {
     .limit(1)
     .maybeSingle<Profile>();
 
-  return <AboutMeClient profile={profile} />;
+  return <AboutView profile={profile} />;
 }

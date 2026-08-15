@@ -4,35 +4,37 @@
    (the navigation mega-menu uses the same primitives on non-blog routes) and
    nothing here can leak into the rest of the portfolio.
 
-   The palette stays in the site's dark identity (#040D12 / #76ABAE) but is
-   rebuilt as an editorial neutral ramp: ink surfaces, hairline borders,
-   near-white type, teal used only as a restrained accent.
-   ========================================================================= */
+   Tokens below are aliases onto the sitewide Mint Ledger tokens (see
+   `globals.css`), not a separate palette — the blog used to run its own dark
+   editorial theme; it now shares the same light system as everything else,
+   just addressed through its own `--blog-*` names so every `.blog-*` rule
+   below didn't need touching one at a time. A few rules (image-overlay
+   scrims, on-image pills/arrows) are deliberately exempt — see their own
+   comments — because a translucent dark scrim for text-over-photo legibility
+   is correct regardless of the site's own light/dark theme. */
 
 :root {
     /* Surfaces */
-    --blog-bg: #070E11;
-    --blog-surface: #0B161A;
-    --blog-surface-raised: #101F24;
-    --blog-surface-sunken: #050B0D;
+    --blog-bg: var(--ml-canvas);
+    --blog-surface: var(--ml-paper);
+    --blog-surface-raised: var(--ml-mist);
+    --blog-surface-sunken: var(--ml-mist);
 
     /* Hairlines */
-    --blog-border: rgba(160, 190, 188, 0.13);
-    --blog-border-strong: rgba(160, 190, 188, 0.26);
+    --blog-border: var(--site-border);
+    --blog-border-strong: var(--site-border-strong);
 
     /* Ink */
-    --blog-text: #EEF4F3;
-    --blog-text-secondary: #B3C3C1;
-    --blog-text-muted: #8A9C9A;
-    /* Was #6A7C7A, which measured 4.17:1 on --blog-surface — below AA at the
-       11–12px sizes this token is used at. #7B8D8B clears 5.2:1. */
-    --blog-text-subtle: #7B8D8B;
+    --blog-text: var(--ml-ink);
+    --blog-text-secondary: var(--ml-sage);
+    --blog-text-muted: var(--ml-sage);
+    --blog-text-subtle: rgba(97, 113, 104, 0.72);
 
-    /* Accent (inherited from the portfolio brand) */
-    --blog-accent: #76ABAE;
-    --blog-accent-strong: #9AD0D2;
-    --blog-accent-soft: rgba(118, 171, 174, 0.12);
-    --blog-accent-line: rgba(118, 171, 174, 0.34);
+    /* Accent (Ledger Green primary, Fresh Mint for hover/secondary emphasis) */
+    --blog-accent: var(--ml-green);
+    --blog-accent-strong: var(--ml-mint);
+    --blog-accent-soft: rgba(15, 124, 99, 0.1);
+    --blog-accent-line: rgba(15, 124, 99, 0.3);
 
     /* Geometry */
     --blog-radius: 20px;
@@ -53,7 +55,7 @@
     min-height: 100vh;
     background: var(--blog-bg);
     color: var(--blog-text-secondary);
-    font-family: var(--font-geist), ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-family: var(--font-body), ui-sans-serif, system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -63,8 +65,8 @@
    Tailwind's utilities, so a declaration here would beat every `leading-*`
    class. Callers set their own leading. */
 .blog-display {
-    font-family: var(--font-instrument-serif), ui-serif, Georgia, "Times New Roman", serif;
-    font-weight: 400;
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
     letter-spacing: -0.015em;
     color: var(--blog-text);
 }
@@ -103,7 +105,7 @@
     color: var(--blog-text-secondary);
     border: 1px solid var(--blog-border);
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--ml-mist);
     font-size: 0.6875rem;
     font-weight: 500;
     letter-spacing: 0.04em;
@@ -121,7 +123,8 @@
 }
 
 .blog-pill--accent {
-    color: var(--blog-accent-strong);
+    /* Fresh Mint reads as text only on a dark surface — Ledger Green here. */
+    color: var(--blog-accent);
     border-color: var(--blog-accent-line);
     background: var(--blog-accent-soft);
 }
@@ -165,7 +168,7 @@
 .blog-chip:hover {
     color: var(--blog-text);
     border-color: var(--blog-border-strong);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--ml-mist);
 }
 
 .blog-chip[aria-pressed="true"],
@@ -207,7 +210,7 @@
 .blog-media {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(140deg, #10222A 0%, #060F13 100%);
+    background: linear-gradient(140deg, var(--ml-mist) 0%, var(--ml-paper) 100%);
 }
 
 .blog-media img {
@@ -265,7 +268,7 @@
     color: var(--blog-text-secondary);
     border: 1px solid var(--blog-border);
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--ml-paper);
     transition: color var(--blog-fast) var(--blog-ease),
         border-color var(--blog-fast) var(--blog-ease),
         background-color var(--blog-fast) var(--blog-ease),
@@ -277,6 +280,8 @@
     height: 2.125rem;
 }
 
+/* Sits over cover art — a dark scrim + white icon stays legible against an
+   arbitrary photo regardless of the site's own light theme. */
 .blog-arrow--solid {
     color: #FFFFFF;
     border-color: rgba(255, 255, 255, 0.14);
@@ -304,7 +309,7 @@
 .group:hover .blog-arrow--isolated {
     color: var(--blog-text-secondary);
     border-color: var(--blog-border);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--ml-paper);
     transform: none;
 }
 
@@ -351,13 +356,10 @@
     background: var(--blog-accent);
 }
 
-/* -------------------------------------------------------------- states -- */
-
-.blog-shell :focus-visible,
-.blog-megamenu :focus-visible {
-    outline: 2px solid var(--blog-accent-strong);
-    outline-offset: 3px;
-}
+/* -------------------------------------------------------------- states --
+   No blog-specific focus override anymore — the blog now shares the site's
+   one indigo focus ring (see `:where(a, button, ...)` in globals.css)
+   instead of its own accent-coloured one. */
 
 .blog-link-title {
     color: var(--blog-text);
@@ -365,7 +367,7 @@
 }
 
 .group:hover .blog-link-title {
-    color: var(--blog-accent-strong);
+    color: var(--blog-accent);
 }
 
 /* Stretched-link pattern: the whole card is clickable, but only the title
@@ -411,9 +413,9 @@
 
 .blog-prose h2 {
     margin-top: 3.25rem;
-    font-family: var(--font-instrument-serif), ui-serif, Georgia, serif;
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
     font-size: 1.875rem;
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: -0.015em;
     line-height: 1.2;
 }
@@ -445,7 +447,8 @@
 }
 
 .blog-prose a {
-    color: var(--blog-accent-strong);
+    /* Ledger Green — the site's one link colour, not the mint hover accent. */
+    color: var(--blog-accent);
     text-decoration: underline;
     text-decoration-color: var(--blog-accent-line);
     text-underline-offset: 4px;
@@ -508,11 +511,15 @@
     margin-top: 2.5rem;
     margin-bottom: 2.5rem;
     padding: 0.25rem 0 0.25rem 1.75rem;
+    /* Forest Ink, per the Mint Ledger system's quotation treatment. */
     color: var(--blog-text);
     border-left: 2px solid var(--blog-accent);
-    font-family: var(--font-instrument-serif), ui-serif, Georgia, serif;
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
     font-size: 1.375rem;
-    font-style: italic;
+    /* Syne has no italic face — synthetic oblique looks poor on a geometric
+       sans, so the quote is set upright and leans on size/colour/rule
+       instead. */
+    font-style: normal;
     line-height: 1.55;
 }
 
@@ -532,11 +539,11 @@
 
 .blog-prose code {
     padding: 0.15em 0.4em;
-    color: var(--blog-accent-strong);
+    color: var(--blog-accent);
     border: 1px solid var(--blog-border);
     border-radius: 6px;
-    background: rgba(118, 171, 174, 0.08);
-    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--blog-accent-soft);
+    font-family: var(--font-mono), ui-monospace, "SFMono-Regular", monospace;
     font-size: 0.86em;
     white-space: nowrap;
 }
@@ -607,7 +614,7 @@
 
 .blog-prose th {
     color: var(--blog-text);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--ml-mist);
     font-weight: 600;
 }
 
@@ -651,7 +658,7 @@
 }
 
 .blog-toc-link[aria-current="true"] {
-    color: var(--blog-accent-strong);
+    color: var(--blog-accent);
     border-color: var(--blog-accent);
 }
 
@@ -681,13 +688,13 @@
 }
 
 .blog-field:focus {
-    border-color: var(--blog-accent-line);
-    background: rgba(255, 255, 255, 0.02);
+    border-color: var(--ml-indigo);
+    background: var(--ml-paper);
     outline: none;
 }
 
 .blog-field:focus-visible {
-    outline: 2px solid var(--blog-accent-strong);
+    outline: 2px solid var(--ml-indigo);
     outline-offset: 2px;
 }
 
@@ -727,7 +734,7 @@
 .blog-button--ghost:hover:not(:disabled) {
     color: var(--blog-text);
     border-color: var(--blog-border-strong);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--ml-mist);
     filter: none;
 }
 
@@ -736,8 +743,8 @@
 .blog-megamenu {
     border: 1px solid var(--blog-border-strong);
     border-radius: var(--blog-radius);
-    background: rgba(9, 18, 22, 0.97);
-    box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.75);
+    background: var(--ml-paper);
+    box-shadow: var(--ml-shadow-lg);
     backdrop-filter: blur(16px);
 }
 
@@ -757,7 +764,7 @@
 
 .blog-megamenu__link:hover {
     color: var(--blog-text);
-    background: rgba(255, 255, 255, 0.045);
+    background: var(--ml-mist);
 }
 
 /* ------------------------------------------------------------- clamps -- */

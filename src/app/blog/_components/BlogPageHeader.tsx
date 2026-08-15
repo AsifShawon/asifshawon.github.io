@@ -76,7 +76,7 @@ export default function BlogPageHeader({
           <Link
             href="/hello/aboutme"
             className="group inline-flex items-center gap-1.5 text-[0.75rem] font-medium"
-            style={{ color: "var(--blog-accent-strong)" }}
+            style={{ color: "var(--blog-accent)" }}
           >
             About me
             <ArrowUpRight

@@ -38,6 +38,29 @@ async function fetchPostEntries(): Promise<SitemapPost[]> {
   }
 }
 
+interface SitemapProject {
+  slug: string;
+}
+
+/** Every project has its own `/hello/projects/[slug]` case-study page now. */
+async function fetchProjectEntries(): Promise<SitemapProject[]> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return [];
+
+  try {
+    const supabase = createClient(url, key);
+    const { data } = await supabase
+      .from("projects")
+      .select("slug")
+      .returns<SitemapProject[]>();
+
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
@@ -87,5 +110,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...postRoutes];
+  const projects = await fetchProjectEntries();
+  const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
+    url: absoluteUrl(`/hello/projects/${project.slug}`),
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...postRoutes, ...projectRoutes];
 }

@@ -11,8 +11,12 @@ export const contentType = 'image/png';
 /**
  * Default social card for every route that doesn't supply its own image
  * (blog posts fall back to their cover image). Built from the site's own
- * palette — ink background, teal accent — so a shared link looks like the
- * site it points at.
+ * Mint Ledger palette — Frost White background, Ledger Green accent — so a
+ * shared link looks like the site it points at.
+ *
+ * `next/og` renders through Satori, not the app's own stylesheet, so this
+ * can't reference the `--ml-*` CSS custom properties in globals.css — the
+ * hex values below are their literal equivalents, kept in sync by hand.
  */
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -25,9 +29,9 @@ export default function OpengraphImage() {
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '72px 80px',
-          background: '#040D12',
+          background: '#F8FBF6',
           backgroundImage:
-            'radial-gradient(900px 480px at 88% 8%, rgba(118,171,174,0.20), transparent 60%)',
+            'radial-gradient(900px 480px at 88% 8%, rgba(15,124,99,0.10), transparent 60%)',
           fontFamily: 'sans-serif',
         }}
       >
@@ -37,12 +41,12 @@ export default function OpengraphImage() {
               width: 12,
               height: 12,
               borderRadius: 999,
-              background: '#76ABAE',
+              background: '#0F7C63',
             }}
           />
           <div
             style={{
-              color: '#8FB9B8',
+              color: '#617168',
               fontSize: 22,
               letterSpacing: 4,
               textTransform: 'uppercase',
@@ -55,7 +59,7 @@ export default function OpengraphImage() {
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div
             style={{
-              color: '#EEEEEE',
+              color: '#13271F',
               fontSize: 84,
               fontWeight: 600,
               letterSpacing: -2.5,
@@ -67,7 +71,7 @@ export default function OpengraphImage() {
           <div
             style={{
               marginTop: 22,
-              color: '#93B1A6',
+              color: '#617168',
               fontSize: 36,
               letterSpacing: -0.5,
             }}
@@ -82,13 +86,13 @@ export default function OpengraphImage() {
             alignItems: 'center',
             justifyContent: 'space-between',
             paddingTop: 28,
-            borderTop: '1px solid rgba(147,177,166,0.22)',
+            borderTop: '1px solid rgba(19,39,31,0.14)',
           }}
         >
-          <div style={{ color: '#76ABAE', fontSize: 26 }}>
+          <div style={{ color: '#0F7C63', fontSize: 26 }}>
             {SITE_URL.replace(/^https?:\/\//, '')}
           </div>
-          <div style={{ color: 'rgba(147,177,166,0.7)', fontSize: 24 }}>
+          <div style={{ color: 'rgba(97,113,104,0.85)', fontSize: 24 }}>
             Ecommerce · Web · AI
           </div>
         </div>

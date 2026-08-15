@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { pageMetadata } from "@/lib/site";
 import type { ProjectRow } from "@/lib/supabase/types";
-import ProjectsPageClient from "./ProjectsPageClient";
-import { toLegacyProject } from "./transform";
+import ProjectsView from "./ProjectsView";
+import { toProjectCaseStudy } from "./transform";
 
 export const metadata: Metadata = pageMetadata({
   title: "Projects",
@@ -21,7 +21,7 @@ export default async function ProjectsPage() {
     .order("sort_order", { ascending: true })
     .returns<ProjectRow[]>();
 
-  const projects = (data ?? []).map(toLegacyProject);
+  const projects = (data ?? []).map((row, index) => toProjectCaseStudy(row, index));
 
-  return <ProjectsPageClient projects={projects} />;
+  return <ProjectsView projects={projects} />;
 }

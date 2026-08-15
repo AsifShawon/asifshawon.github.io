@@ -246,7 +246,7 @@ export default function BlogNavItem({
                 <Link
                   href="/blog/archive"
                   className="text-[0.75rem] font-medium"
-                  style={{ color: "var(--blog-accent-strong)" }}
+                  style={{ color: "var(--blog-accent)" }}
                 >
                   View all
                 </Link>

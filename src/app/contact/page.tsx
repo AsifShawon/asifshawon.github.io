@@ -82,13 +82,13 @@ export default function ContactPage() {
         <div className="mt-12 grid gap-12 lg:mt-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-16">
           {/* ----------------------------------------------------- intro */}
           <section className="min-w-0" aria-labelledby="contact-heading">
-            <p className="type-label text-[#76ABAE]">Contact</p>
+            <p className="type-label text-[var(--ml-green)]">Contact</p>
 
-            <h1 id="contact-heading" className="type-h1 gradient-text mt-4">
+            <h1 id="contact-heading" className="type-h1 mt-4 text-[var(--ml-ink)]">
               Let&apos;s Work Together
             </h1>
 
-            <p className="type-body-lg measure mt-5 text-[#93B1A6]">
+            <p className="type-body-lg measure mt-5 text-[var(--site-text-muted)]">
               I currently work in ecommerce while independently building full-stack
               applications and practical AI-powered solutions. If you have a project,
               collaboration or opportunity that overlaps with those areas, I&apos;d
@@ -97,9 +97,12 @@ export default function ContactPage() {
 
             <ul className="mt-8 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
               {TOPICS.map((topic) => (
-                <li key={topic} className="type-small flex items-start gap-2.5 text-[#B0C6C0]">
+                <li
+                  key={topic}
+                  className="type-small flex items-start gap-2.5 text-[var(--site-text-muted)]"
+                >
                   <span
-                    className="mt-[0.55rem] h-1 w-1 shrink-0 rounded-full bg-[#76ABAE]"
+                    className="mt-[0.55rem] h-1 w-1 shrink-0 rounded-full bg-[var(--ml-green)]"
                     aria-hidden="true"
                   />
                   {topic}
@@ -107,11 +110,11 @@ export default function ContactPage() {
               ))}
             </ul>
 
-            <div className="mt-10 border-t border-[rgba(147,177,166,0.16)] pt-8">
+            <div className="mt-10 border-t border-[var(--site-border)] pt-8">
               <p className="type-label text-[var(--site-text-muted)]">Email</p>
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="mt-2.5 inline-flex items-center gap-2.5 text-[1.0625rem] text-[#EEEEEE] underline decoration-[rgba(154,210,210,0.35)] underline-offset-[6px] transition-colors duration-200 hover:decoration-[#A8DDDA] sm:text-[1.125rem]"
+                className="mt-2.5 inline-flex items-center gap-2.5 text-[1.0625rem] text-[var(--ml-ink)] underline decoration-[var(--site-border-strong)] underline-offset-[6px] transition-colors duration-200 hover:decoration-[var(--ml-green)] sm:text-[1.125rem]"
               >
                 <Mail size={18} strokeWidth={1.8} aria-hidden="true" />
                 <span className="break-all">{CONTACT_EMAIL}</span>
@@ -136,7 +139,7 @@ export default function ContactPage() {
               Curious what I&apos;ve built first?{' '}
               <Link
                 href="/hello/projects"
-                className="text-[#A8DDDA] underline underline-offset-4"
+                className="text-[var(--ml-green)] underline underline-offset-4"
               >
                 Browse the projects
               </Link>
@@ -146,7 +149,7 @@ export default function ContactPage() {
 
           {/* ------------------------------------------------------ form */}
           <section className="min-w-0" aria-labelledby="form-heading">
-            <h2 id="form-heading" className="type-h3 text-[#EEEEEE]">
+            <h2 id="form-heading" className="type-h3 text-[var(--ml-ink)]">
               Send a message
             </h2>
             <p className="type-small measure-narrow mb-6 mt-2 text-[var(--site-text-muted)]">

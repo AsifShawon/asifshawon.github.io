@@ -14,10 +14,23 @@ export const metadata: Metadata = pageMetadata({
   path: '/hello/tools',
 });
 
+type ToolStatus = 'Available' | 'New' | 'Coming Soon';
+
+/** Ledger Green / Indigo / muted Mist — one consistent status vocabulary for
+ *  every tool card, reused as-is if a future tool ships as "New". */
+function StatusBadge({ status }: { status: ToolStatus }) {
+  const modifier = status.toLowerCase().replace(' ', '-');
+  return (
+    <span className={`tool-status tool-status--${modifier}`}>
+      <span className="tool-status__dot" aria-hidden="true" />
+      {status}
+    </span>
+  );
+}
+
 interface RoadmapTool {
   name: string;
   description: string;
-  status: string;
   icon: React.ReactNode;
 }
 
@@ -25,19 +38,16 @@ const roadmap: RoadmapTool[] = [
   {
     name: 'GPA Insights',
     description: 'Trend analytics and projections based on current performance.',
-    status: 'Planned',
     icon: <BarChart3 size={18} strokeWidth={1.8} aria-hidden="true" />,
   },
   {
     name: 'AI Study Assistant',
     description: 'Context-aware Q&A over your uploaded course notes.',
-    status: 'Planned',
     icon: <BrainCircuit size={18} strokeWidth={1.8} aria-hidden="true" />,
   },
   {
     name: 'Grade Sheet Formatter',
     description: 'Convert messy grade sheets into clean, exportable spreadsheets.',
-    status: 'Planned',
     icon: <FileSpreadsheet size={18} strokeWidth={1.8} aria-hidden="true" />,
   },
 ];
@@ -55,9 +65,9 @@ export default function ToolsLandingPage() {
       </div>
 
       <div className="mt-12 max-w-2xl lg:mt-16">
-        <p className="type-label text-[#76ABAE]">Tools</p>
-        <h1 className="type-h1 gradient-text mt-4">Academic &amp; Productivity Tools</h1>
-        <p className="type-body-lg measure mt-5 text-[#93B1A6]">
+        <p className="type-label text-[var(--ml-green)]">Tools</p>
+        <h1 className="type-h1 mt-4 text-[var(--ml-ink)]">Academic &amp; Productivity Tools</h1>
+        <p className="type-body-lg measure mt-5 text-[var(--site-text-muted)]">
           Small, AI-assisted utilities I build for myself and share here. One is live today —
           a few more are on the way.
         </p>
@@ -65,23 +75,20 @@ export default function ToolsLandingPage() {
 
       {/* ------------------------------------------------------- primary tool */}
       <section className="mt-12 lg:mt-16" aria-labelledby="primary-tool-heading">
-        <div className="rounded-[1.25rem] border border-[rgba(154,210,210,0.28)] bg-[rgba(118,171,174,0.06)] p-6 sm:p-8">
+        <div className="tool-card tool-card--primary">
           <div className="flex items-start gap-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[0.85rem] border border-[rgba(154,210,210,0.32)] bg-[rgba(118,171,174,0.12)] text-[#A8DDDA]">
+            <div className="tool-card__icon">
               <Calculator size={26} strokeWidth={1.8} aria-hidden="true" />
             </div>
 
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2.5">
-                <h2 id="primary-tool-heading" className="type-h3 text-[#EEEEEE]">
+                <h2 id="primary-tool-heading" className="type-h3 text-[var(--ml-ink)]">
                   AI CGPA Calculator
                 </h2>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(154,210,210,0.35)] bg-[rgba(118,171,174,0.14)] px-2.5 py-0.5 type-meta !text-[#A8DDDA]">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#76ABAE]" aria-hidden="true" />
-                  Live
-                </span>
+                <StatusBadge status="Available" />
               </div>
-              <p className="type-body measure mt-2.5 text-[#93B1A6]">
+              <p className="type-body measure mt-2.5 text-[var(--site-text-muted)]">
                 Upload a transcript or grade sheet — image or PDF — and let AI extract the
                 courses and compute your CGPA instantly.
               </p>
@@ -108,13 +115,11 @@ export default function ToolsLandingPage() {
         <ul className="mt-5 flex flex-col divide-y divide-[var(--site-border)] border-y border-[var(--site-border)]">
           {roadmap.map((tool) => (
             <li key={tool.name} className="flex items-start gap-4 py-4">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[0.6rem] border border-[var(--site-border)] bg-[rgba(118,171,174,0.05)] text-[#93B1A6]">
-                {tool.icon}
-              </div>
+              <div className="tool-card__icon tool-card__icon--muted">{tool.icon}</div>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <p className="type-small font-medium text-[#EEEEEE]">{tool.name}</p>
-                  <span className="type-meta">{tool.status}</span>
+                  <p className="type-small font-medium text-[var(--ml-ink)]">{tool.name}</p>
+                  <StatusBadge status="Coming Soon" />
                 </div>
                 <p className="type-small mt-1 text-[var(--site-text-muted)]">{tool.description}</p>
               </div>
@@ -125,7 +130,7 @@ export default function ToolsLandingPage() {
 
       <p className="type-small mt-14 text-[var(--site-text-muted)]">
         Have a tool you wish existed?{' '}
-        <Link href="/contact" className="text-[#A8DDDA] underline underline-offset-4">
+        <Link href="/contact" className="text-[var(--ml-green)] underline underline-offset-4">
           Get in touch
         </Link>
         .

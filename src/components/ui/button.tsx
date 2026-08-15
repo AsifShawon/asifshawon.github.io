@@ -6,8 +6,10 @@ import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
   // The shared shadcn `--ring` token is never defined in this project, so the
-  // focus ring is declared with the portfolio accent instead of `ring-ring`.
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,box-shadow,transform] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A8DDDA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#040D12] disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0",
+  // focus ring is declared with the Mint Ledger focus colour (Accessible
+  // Indigo) instead of `ring-ring`. `motion-safe:` gates the hover lift so
+  // reduced-motion users still get the colour change without the movement.
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,box-shadow,transform] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ml-indigo)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--ml-canvas)] disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -22,18 +24,17 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
 
-        /* ---------------------------------------------- portfolio system
-           Three intents, matched to the site's existing dark/teal identity.
-           No gradients, no glow, no oversized pills.
+        /* ------------------------------------------------ Mint Ledger system
+           Three intents, matched to the new pill-shaped, green/ink identity.
              brand   — primary CTA (Send Message, Contact Me)
              surface — secondary (Resume, GitHub, external project links)
              quiet   — ghost/text, for low-priority actions              */
         brand:
-          "bg-[#76ABAE] text-[#04171B] hover:bg-[#8CC3C6] active:bg-[#6B9EA1] active:translate-y-px",
+          "rounded-full bg-[var(--ml-green)] text-[var(--ml-canvas)] shadow-[var(--ml-shadow-sm)] hover:bg-[#0D6B56] motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[var(--ml-shadow-md)] active:translate-y-px active:bg-[#0B5C4A]",
         surface:
-          "border border-[rgba(147,177,166,0.24)] bg-[rgba(118,171,174,0.07)] text-[#D4E5E3] hover:border-[rgba(154,210,210,0.5)] hover:bg-[rgba(118,171,174,0.15)] hover:text-white active:translate-y-px",
+          "rounded-full border border-[var(--ml-ink)] bg-transparent text-[var(--ml-ink)] hover:bg-[var(--ml-mist)] motion-safe:hover:-translate-y-0.5 active:translate-y-px",
         quiet:
-          "text-[#93B1A6] hover:bg-[rgba(118,171,174,0.1)] hover:text-[#EEEEEE] active:translate-y-px",
+          "rounded-full text-[var(--ml-sage)] hover:bg-[rgba(15,124,99,0.08)] hover:text-[var(--ml-ink)] active:translate-y-px",
       },
       size: {
         default: "h-9 px-4 py-2",

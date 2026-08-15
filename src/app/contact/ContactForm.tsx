@@ -153,19 +153,19 @@ export default function ContactForm() {
   if (status === 'success') {
     return (
       <div
-        className="rounded-[1rem] border border-[rgba(154,210,210,0.28)] bg-[rgba(118,171,174,0.08)] p-7 sm:p-9"
+        className="rounded-[1rem] border border-[rgba(15,124,99,0.28)] bg-[rgba(15,124,99,0.06)] p-7 sm:p-9"
         role="status"
       >
         <CheckCircle2
           size={30}
           strokeWidth={1.7}
-          className="text-[#A8DDDA]"
+          className="text-[var(--ml-green)]"
           aria-hidden="true"
         />
-        <h2 className="type-h3 mt-4 text-[#EEEEEE]">
+        <h2 className="type-h3 mt-4 text-[var(--ml-ink)]">
           Thanks! Your message has been sent successfully.
         </h2>
-        <p className="type-small measure-narrow mt-2 text-[#93B1A6]">
+        <p className="type-small measure-narrow mt-2 text-[var(--site-text-muted)]">
           It lands straight in my inbox and I usually reply within a day or two.
         </p>
         <Button
@@ -188,7 +188,7 @@ export default function ContactForm() {
       noValidate
       // p-4 on mobile leaves the 300px-wide Turnstile widget enough room to
       // render at its native size from 375px up.
-      className="rounded-[1rem] border border-[rgba(147,177,166,0.16)] bg-[rgba(118,171,174,0.035)] p-4 sm:p-7"
+      className="rounded-[1rem] border border-[var(--site-border)] bg-[var(--ml-paper)] p-4 sm:p-7"
     >
       <div className="flex flex-col gap-5">
         <div className="grid gap-5 sm:grid-cols-2">
@@ -301,7 +301,7 @@ export default function ContactForm() {
               siteKey={turnstileSiteKey}
               onSuccess={setToken}
               onExpire={() => setToken(null)}
-              options={{ theme: 'dark' }}
+              options={{ theme: 'light' }}
             />
           </div>
         )}
@@ -309,7 +309,7 @@ export default function ContactForm() {
         {formError && (
           <p
             role="alert"
-            className="flex items-start gap-2 rounded-[0.7rem] border border-[rgba(224,138,138,0.3)] bg-[rgba(127,29,29,0.16)] px-3.5 py-3 text-[0.875rem] text-[#F0A9A9]"
+            className="flex items-start gap-2 rounded-[0.7rem] border border-[var(--ml-error-line)] bg-[var(--ml-error-soft)] px-3.5 py-3 text-[0.875rem] text-[var(--ml-error)]"
           >
             <AlertCircle size={16} strokeWidth={2} className="mt-0.5 shrink-0" aria-hidden="true" />
             <span>{formError}</span>

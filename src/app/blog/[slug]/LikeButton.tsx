@@ -57,9 +57,9 @@ export default function LikeButton({ postId }: { postId: string }) {
         aria-label={liked ? "You liked this article" : "Like this article"}
         className="group inline-flex items-center gap-2.5 rounded-full px-4 py-2.5 text-[0.875rem] font-medium transition-colors duration-200 disabled:cursor-default"
         style={{
-          color: liked ? "#F8A0AE" : "var(--blog-text-secondary)",
-          border: `1px solid ${liked ? "rgba(248, 160, 174, 0.32)" : "var(--blog-border)"}`,
-          background: liked ? "rgba(248, 160, 174, 0.08)" : "transparent",
+          color: liked ? "var(--ml-like)" : "var(--blog-text-secondary)",
+          border: `1px solid ${liked ? "var(--ml-like-line)" : "var(--blog-border)"}`,
+          background: liked ? "var(--ml-like-soft)" : "transparent",
         }}
       >
         <Heart

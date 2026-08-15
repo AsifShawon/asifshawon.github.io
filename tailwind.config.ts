@@ -9,6 +9,16 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        // Backs `font-mono`/`font-display` with the Mint Ledger font
+        // variables (see `src/app/layout.tsx`) so components can reach them
+        // via a plain Tailwind utility instead of a one-off inline style.
+        // `sans`/`serif` are left at Tailwind's defaults — the sitewide body
+        // font is already set once, globally, via `body { font-family }` in
+        // globals.css.
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+        display: ["var(--font-display)", "ui-sans-serif", "system-ui", "sans-serif"],
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'

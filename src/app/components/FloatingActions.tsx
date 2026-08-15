@@ -1,13 +1,8 @@
 'use client';
 
-import {
-  AnimatePresence,
-  motion,
-  useAnimationControls,
-  useReducedMotion,
-} from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Download, ExternalLink, FileText, Github, Share2 } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { FocusEvent, PointerEvent as ReactPointerEvent, SVGProps } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import type { ProfileSocials } from '@/lib/supabase/types';
@@ -19,17 +14,6 @@ type FloatingActionProps = {
   placement: 'floating' | 'navbar';
   resumeUrl: string;
   socialsList: SocialLink[];
-};
-
-type DriftAnimation = {
-  x: number[];
-  y: number[];
-  transition: {
-    duration: number;
-    ease: 'easeInOut';
-    repeat: number;
-    repeatType: 'mirror';
-  };
 };
 
 type BrandIconProps = SVGProps<SVGSVGElement> & {
@@ -177,48 +161,11 @@ function useProfileQuickLinks() {
   return { resumeUrl, socialsList };
 }
 
-function createDriftAnimation(kind: FloatingActionKind): DriftAnimation {
-  const compact = window.innerWidth < 640;
-  const rangeX = compact ? 18 : kind === 'cv' ? 86 : 74;
-  const rangeY = compact ? 20 : kind === 'cv' ? 58 : 72;
-  const randomOffset = (range: number) => Math.round((Math.random() * 2 - 1) * range);
-
-  return {
-    x: [0, randomOffset(rangeX), randomOffset(rangeX), randomOffset(rangeX), 0],
-    y: [0, randomOffset(rangeY), randomOffset(rangeY), randomOffset(rangeY), 0],
-    transition: {
-      duration: 14 + Math.random() * 7,
-      ease: 'easeInOut',
-      repeat: Infinity,
-      repeatType: 'mirror',
-    },
-  };
-}
-
 function FloatingAction({ kind, placement, resumeUrl, socialsList }: FloatingActionProps) {
-  const controls = useAnimationControls();
-  const reducedMotion = useReducedMotion();
   const actionRef = useRef<HTMLDivElement>(null);
-  const driftRef = useRef<DriftAnimation | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-
-  const startDrift = useCallback(() => {
-    if (placement === 'navbar' || reducedMotion || typeof window === 'undefined') return;
-    driftRef.current ??= createDriftAnimation(kind);
-    void controls.start(driftRef.current);
-  }, [controls, kind, placement, reducedMotion]);
-
-  useEffect(() => {
-    if (placement === 'navbar' || reducedMotion || isOpen || isHovered || isFocused) {
-      controls.stop();
-    } else {
-      startDrift();
-    }
-
-    return () => controls.stop();
-  }, [controls, isFocused, isHovered, isOpen, placement, reducedMotion, startDrift]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -264,9 +211,8 @@ function FloatingAction({ kind, placement, resumeUrl, socialsList }: FloatingAct
   };
 
   return (
-    <motion.div
+    <div
       ref={actionRef}
-      animate={controls}
       className={`floating-action floating-action--${kind} floating-action--${placement}`}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
@@ -339,7 +285,7 @@ function FloatingAction({ kind, placement, resumeUrl, socialsList }: FloatingAct
           )}
         </AnimatePresence>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
 

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Instrument_Serif, Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { IBM_Plex_Mono, Plus_Jakarta_Sans, Syne } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 // Namespaced `.blog-*` design system. Loaded globally because the shared
@@ -8,20 +8,27 @@ import "./blog-system.css";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 import { GoogleAnalytics } from '@next/third-parties/google'
 
-const inter = Inter({ subsets: ["latin"] });
-const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
-
-// Editorial pairing used by the blog: Geist carries UI/body copy, Instrument
-// Serif carries display headings. Exposed as variables so only the blog opts
-// in — the rest of the portfolio keeps Inter untouched.
-const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
-const instrumentSerif = Instrument_Serif({
+// Mint Ledger system fonts. `--font-display`/`--font-body`/`--font-mono` are
+// the semantic names every shared component reads; nothing should reference
+// these `next/font` objects directly outside this file.
+const syneDisplay = Syne({ subsets: ["latin"], weight: ["500"], variable: "--font-display", display: "swap" });
+const jakartaBody = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-  variable: "--font-instrument-serif",
+  weight: ["400", "500"],
+  variable: "--font-body",
   display: "swap",
 });
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+// Admin-only display face (headings/numerals in the dashboard) — kept as its
+// own variable so the Mint Ledger `--font-body` swap above can't change how
+// the admin area's `.font-display` class renders.
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
 
 export const metadata: Metadata = {
   // Makes every relative `alternates.canonical` and OG url in the app resolve
@@ -76,8 +83,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#040D12',
-  colorScheme: 'dark',
+  themeColor: '#F8FBF6',
+  colorScheme: 'light',
 };
 
 export default function RootLayout({
@@ -91,7 +98,9 @@ export default function RootLayout({
         // Horizontal overflow is contained by `overflow-x: clip` in
         // globals.css — the Tailwind `overflow-x-hidden` utility would win on
         // specificity and break the sticky header.
-        className={`${inter.className} ${jakarta.variable} ${geist.variable} ${instrumentSerif.variable}`}
+        // Font faces only declare their CSS variables here; `body`'s actual
+        // `font-family` is set once in globals.css via `var(--font-body)`.
+        className={`${syneDisplay.variable} ${jakartaBody.variable} ${plexMono.variable} ${jakarta.variable}`}
       >
         <div className="relative min-h-screen">
           {children}

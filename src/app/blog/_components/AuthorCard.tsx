@@ -56,7 +56,7 @@ export default function AuthorCard({
         <Link
           href="/hello/aboutme"
           className="group mt-4 inline-flex items-center gap-1.5 text-[0.8125rem] font-medium"
-          style={{ color: "var(--blog-accent-strong)" }}
+          style={{ color: "var(--blog-accent)" }}
         >
           More about me
           <ArrowUpRight

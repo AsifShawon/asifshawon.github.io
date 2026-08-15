@@ -82,7 +82,11 @@ export default function ArchiveList({
       </ol>
 
       {error && (
-        <p className="mt-6 text-center text-sm text-red-400" role="alert">
+        <p
+          className="mt-6 text-center text-sm"
+          style={{ color: "var(--ml-error)" }}
+          role="alert"
+        >
           {error}
         </p>
       )}

@@ -116,7 +116,7 @@ export default function CommentsSection({
             siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ""}
             onSuccess={setToken}
             onExpire={() => setToken(null)}
-            options={{ theme: "dark" }}
+            options={{ theme: "light" }}
           />
         </div>
 
@@ -125,9 +125,9 @@ export default function CommentsSection({
             role="alert"
             className="mt-4 rounded-[12px] px-3.5 py-2.5 text-[0.8125rem]"
             style={{
-              color: "#FCA5A5",
-              border: "1px solid rgba(248, 113, 113, 0.28)",
-              background: "rgba(127, 29, 29, 0.18)",
+              color: "var(--ml-error)",
+              border: "1px solid var(--ml-error-line)",
+              background: "var(--ml-error-soft)",
             }}
           >
             {error}
@@ -164,7 +164,7 @@ export default function CommentsSection({
                 aria-hidden="true"
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[0.8125rem] font-semibold"
                 style={{
-                  color: "var(--blog-accent-strong)",
+                  color: "var(--blog-accent)",
                   border: "1px solid var(--blog-border)",
                   background: "var(--blog-accent-soft)",
                 }}
