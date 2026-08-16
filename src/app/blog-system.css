@@ -187,7 +187,7 @@
 
 .blog-chip[aria-pressed="true"] .blog-chip__count,
 .blog-chip[aria-current="true"] .blog-chip__count {
-    color: rgba(7, 14, 17, 0.62);
+    color: rgba(24, 50, 41, 0.62);
 }
 
 /* ------------------------------------------------------------- surfaces -- */
@@ -230,7 +230,7 @@
 /* Translucent light panel that floats over cover art in the mosaic */
 .blog-glass {
     border: 1px solid var(--site-border);
-    background: rgba(248, 251, 246, 0.92);
+    background: rgba(231, 240, 230, 0.92);
     -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
     color: var(--blog-text);

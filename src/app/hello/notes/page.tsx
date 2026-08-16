@@ -13,7 +13,7 @@ const notes = [
     title: "CSE465",
     description: "Deep Learning and Neural Networks",
     link: "/notes/CSE465/Spring2025/Deep Learning CSE/Deep Learning CSE.html",
-    color: "from-[#76ABAE] to-[#5a9ca0]",
+    color: "from-[var(--ml-green)] to-[var(--site-primary-hover)]",
     topics: ["Neural Networks", "Deep Learning", "AI Fundamentals"]
   },
 ];
@@ -40,12 +40,12 @@ export default function Notes() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <div className="flex items-center justify-center gap-3 mb-6">
-                <Brain className="text-[#76ABAE]" size={64} />
+                <Brain className="text-[var(--ml-green)]" size={64} />
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold gradient-text">
                   Study Notes
                 </h1>
               </div>
-              <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              <p className="text-xl text-[var(--site-text-muted)] max-w-2xl mx-auto">
                 Comprehensive notes and insights from my academic journey in Computer Science
               </p>
             </motion.div>
@@ -75,32 +75,32 @@ export default function Notes() {
                         {/* Content */}
                         <div className="p-8">
                           <div className="flex items-center gap-3 mb-4">
-                            <BookOpen className="w-8 h-8 text-[#76ABAE]" />
+                            <BookOpen className="w-8 h-8 text-[var(--ml-green)]" />
                             <h2 className="text-2xl font-bold gradient-text">{note.title}</h2>
                           </div>
-                          
-                          <p className="text-gray-300 mb-6 leading-relaxed">{note.description}</p>
-                          
+
+                          <p className="text-[var(--site-text-muted)] mb-6 leading-relaxed">{note.description}</p>
+
                           {/* Topics */}
                           <div className="mb-6">
-                            <h4 className="text-sm font-semibold text-[#76ABAE] mb-3">Topics Covered:</h4>
+                            <h4 className="text-sm font-semibold text-[var(--ml-green)] mb-3">Topics Covered:</h4>
                             <div className="flex flex-wrap gap-2">
                               {note.topics.map((topic, i) => (
                                 <span
                                   key={i}
-                                  className="px-3 py-1 bg-white/10 rounded-full text-xs text-gray-300 backdrop-blur-sm"
+                                  className="px-3 py-1 bg-[var(--site-surface-soft)] rounded-full text-xs text-[var(--site-text-on-surface)] backdrop-blur-sm"
                                 >
                                   {topic}
                                 </span>
                               ))}
                             </div>
                           </div>
-                          
+
                           {/* Action */}
                           <div className="flex items-center justify-between">
-                            <span className="text-sm text-gray-400">Click to view notes</span>
+                            <span className="text-sm text-[var(--site-text-muted)]">Click to view notes</span>
                             <motion.div
-                              className="flex items-center gap-2 text-[#76ABAE]"
+                              className="flex items-center gap-2 text-[var(--ml-green)]"
                               whileHover={{ x: 5 }}
                               transition={{ duration: 0.2 }}
                             >
@@ -109,9 +109,9 @@ export default function Notes() {
                             </motion.div>
                           </div>
                         </div>
-                        
+
                         {/* Hover Effect Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#76ABAE]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-[var(--ml-green)]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </div>
                     </Link>
                   </motion.div>
@@ -129,11 +129,11 @@ export default function Notes() {
               transition={{ duration: 0.8 }}
             >
               <h3 className="text-2xl font-bold gradient-text mb-4">More Notes Coming Soon</h3>
-              <p className="text-gray-400 mb-6">
+              <p className="text-[var(--site-text-muted)] mb-6">
                 I&apos;m continuously adding new study materials and insights from my courses.
                 Stay tuned for updates on Data Structures, Algorithms, and more!
               </p>
-              <div className="flex justify-center gap-4 text-sm text-gray-500">
+              <div className="flex justify-center gap-4 text-sm text-[var(--site-text-muted)]">
                 <span>• Data Structures & Algorithms</span>
                 <span>• Software Engineering</span>
                 <span>• Database Systems</span>

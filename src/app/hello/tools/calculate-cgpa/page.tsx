@@ -33,7 +33,7 @@ const useScript = (url: string) => {
 export default function CgpaCalculatorPage() {
     // Load the PDF.js library from CDN (for PDF reading)
     useScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js');
-    
+
     // Set PDF.js worker source once the library is loaded
     useEffect(() => {
         if ((window as any).pdfjsLib) {
@@ -82,43 +82,42 @@ export default function CgpaCalculatorPage() {
     } = useCgpaCalculation();
 
     return (
-        <div className="relative min-h-screen overflow-hidden bg-gradient-to-br p-2 sm:p-4 md:p-6 lg:p-8">
-            {/* Enhanced decorative background */}
-            <div className="pointer-events-none absolute -top-40 -left-40 h-96 w-96 rounded-full bg-emerald-500/20 blur-3xl animate-pulse" />
-            <div className="pointer-events-none absolute top-20 right-10 h-64 w-64 rounded-full bg-blue-500/15 blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-            <div className="pointer-events-none absolute -bottom-32 -right-32 h-[35rem] w-[35rem] rounded-full bg-fuchsia-600/20 blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-            <div className="pointer-events-none absolute bottom-20 left-20 h-48 w-48 rounded-full bg-cyan-500/15 blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }} />
-            
+        <div className="relative min-h-screen overflow-hidden bg-[var(--site-bg)] p-2 sm:p-4 md:p-6 lg:p-8">
+            {/* Decorative background — two soft, low-opacity blobs (green + digital
+                accent) rather than the dark theme's four-hue glow party. */}
+            <div className="pointer-events-none absolute -top-40 -left-40 h-96 w-96 rounded-full bg-[var(--ml-green)]/10 blur-3xl animate-pulse" />
+            <div className="pointer-events-none absolute bottom-20 left-20 h-48 w-48 rounded-full bg-[var(--ml-indigo)]/10 blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }} />
+
             <div className="relative max-w-7xl mx-auto">
-                <motion.div 
-                    initial={{ opacity: 0, y: -20 }} 
-                    animate={{ opacity: 1, y: 0 }} 
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="w-full border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl shadow-black/50 ring-1 ring-white/10 rounded-lg"
+                    className="w-full border-[var(--site-border)] bg-[var(--site-surface-raised)] backdrop-blur-2xl shadow-[var(--ml-shadow-lg)] rounded-lg"
                 >
                     {/* Header */}
                     <div className="text-center relative pb-6 sm:pb-8 px-4 sm:px-6 pt-4">
                         <div className="absolute left-2 sm:left-4 top-2 sm:top-4">
-                            <Link href="/hello/tools" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all p-2 sm:p-3 rounded">
-                                <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4" /> 
+                            <Link href="/hello/tools" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-[var(--site-text-muted)] hover:text-[var(--ml-ink)] hover:bg-[var(--site-surface-hover)] transition-all p-2 sm:p-3 rounded">
+                                <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4" />
                                 <span className="hidden sm:inline">Back</span>
                             </Link>
                         </div>
-                        
+
                         <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4 mt-8 sm:mt-4">
-                            <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-500/20 to-blue-500/20 backdrop-blur-sm border border-white/20">
+                            <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[var(--ml-green)]/15 to-[var(--ml-indigo)]/15 backdrop-blur-sm border border-[var(--site-border)]">
                                 <span className="text-2xl">🎓</span>
                             </div>
                         </div>
-                        
-                        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight bg-gradient-to-r from-white via-emerald-200 to-blue-200 bg-clip-text text-transparent px-2">
+
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight gradient-text px-2">
                             AI-Powered CGPA Calculator
                         </h1>
-                        <p className="text-sm sm:text-base lg:text-lg text-gray-300 max-w-2xl mx-auto mt-3 sm:mt-4 px-4">
+                        <p className="text-sm sm:text-base lg:text-lg text-[var(--site-text-muted)] max-w-2xl mx-auto mt-3 sm:mt-4 px-4">
                             Upload your grade sheets (multiple files supported) and let advanced AI extract your courses automatically. Get detailed insights with grade point calculations.
                         </p>
                     </div>
-                    
+
                     <div className="space-y-6 sm:space-y-8 lg:space-y-10 px-4 sm:px-6 pb-6 sm:pb-8">
                         {/* API Key Input */}
                         <ApiKeyInput
@@ -148,16 +147,16 @@ export default function CgpaCalculatorPage() {
                         {/* Error Display */}
                         {error && (
                             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}>
-                                <div className="border-red-500/50 bg-red-500/10 border rounded-lg p-4">
+                                <div className="border-[var(--site-danger)]/40 bg-[var(--site-danger)]/10 border rounded-lg p-4">
                                     <div className="flex items-center gap-2 mb-2">
-                                        <span className="text-red-400">⚠️</span>
-                                        <h3 className="font-bold text-red-300">
+                                        <span>⚠️</span>
+                                        <h3 className="font-bold text-[var(--site-danger)]">
                                             {error.includes('timeout') || error.includes('timed out') ? 'Timeout Error' : 'Error'}
                                         </h3>
                                     </div>
-                                    <p className="text-red-200">{error}</p>
+                                    <p className="text-[var(--site-danger)]">{error}</p>
                                     {(error.includes('timeout') || error.includes('timed out')) && (
-                                        <div className="text-sm text-red-200/80 space-y-1 mt-2">
+                                        <div className="text-sm text-[var(--site-danger)]/85 space-y-1 mt-2">
                                             <p><strong>Tips to avoid timeouts:</strong></p>
                                             <ul className="list-disc list-inside space-y-1 text-xs">
                                                 <li>Use smaller image files (under 2MB)</li>
@@ -203,7 +202,7 @@ export default function CgpaCalculatorPage() {
                         )}
 
                         {/* Grading Policy Component */}
-                        <GradingPolicy 
+                        <GradingPolicy
                             gradeScale={gradeScale}
                             onGradeScaleUpdate={updateGradeScale}
                         />

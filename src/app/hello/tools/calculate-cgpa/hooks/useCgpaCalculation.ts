@@ -623,24 +623,24 @@ Extract all courses now:`;
 
     // Style helper functions
     const getCgpaColor = (cgpa: number): string => {
-        if (cgpa >= 3.7) return "from-emerald-500 to-green-400";
-        if (cgpa >= 3.3) return "from-blue-500 to-cyan-400";
-        if (cgpa >= 3.0) return "from-yellow-500 to-orange-400";
-        if (cgpa >= 2.7) return "from-orange-500 to-red-400";
-        return "from-red-500 to-pink-400";
+        if (cgpa >= 3.7) return "from-[var(--ml-green)] to-teal-500";
+        if (cgpa >= 3.3) return "from-blue-600 to-cyan-500";
+        if (cgpa >= 3.0) return "from-yellow-600 to-amber-500";
+        if (cgpa >= 2.7) return "from-orange-600 to-[var(--site-danger)]";
+        return "from-[var(--site-danger)] to-red-700";
     };
 
     const getGradeColor = (grade: string): string => {
         const upperGrade = (grade || '').toUpperCase();
-        if (upperGrade === 'A+' || upperGrade === 'A') return "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
-        if (upperGrade === 'A-') return "bg-blue-500/20 text-blue-300 border-blue-500/40";
-        if (upperGrade === 'B+') return "bg-cyan-500/20 text-cyan-300 border-cyan-500/40";
-        if (upperGrade === 'B') return "bg-yellow-500/20 text-yellow-300 border-yellow-500/40";
-        if (upperGrade === 'B-') return "bg-orange-500/20 text-orange-300 border-orange-500/40";
-        if (upperGrade === 'C+' || upperGrade === 'C' || upperGrade === 'C-') return "bg-amber-500/20 text-amber-300 border-amber-500/40";
-        if (upperGrade === 'D+' || upperGrade === 'D') return "bg-red-500/20 text-red-300 border-red-500/40";
-        if (upperGrade === 'F') return "bg-red-600/20 text-red-400 border-red-600/40";
-        return "bg-gray-500/20 text-gray-300 border-gray-500/40";
+        if (upperGrade === 'A+' || upperGrade === 'A') return "bg-[var(--ml-green)]/15 text-[var(--ml-green)] border-[var(--ml-green)]/40";
+        if (upperGrade === 'A-') return "bg-blue-500/15 text-blue-700 border-blue-500/40";
+        if (upperGrade === 'B+') return "bg-cyan-500/15 text-cyan-700 border-cyan-500/40";
+        if (upperGrade === 'B') return "bg-yellow-500/15 text-yellow-700 border-yellow-500/40";
+        if (upperGrade === 'B-') return "bg-orange-500/15 text-orange-700 border-orange-500/40";
+        if (upperGrade === 'C+' || upperGrade === 'C' || upperGrade === 'C-') return "bg-amber-500/15 text-amber-700 border-amber-500/40";
+        if (upperGrade === 'D+' || upperGrade === 'D') return "bg-[var(--site-danger)]/15 text-[var(--site-danger)] border-[var(--site-danger)]/40";
+        if (upperGrade === 'F') return "bg-[var(--site-danger)]/25 text-[var(--site-danger)] border-[var(--site-danger)]/50";
+        return "bg-[var(--site-surface-soft)] text-[var(--site-text-on-surface)] border-[var(--site-border)]";
     };
 
     // Filtered courses for search

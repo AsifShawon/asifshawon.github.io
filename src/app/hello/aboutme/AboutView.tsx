@@ -8,7 +8,6 @@ import AboutAchievements from "./AboutAchievements";
 import AboutJourney from "./AboutJourney";
 import AboutCapabilities from "./AboutCapabilities";
 import AboutPrinciples from "./AboutPrinciples";
-import AboutContactCta from "./AboutContactCta";
 import AboutSectionIndex from "./AboutSectionIndex";
 
 /**
@@ -47,7 +46,6 @@ export default function AboutView({ profile }: { profile: Profile | null }) {
             <AboutJourney timeline={timeline} />
             <AboutCapabilities />
             <AboutPrinciples />
-            <AboutContactCta email={profile?.socials?.email} />
           </div>
         </div>
       </Container>

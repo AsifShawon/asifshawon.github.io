@@ -129,7 +129,7 @@ export default function FeaturedSlider({
                 onClick={() => goTo(i)}
                 aria-label={`Go to page ${i + 1} of ${totalPages}`}
                 aria-current={i === page ? "true" : undefined}
-                className="blog-dot focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5260DD]"
+                className="blog-dot focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ml-indigo)]"
               />
             ))}
             <span
@@ -145,7 +145,7 @@ export default function FeaturedSlider({
               type="button"
               onClick={previous}
               aria-label="Previous stories"
-              className="blog-arrow blog-arrow--sm blog-arrow--isolated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5260DD]"
+              className="blog-arrow blog-arrow--sm blog-arrow--isolated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ml-indigo)]"
             >
               <ArrowLeft size={15} strokeWidth={1.9} aria-hidden="true" />
             </button>
@@ -153,7 +153,7 @@ export default function FeaturedSlider({
               type="button"
               onClick={next}
               aria-label="Next stories"
-              className="blog-arrow blog-arrow--sm blog-arrow--isolated focus-visible:ring-2 focus-visible:ring-[#5260DD]"
+              className="blog-arrow blog-arrow--sm blog-arrow--isolated focus-visible:ring-2 focus-visible:ring-[var(--ml-indigo)]"
             >
               <ArrowRight size={15} strokeWidth={1.9} aria-hidden="true" />
             </button>

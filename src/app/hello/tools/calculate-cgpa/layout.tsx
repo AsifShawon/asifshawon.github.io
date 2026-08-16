@@ -4,7 +4,7 @@ import Script from 'next/script';
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#0F7C63',
+  themeColor: '#176C52',
 };
 
 export const metadata: Metadata = {
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
   classification: 'Educational Tool',
   other: {
     'application-name': 'CGPA Calculator',
-    'msapplication-TileColor': '#0F7C63',
+    'msapplication-TileColor': '#176C52',
     'msapplication-config': '/assets/browserconfig.xml',
   },
 };

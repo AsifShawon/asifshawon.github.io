@@ -7,14 +7,17 @@ export interface AboutSectionMeta {
   id: string;
   number: string;
   navLabel: string;
+  /** Compact form for the horizontal mobile/tablet tab strip — the full
+   *  `navLabel` (e.g. "Commerce × Engineering") is too wide to sit
+   *  comfortably in a scrolling row of pills. */
+  shortLabel: string;
 }
 
 export const ABOUT_SECTIONS: AboutSectionMeta[] = [
-  { id: "about-intro", number: "01", navLabel: "Introduction" },
-  { id: "about-practice", number: "02", navLabel: "Commerce × Engineering" },
-  { id: "about-achievements", number: "03", navLabel: "Achievements" },
-  { id: "about-journey", number: "04", navLabel: "Journey" },
-  { id: "about-capabilities", number: "05", navLabel: "Capabilities" },
-  { id: "about-principles", number: "06", navLabel: "Beyond the title" },
-  { id: "about-contact", number: "07", navLabel: "Contact" },
+  { id: "about-intro", number: "01", navLabel: "Introduction", shortLabel: "Intro" },
+  { id: "about-practice", number: "02", navLabel: "Commerce × Engineering", shortLabel: "Commerce" },
+  { id: "about-achievements", number: "03", navLabel: "Achievements", shortLabel: "Achievements" },
+  { id: "about-journey", number: "04", navLabel: "Journey", shortLabel: "Journey" },
+  { id: "about-capabilities", number: "05", navLabel: "Capabilities", shortLabel: "Capabilities" },
+  { id: "about-principles", number: "06", navLabel: "Beyond the title", shortLabel: "Beyond" },
 ];

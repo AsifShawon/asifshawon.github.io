@@ -52,7 +52,7 @@ export default function BookmarkButton({
       onClick={toggle}
       aria-pressed={bookmarked}
       aria-label={bookmarked ? `Remove “${title}” from saved` : `Save “${title}” for later`}
-      className={`blog-arrow blog-arrow--sm blog-arrow--isolated ${toneClass} relative z-[2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5260DD]` .trim()}
+      className={`blog-arrow blog-arrow--sm blog-arrow--isolated ${toneClass} relative z-[2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ml-indigo)]` .trim()}
     >
       <Bookmark size={14} strokeWidth={1.9} fill={bookmarked ? "currentColor" : "none"} />
     </button>

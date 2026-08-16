@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import { Mail } from 'lucide-react';
 
 import Container from '@/components/ui/container';
 import { navigationItems, writingItems } from '@/lib/navigation';
@@ -85,12 +86,15 @@ export default function SiteFooter() {
               built to actually ship.
             </p>
 
-            <a className="site-footer__email" href={`mailto:${CONTACT_EMAIL}`}>
-              <span>{CONTACT_EMAIL}</span>
-              <span className="site-footer__email-arrow" aria-hidden="true">
-                →
-              </span>
-            </a>
+            <div className="site-footer__cta">
+              <Link className="site-footer__cta-primary" href="/contact">
+                Start a conversation
+              </Link>
+              <a className="site-footer__cta-secondary" href={`mailto:${CONTACT_EMAIL}`}>
+                <Mail size={16} strokeWidth={2} aria-hidden="true" />
+                Email directly
+              </a>
+            </div>
           </div>
 
           <nav className="site-footer__columns" aria-label="Footer">

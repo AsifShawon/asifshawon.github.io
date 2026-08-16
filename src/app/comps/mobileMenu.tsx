@@ -13,11 +13,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { isActivePath, navigationItems, writingItems } from '@/lib/navigation'
 
-// The shared shadcn tokens (--accent, --popover) are never defined in this
-// project, so item focus/hover states are declared explicitly here.
+// The dropdown panel (`.blog-megamenu`) is a light Verdant Mist surface, so
+// hover/focus/active states are declared explicitly in ink/green rather than
+// the shadcn defaults, which assume a dark popover.
 // min-h-11 keeps every row at a 44px touch target.
 const ITEM_CLASS =
-  'flex min-h-11 items-center rounded-[10px] px-3 text-[0.9375rem] transition-colors hover:bg-white/[0.06] focus:bg-white/[0.09] focus:text-white data-[active=true]:text-white'
+  'flex min-h-11 items-center rounded-[10px] px-3 text-[0.9375rem] transition-colors hover:bg-[rgba(23,108,82,0.08)] focus:bg-[rgba(23,108,82,0.1)] focus:text-[var(--ml-ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ml-indigo)] data-[active=true]:text-[var(--ml-ink)] data-[active=true]:font-medium'
 
 /**
  * Small-screen navigation. Renders the *same* `navigationItems` the desktop

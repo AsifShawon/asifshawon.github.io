@@ -3,60 +3,124 @@
 @tailwind utilities;
 
 :root {
-    /* ---------------------------------------------------- Mint Ledger tokens
+    /* ---------------------------------------------------- Verdant Mist tokens
        Raw palette — the only place a literal hex/rgba for the system should
        be written. Everything else in this file (and every component) reads
        one of the semantic aliases below, never these directly. */
-    --ml-canvas: #F8FBF6;   /* Frost White canvas — ~65% of the page */
-    --ml-paper: #FFFFFF;    /* Paper surface — cards, panels, inputs */
-    --ml-ink: #13271F;      /* Forest Ink — ~10%, primary text/nav */
-    --ml-green: #0F7C63;    /* Ledger Green — ~5%, primary actions */
-    --ml-mist: #D6EDE1;     /* Mist Green — ~18%, secondary surfaces */
-    --ml-mint: #A9EFC9;     /* Fresh Mint — ~2%, small accents/underlines */
-    --ml-indigo: #5260DD;   /* Accessible Indigo — ~2%, focus only */
-    --ml-sage: #617168;     /* Slate Sage — secondary ink */
-    --ml-mist-ink: #5B6A62; /* muted text sitting on Mist Green surfaces */
-    --ml-border: rgba(19, 39, 31, 0.14);
-    --ml-border-strong: rgba(19, 39, 31, 0.26);
+    --site-bg: #E7F0E6;            /* Main canvas — ~65% of the page */
+    --site-surface: #D1E1D2;       /* Prominent/featured card surface */
+    --site-surface-soft: #DCE8DD;  /* Secondary cards, grouped content, pills */
+    --site-surface-raised: #F3F7F2; /* Raised surfaces — dropdowns, inputs, popovers */
+    --site-surface-hover: #C7D9C9; /* Card hover fill */
 
-    /* Semantic reds, tuned for AA contrast on the light canvas — the
-       inherited dark-theme error/like colours (light pink/red) were tuned
-       for a dark surface and read low-contrast on Frost White. */
-    --ml-error: #B3261E;
-    --ml-error-soft: rgba(179, 38, 30, 0.08);
-    --ml-error-line: rgba(179, 38, 30, 0.28);
+    --site-text-strong: #183229;   /* Headlines, active nav, strong labels */
+    --site-text: #53675E;          /* Body text on --site-bg */
+    --site-text-on-surface: #4F6359; /* Body/small text on --site-surface */
+
+    --site-primary: #176C52;       /* Brand actions */
+    --site-primary-hover: #0F553F; /* Hover + active/pressed */
+    --site-on-primary: #FAFFFC;    /* Text/icons on --site-primary fills */
+
+    --site-highlight: #A7D4B1;     /* Soft decorative emphasis */
+    --site-digital-accent: #4F5FD0; /* Focus rings, tiny technical accents — sparingly */
+
+    --site-border: #B7CABB;
+    --site-border-strong: #8DA791;
+
+    --site-danger: #9B3C3C;
+
+    --site-shadow: 0 14px 36px rgba(24, 50, 41, 0.08);
+    --site-shadow-hover: 0 18px 44px rgba(24, 50, 41, 0.12);
+
+    /* ---- legacy raw names (the pre-Verdant-Mist "Mint Ledger" palette) —
+       kept as pure aliases onto the block above so every existing component
+       (hundreds of `var(--ml-*)` references across globals.css, blog-system
+       .css and component files) repaints under the new palette with no JSX
+       changes. New rules should prefer the `--site-*` names above; these
+       exist only for continuity. */
+    --ml-canvas: var(--site-bg);
+    --ml-paper: var(--site-surface-raised);
+    --ml-ink: var(--site-text-strong);
+    --ml-green: var(--site-primary);
+    --ml-mist: var(--site-surface-soft);
+    --ml-mint: var(--site-highlight);
+    --ml-indigo: var(--site-digital-accent);
+    --ml-sage: var(--site-text);
+    --ml-mist-ink: var(--site-text-on-surface);
+    --ml-border: var(--site-border);
+    --ml-border-strong: var(--site-border-strong);
+
+    --ml-error: var(--site-danger);
+    --ml-error-soft: rgba(155, 60, 60, 0.08);
+    --ml-error-line: rgba(155, 60, 60, 0.28);
+    /* An independent editorial pink for the blog "like" affordance — never
+       part of the green system, so it is unchanged by the Verdant Mist
+       update (still well clear of AA on the new canvas). */
     --ml-like: #C2255C;
     --ml-like-soft: rgba(194, 37, 92, 0.08);
     --ml-like-line: rgba(194, 37, 92, 0.3);
 
     /* Soft, green-tinted elevation — never a neutral/black drop shadow. */
-    --ml-shadow-sm: 0 1px 2px rgba(15, 124, 99, 0.06), 0 2px 10px rgba(19, 39, 31, 0.05);
-    --ml-shadow-md: 0 10px 28px rgba(15, 124, 99, 0.09), 0 2px 8px rgba(19, 39, 31, 0.05);
-    --ml-shadow-lg: 0 20px 46px rgba(15, 124, 99, 0.11), 0 4px 14px rgba(19, 39, 31, 0.06);
+    --ml-shadow-sm: 0 1px 2px rgba(23, 108, 82, 0.06), 0 2px 10px rgba(24, 50, 41, 0.05);
+    --ml-shadow-md: 0 10px 28px rgba(23, 108, 82, 0.09), 0 2px 8px rgba(24, 50, 41, 0.05);
+    --ml-shadow-lg: 0 20px 46px rgba(23, 108, 82, 0.11), 0 4px 14px rgba(24, 50, 41, 0.06);
 
     --ml-radius-card: 20px;
 
-    /* ---- semantic aliases: what components actually consume.
-       Keeping the pre-existing `--site-*` names means every page already
-       written against them (Tools, Contact, header, footer, nav, forms)
-       repaints under the new palette with no JSX changes. */
-    --site-bg: var(--ml-canvas);
-    --site-surface: var(--ml-paper);
-    --site-surface-muted: var(--ml-mist);
-    --site-text: var(--ml-ink);
-    --site-text-strong: var(--ml-ink);
-    --site-text-muted: var(--ml-sage);
-    --site-text-on-mist: var(--ml-mist-ink);
-    --site-accent: var(--ml-green);
-    --site-accent-strong: var(--ml-mint);
-    --site-focus: var(--ml-indigo);
-    --site-border: var(--ml-border);
-    --site-border-strong: var(--ml-border-strong);
+    /* ---- semantic aliases: what components actually consume. */
+    --site-surface-muted: var(--site-surface-soft);
+    --site-text-muted: var(--site-text);
+    --site-text-on-mist: var(--site-text-on-surface);
+    --site-accent: var(--site-primary);
+    --site-accent-strong: var(--site-highlight);
+    --site-focus: var(--site-digital-accent);
 
-    /* Interaction timing. Direct UI feedback stays in the 180–280ms band. */
+    /* Interaction timing. Direct UI feedback stays in the 180–280ms band —
+       unchanged by the colour-system update. */
     --site-fast: 200ms;
     --site-base: 260ms;
     --site-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+    /* Shared clearance for anything `position: sticky` under the ~76px
+       sticky site header (project sidebar, About page rails). One value so
+       they can never drift out of sync with each other. */
+    --site-sticky-offset: 6rem;
+
+    /* ------------------------------------------------ shadcn/Tailwind bridge
+       `tailwind.config.ts` reads these as `hsl(var(--x))` for the shadcn/ui
+       primitives in `src/components/ui/*` (Button, Card, Badge, Dialog,
+       Dropdown, Input, Table, Breadcrumb) — used across the public app
+       (contact form, About/Tools pages, project cards, mobile menu, CGPA
+       tool). They were never previously defined, so those utilities were
+       silently resolving to nothing; wiring them to Verdant Mist here fixes
+       that as part of the same coordinated update. `--radius`,
+       `--destructive*` and `--chart-*` are intentionally left undefined —
+       nothing in the public app reads them. */
+    --background: 114 25% 92%;
+    --foreground: 159 35% 15%;
+
+    --card: 124 21% 85%;
+    --card-foreground: 159 35% 15%;
+
+    --popover: 108 24% 96%;
+    --popover-foreground: 159 35% 15%;
+
+    --primary: 162 65% 26%;
+    --primary-foreground: 144 100% 99%;
+
+    --secondary: 125 21% 89%;
+    --secondary-foreground: 159 35% 15%;
+
+    --muted: 125 21% 89%;
+    --muted-foreground: 150 11% 35%;
+
+    --accent: 133 34% 74%;
+    --accent-foreground: 159 35% 15%;
+
+    --border: 133 15% 75%;
+    --input: 133 15% 75%;
+
+    --ring: 233 58% 56%;
 }
 
 body{
@@ -265,7 +329,7 @@ select {
     top: 0.75rem;
     z-index: 100;
     padding: 0.55rem 0.9rem;
-    color: var(--ml-canvas);
+    color: var(--site-on-primary);
     border-radius: 999px;
     background: var(--ml-green);
     font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
@@ -292,7 +356,7 @@ select {
     position: fixed;
     width: 20px;
     height: 20px;
-    background: radial-gradient(circle, rgba(118, 171, 174, 0.8) 0%, rgba(118, 171, 174, 0.2) 70%, transparent 100%);
+    background: radial-gradient(circle, rgba(23, 108, 82, 0.8) 0%, rgba(23, 108, 82, 0.2) 70%, transparent 100%);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
@@ -304,7 +368,7 @@ select {
     position: fixed;
     width: 40px;
     height: 40px;
-    background: radial-gradient(circle, rgba(118, 171, 174, 0.3) 0%, rgba(118, 171, 174, 0.1) 50%, transparent 100%);
+    background: radial-gradient(circle, rgba(23, 108, 82, 0.3) 0%, rgba(23, 108, 82, 0.1) 50%, transparent 100%);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9998;
@@ -317,7 +381,7 @@ select {
     position: fixed;
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, rgba(118, 171, 174, 0.1) 0%, rgba(118, 171, 174, 0.05) 50%, transparent 100%);
+    background: radial-gradient(circle, rgba(23, 108, 82, 0.1) 0%, rgba(23, 108, 82, 0.05) 50%, transparent 100%);
     border-radius: 50%;
     pointer-events: none;
     z-index: 1;
@@ -352,10 +416,11 @@ select {
 
 /* Glass morphism effect */
 .glass-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(243, 247, 242, 0.6);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--site-border);
+    box-shadow: var(--ml-shadow-md);
 }
 
 /* Gradient text. Was teal-to-near-white, tuned for the old dark canvas — on
@@ -487,7 +552,7 @@ select {
     gap: 0.45rem;
     width: 100%;
     padding: 0.62rem 0.8rem;
-    color: var(--ml-canvas);
+    color: var(--site-on-primary);
     border: 1px solid transparent;
     border-radius: 999px;
     background: var(--ml-green);
@@ -499,7 +564,7 @@ select {
 
 .floating-action__download:hover,
 .floating-action__download:focus-visible {
-    background: #0D6B56;
+    background: var(--site-primary-hover);
     outline: none;
     transform: translateY(-2px);
     box-shadow: var(--ml-shadow-sm);
@@ -665,14 +730,14 @@ select {
 /* Skill bar animation */
 .skill-bar {
     height: 8px;
-    background: rgba(118, 171, 174, 0.2);
+    background: rgba(23, 108, 82, 0.2);
     border-radius: 4px;
     overflow: hidden;
 }
 
 .skill-progress {
     height: 100%;
-    background: linear-gradient(90deg, #76ABAE, #5a9ca0);
+    background: linear-gradient(90deg, var(--site-primary), var(--site-primary-hover));
     border-radius: 4px;
     transition: width 1s ease-in-out;
 }
@@ -808,7 +873,7 @@ select {
     top: 0;
     z-index: 50;
     border-bottom: 1px solid transparent;
-    background: rgba(248, 251, 246, 0.78);
+    background: rgba(231, 240, 230, 0.78);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     transition: background var(--site-base) var(--site-ease),
@@ -818,7 +883,7 @@ select {
 
 .site-header--scrolled {
     border-bottom-color: var(--site-border);
-    background: rgba(248, 251, 246, 0.94);
+    background: rgba(231, 240, 230, 0.94);
     box-shadow: var(--ml-shadow-sm);
 }
 
@@ -1051,7 +1116,7 @@ select {
 }
 
 .site-footer__statement {
-    color: var(--ml-canvas);
+    color: var(--site-on-primary);
     font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
     font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
     font-weight: 500;
@@ -1060,30 +1125,55 @@ select {
     text-wrap: balance;
 }
 
-.site-footer__email {
+/* The footer's own CTA pair — filled brand pill + light outline pill, both
+   tuned for sitting directly on the dark Forest Ink panel (not the light
+   canvas the shared Button variants assume). */
+.site-footer__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.site-footer__cta-primary {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    margin-top: 1.5rem;
-    padding-bottom: 0.2rem;
-    color: var(--ml-mint);
+    padding: 0.7rem 1.25rem;
+    border-radius: 999px;
+    background: var(--ml-green);
+    color: var(--site-on-primary);
     font-size: 0.9375rem;
-    border-bottom: 1px solid transparent;
-    transition: border-color var(--site-fast) var(--site-ease);
-    /* Long address, narrow phones: break rather than force a scrollbar. */
-    overflow-wrap: anywhere;
+    font-weight: 600;
+    transition: background var(--site-fast) var(--site-ease),
+        transform var(--site-fast) var(--site-ease);
 }
 
-.site-footer__email:hover {
-    border-bottom-color: rgba(169, 239, 201, 0.5);
+.site-footer__cta-primary:hover,
+.site-footer__cta-primary:focus-visible {
+    background: var(--site-primary-hover);
+    transform: translateY(-2px);
 }
 
-.site-footer__email-arrow {
-    transition: transform var(--site-base) var(--site-ease);
+.site-footer__cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.25rem;
+    border-radius: 999px;
+    border: 1px solid rgba(250, 255, 252, 0.4);
+    color: var(--site-on-primary);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    transition: background var(--site-fast) var(--site-ease),
+        border-color var(--site-fast) var(--site-ease);
 }
 
-.site-footer__email:hover .site-footer__email-arrow {
-    transform: translateX(0.2rem);
+.site-footer__cta-secondary:hover,
+.site-footer__cta-secondary:focus-visible {
+    background: rgba(250, 255, 252, 0.12);
+    border-color: rgba(250, 255, 252, 0.6);
 }
 
 /* ---- link columns */
@@ -1101,7 +1191,7 @@ select {
 
 .site-footer__column-title {
     margin-bottom: 1rem;
-    color: rgba(214, 237, 225, 0.6);
+    color: rgba(220, 232, 221, 0.6);
     font-family: var(--font-mono), ui-monospace, monospace;
     font-size: 0.6875rem;
     font-weight: 500;
@@ -1137,8 +1227,8 @@ select {
     gap: 0.75rem 1.5rem;
     margin-top: 3.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid rgba(214, 237, 225, 0.14);
-    color: rgba(214, 237, 225, 0.62);
+    border-top: 1px solid rgba(220, 232, 221, 0.14);
+    color: rgba(220, 232, 221, 0.62);
     font-size: 0.8125rem;
 }
 
@@ -1151,7 +1241,7 @@ select {
 }
 
 .site-footer__top-link:hover {
-    color: var(--ml-canvas);
+    color: var(--site-on-primary);
 }
 
 @media (max-width: 639px) {
@@ -1225,7 +1315,7 @@ select {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #222831, #76ABAE);
+    background: linear-gradient(135deg, var(--site-bg), var(--site-surface-soft));
     z-index: 10000;
 }
 
@@ -1280,8 +1370,8 @@ select.field-control {
     cursor: pointer;
     appearance: none;
     padding-right: 2.25rem;
-    background-image: linear-gradient(45deg, transparent 50%, #8FB9B8 50%),
-        linear-gradient(135deg, #8FB9B8 50%, transparent 50%);
+    background-image: linear-gradient(45deg, transparent 50%, var(--site-border-strong) 50%),
+        linear-gradient(135deg, var(--site-border-strong) 50%, transparent 50%);
     background-position: calc(100% - 1.1rem) calc(50% + 2px), calc(100% - 0.75rem) calc(50% + 2px);
     background-size: 6px 6px, 6px 6px;
     background-repeat: no-repeat;
@@ -1307,7 +1397,7 @@ select.field-control {
     outline: none;
     border-color: var(--ml-indigo);
     background: var(--ml-paper);
-    box-shadow: 0 0 0 3px rgba(82, 96, 221, 0.22);
+    box-shadow: 0 0 0 3px rgba(79, 95, 208, 0.22);
 }
 
 .field-control:disabled {
@@ -1419,7 +1509,7 @@ select.field-control {
     font-size: clamp(1.5rem, 1.3rem + 1vw, 2rem);
     line-height: 1.15;
     letter-spacing: -0.01em;
-    color: var(--ml-canvas);
+    color: var(--site-on-primary);
 }
 
 .project-showcase__sentence {
@@ -1433,11 +1523,11 @@ select.field-control {
 .project-showcase__count {
     margin-top: 1.75rem;
     padding-top: 1.25rem;
-    border-top: 1px solid rgba(214, 237, 225, 0.18);
+    border-top: 1px solid rgba(220, 232, 221, 0.18);
     font-family: var(--font-mono), ui-monospace, monospace;
     font-size: 0.75rem;
     letter-spacing: 0.06em;
-    color: rgba(214, 237, 225, 0.7);
+    color: rgba(220, 232, 221, 0.7);
 }
 
 .project-showcase__rail-wrap {
@@ -1580,7 +1670,7 @@ select.field-control {
 
 /* Optional Indigo accent — AI/ML-flavoured projects only. */
 .project-card[data-ai] article {
-    border-color: rgba(82, 96, 221, 0.28);
+    border-color: rgba(79, 95, 208, 0.28);
 }
 
 .project-card[data-ai]:hover article,
@@ -1614,8 +1704,8 @@ select.field-control {
         135deg,
         var(--ml-mist),
         var(--ml-mist) 10px,
-        rgba(15, 124, 99, 0.07) 10px,
-        rgba(15, 124, 99, 0.07) 20px
+        rgba(23, 108, 82, 0.07) 10px,
+        rgba(23, 108, 82, 0.07) 20px
     );
 }
 
@@ -1625,9 +1715,9 @@ select.field-control {
     bottom: 0.9rem;
     padding: 0.25rem 0.55rem;
     border-radius: 999px;
-    background: rgba(19, 39, 31, 0.55);
+    background: rgba(24, 50, 41, 0.55);
     backdrop-filter: blur(6px);
-    color: var(--ml-canvas);
+    color: var(--site-on-primary);
     font-family: var(--font-mono), ui-monospace, monospace;
     font-size: 0.6875rem;
     font-weight: 500;
@@ -1953,8 +2043,7 @@ select.field-control {
 @media (min-width: 1024px) {
     .project-sidebar {
         position: sticky;
-        /* Clears the sticky site header (~76px) with room to spare. */
-        top: 6rem;
+        top: var(--site-sticky-offset);
         align-self: start;
     }
 }
@@ -2033,8 +2122,8 @@ select.field-control {
         135deg,
         var(--ml-mist),
         var(--ml-mist) 6px,
-        rgba(15, 124, 99, 0.08) 6px,
-        rgba(15, 124, 99, 0.08) 12px
+        rgba(23, 108, 82, 0.08) 6px,
+        rgba(23, 108, 82, 0.08) 12px
     );
 }
 
@@ -2140,8 +2229,8 @@ select.field-control {
         135deg,
         var(--ml-mist),
         var(--ml-mist) 8px,
-        rgba(15, 124, 99, 0.08) 8px,
-        rgba(15, 124, 99, 0.08) 16px
+        rgba(23, 108, 82, 0.08) 8px,
+        rgba(23, 108, 82, 0.08) 16px
     );
 }
 
@@ -2213,7 +2302,10 @@ select.field-control {
     gap: 2rem;
 }
 
-@media (min-width: 900px) {
+/* Matches the site's other `lg` breakpoints (project sidebar, mobile nav
+   cutover). Below this, the section rail becomes the horizontal tab strip
+   instead of a cramped third column. */
+@media (min-width: 1024px) {
     .about-grid {
         grid-template-columns: minmax(0, 1fr) 12rem;
         gap: 3rem;
@@ -2635,12 +2727,26 @@ select.field-control {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
+    /* Without this, the grid's default `stretch` forces `.about-journey__intro`
+       to the timeline's full height, leaving `position: sticky` on it no room
+       to actually travel — the box would already span the whole row. */
+    align-items: start;
 }
 
 @media (min-width: 780px) {
     .about-journey {
         grid-template-columns: minmax(12rem, 0.55fr) minmax(0, 1fr);
         gap: 2.5rem;
+    }
+
+    /* Sticks below the header once the intro's natural top edge scrolls past
+       it, and releases the moment the timeline (its grid row) ends — native
+       CSS sticky, no scroll-position JS. Only active once the intro is
+       actually beside the timeline; single-column mobile stays static. */
+    .about-journey__intro {
+        position: sticky;
+        top: var(--site-sticky-offset);
+        align-self: start;
     }
 }
 
@@ -2667,6 +2773,7 @@ select.field-control {
     list-style: none;
 }
 
+/* Static track. */
 .about-timeline::before {
     content: "";
     position: absolute;
@@ -2677,16 +2784,48 @@ select.field-control {
     background: var(--site-border);
 }
 
+/* Animated fill, synced to how many entries have been revealed (see
+   `AboutTimeline.tsx`'s `--about-timeline-progress`). `scaleY` + `top`
+   origin only — never height/top — so it's compositor-only and can't
+   trigger layout on every update. Monotonically non-decreasing count means
+   scrolling back up never makes it retreat or jitter. */
+.about-timeline::after {
+    content: "";
+    position: absolute;
+    left: 0.55rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 1px;
+    background: var(--ml-green);
+    transform: scaleY(var(--about-timeline-progress, 0));
+    transform-origin: top;
+    transition: transform 480ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
 .about-timeline__item {
     position: relative;
     display: grid;
     grid-template-columns: 1.35rem minmax(0, 1fr);
     gap: 0.85rem;
     padding-bottom: 2rem;
+    /* Reveal state — flipped to visible by `AboutTimeline.tsx` adding
+       `data-revealed` once the item crosses into view. `--about-reveal-delay`
+       (set per item, inline) gives entries revealed in the same batch a
+       restrained ~70ms stagger instead of popping in together. */
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 480ms cubic-bezier(0.22, 0.61, 0.36, 1),
+        transform 480ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    transition-delay: var(--about-reveal-delay, 0ms);
 }
 
 .about-timeline__item:last-child {
     padding-bottom: 0;
+}
+
+.about-timeline__item[data-revealed="true"] {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .about-timeline__dot {
@@ -2697,8 +2836,18 @@ select.field-control {
     margin-top: 0.3rem;
     border: 3px solid var(--ml-canvas);
     border-radius: 999px;
+    background: var(--site-border-strong);
+    box-shadow: 0 0 0 1px var(--site-border-strong);
+    transition: transform 300ms cubic-bezier(0.22, 0.61, 0.36, 1),
+        background-color 300ms ease,
+        box-shadow 300ms ease;
+    transition-delay: var(--about-reveal-delay, 0ms);
+}
+
+.about-timeline__item[data-revealed="true"] .about-timeline__dot {
     background: var(--ml-green);
     box-shadow: 0 0 0 1px var(--ml-green);
+    transform: scale(1.08);
 }
 
 .about-timeline__period {
@@ -2789,7 +2938,7 @@ select.field-control {
 }
 
 .about-capabilities__card[data-accent="indigo"] {
-    border-color: rgba(82, 96, 221, 0.28);
+    border-color: rgba(79, 95, 208, 0.28);
 }
 
 .about-capabilities__label {
@@ -2880,134 +3029,71 @@ select.field-control {
     gap: 0.5rem;
 }
 
-/* ---- contact CTA */
-.about-cta {
-    position: relative;
-    overflow: hidden;
-    padding: 3.5rem 1.75rem;
-    border-top: none;
-    border-radius: 1.5rem;
-    background: var(--ml-green);
-    color: var(--ml-canvas);
-}
-
-@media (min-width: 640px) {
-    .about-cta {
-        padding: 4rem 2.5rem;
-    }
-}
-
-.about-cta::before {
-    content: "";
-    position: absolute;
-    z-index: 0;
-    width: 18rem;
-    height: 18rem;
-    right: -6rem;
-    top: -7rem;
-    border: 1px solid rgba(248, 251, 246, 0.3);
-    border-radius: 999px;
-    box-shadow: 0 0 0 2.5rem rgba(169, 239, 201, 0.1), 0 0 0 5rem rgba(169, 239, 201, 0.06);
-    pointer-events: none;
-}
-
-.about-cta__label {
-    position: relative;
-    z-index: 1;
-    color: var(--ml-mint);
-}
-
-.about-cta h2 {
-    position: relative;
-    z-index: 1;
-    max-width: 14ch;
-    margin: 0;
-    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
-    font-weight: 500;
-    font-size: clamp(1.875rem, 1.5rem + 2vw, 3rem);
-    line-height: 1.05;
-    letter-spacing: -0.015em;
-}
-
-.about-cta p {
-    position: relative;
-    z-index: 1;
-    margin-top: 1rem;
-    color: rgba(248, 251, 246, 0.82);
-}
-
-.about-cta .about-hero__actions {
-    position: relative;
-    z-index: 1;
-}
-
-.about-cta__primary {
-    background: var(--ml-canvas);
-    color: var(--ml-green);
-}
-
-.about-cta__primary:hover {
-    background: var(--ml-mist);
-}
-
-.about-cta__secondary {
-    border-color: rgba(248, 251, 246, 0.4);
-    color: var(--ml-canvas);
-}
-
-.about-cta__secondary:hover {
-    background: rgba(248, 251, 246, 0.12);
-}
-
-.about-cta__top {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: var(--ml-canvas);
-    font-size: 0.875rem;
-    font-weight: 500;
-    opacity: 0.85;
-    transition: opacity var(--site-fast) var(--site-ease);
-}
-
-.about-cta__top:hover {
-    opacity: 1;
-}
-
 /* ---- section index: horizontal chips (default) -> sticky rail (≥900px) */
 .about-index {
     order: 0;
 }
 
+/* Mobile/tablet default: a horizontally scrollable tab strip (not a
+   wrapping grid — wrapping is what let the desktop layout get "squeezed"
+   into a narrow column instead of getting its own compact treatment).
+   Becomes the sticky vertical rail at `lg` (1024px), matching `.about-grid`'s
+   own cutover to a real third column. */
 .about-index__list {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 0.5rem;
     margin: 0;
-    padding: 0;
+    padding: 0.25rem 0.25rem 0.6rem;
     list-style: none;
+    overflow-x: auto;
+    scroll-padding-inline: 0.25rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.about-index__list::-webkit-scrollbar {
+    display: none;
 }
 
 .about-index__link {
     display: inline-flex;
+    flex-shrink: 0;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.45rem 0.85rem;
+    /* 44px touch target on the horizontal strip. */
+    min-height: 2.75rem;
+    padding: 0.5rem 0.9rem;
     border: 1px solid var(--site-border);
     border-radius: 999px;
     background: var(--ml-paper);
     color: var(--site-text-muted);
     font-size: 0.8125rem;
     font-weight: 500;
-    transition: color var(--site-fast) var(--site-ease),
-        border-color var(--site-fast) var(--site-ease),
-        background var(--site-fast) var(--site-ease);
+    white-space: nowrap;
+    transition: color 220ms ease,
+        background-color 260ms ease,
+        border-color 260ms ease,
+        transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .about-index__number {
     font-family: var(--font-mono), ui-monospace, monospace;
     font-size: 0.6875rem;
     color: var(--ml-green);
+}
+
+/* Compact label on the mobile/tablet strip; the full label takes over once
+   the rail becomes the vertical sidebar at `lg`. Both render server-side —
+   only `display` toggles per breakpoint — so there's nothing for a
+   client-only check to get wrong on first paint. */
+.about-index__nav-label--short {
+    display: inline;
+}
+
+.about-index__nav-label--full {
+    display: none;
 }
 
 .about-index__link:hover {
@@ -3019,43 +3105,46 @@ select.field-control {
 .about-index__link[data-active] {
     border-color: var(--ml-green);
     background: var(--ml-green);
-    color: var(--ml-canvas);
+    color: var(--site-on-primary);
 }
 
 .about-index__link[data-active] .about-index__number {
-    color: var(--ml-canvas);
+    color: var(--site-on-primary);
 }
 
-@media (max-width: 479px) {
-    .about-index__nav-label {
-        display: none;
-    }
-}
-
-@media (min-width: 900px) {
+@media (min-width: 1024px) {
     .about-index {
         order: 2;
         position: sticky;
-        top: 6rem;
+        top: var(--site-sticky-offset);
         align-self: start;
     }
 
     .about-index__list {
         flex-direction: column;
+        flex-wrap: wrap;
         gap: 0.35rem;
+        padding: 0;
+        overflow-x: visible;
     }
 
     .about-index__link {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.15rem;
+        min-height: 0;
         padding: 0.5rem 0.6rem;
         border: none;
         border-radius: 0.6rem;
         background: none;
+        white-space: normal;
     }
 
-    .about-index__nav-label {
+    .about-index__nav-label--short {
+        display: none;
+    }
+
+    .about-index__nav-label--full {
         display: block;
         font-size: 0.75rem;
         line-height: 1.3;
@@ -3097,8 +3186,8 @@ html {
 }
 
 .tool-card--primary {
-    border-color: rgba(15, 124, 99, 0.28);
-    background: rgba(15, 124, 99, 0.06);
+    border-color: rgba(23, 108, 82, 0.28);
+    background: rgba(23, 108, 82, 0.06);
 }
 
 .tool-card__icon {
@@ -3108,9 +3197,9 @@ html {
     justify-content: center;
     width: 3.5rem;
     height: 3.5rem;
-    border: 1px solid rgba(15, 124, 99, 0.3);
+    border: 1px solid rgba(23, 108, 82, 0.3);
     border-radius: 0.85rem;
-    background: rgba(15, 124, 99, 0.12);
+    background: rgba(23, 108, 82, 0.12);
     color: var(--ml-green);
 }
 
@@ -3146,14 +3235,14 @@ html {
 
 .tool-status--available {
     color: var(--ml-green);
-    border-color: rgba(15, 124, 99, 0.3);
-    background: rgba(15, 124, 99, 0.08);
+    border-color: rgba(23, 108, 82, 0.3);
+    background: rgba(23, 108, 82, 0.08);
 }
 
 .tool-status--new {
     color: var(--ml-indigo);
-    border-color: rgba(82, 96, 221, 0.3);
-    background: rgba(82, 96, 221, 0.08);
+    border-color: rgba(79, 95, 208, 0.3);
+    background: rgba(79, 95, 208, 0.08);
 }
 
 .tool-status--coming-soon {
@@ -3220,5 +3309,28 @@ html {
     .project-rail__track,
     html {
         scroll-behavior: auto;
+    }
+
+    /* Journey timeline: entries render fully visible immediately (see the
+       `prefersReducedMotion` branch in `AboutTimeline.tsx`, which sets
+       `data-revealed` synchronously instead of waiting on the observer) —
+       these overrides are the belt-and-suspenders CSS side of that, and
+       also cover the sliver of time before hydration. */
+    .about-timeline__item {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+
+    .about-timeline__dot {
+        transition: none !important;
+    }
+
+    .about-timeline::after {
+        transition: none !important;
+    }
+
+    .about-index__link {
+        transition: none !important;
     }
 }

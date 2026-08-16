@@ -30,76 +30,76 @@ export function AddCourseModal({
 }: AddCourseModalProps) {
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="border-white/20 bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl text-white max-w-md">
+            <DialogContent className="border-[var(--site-border)] bg-[var(--site-surface-raised)] backdrop-blur-xl text-[var(--ml-ink)] max-w-md">
                 <DialogHeader>
-                    <DialogTitle className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
+                    <DialogTitle className="text-xl font-bold gradient-text">
                         Add New Course
                     </DialogTitle>
-                    <DialogDescription className="text-gray-300">
+                    <DialogDescription className="text-[var(--site-text-muted)]">
                         Enter the course details below to add it to your CGPA calculation.
                     </DialogDescription>
                 </DialogHeader>
-                
+
                 <div className="space-y-4 py-4">
                     {/* Course Code */}
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">
+                        <label className="text-sm font-medium text-[var(--site-text)] uppercase tracking-wide">
                             Course Code
                         </label>
-                        <Input 
-                            value={newCourse.courseCode} 
-                            onChange={(e) => onInputChange('courseCode', e.target.value)} 
-                            placeholder="e.g., CS101, MATH201" 
-                            className="border-white/20 bg-white/10 focus:border-emerald-400/50 focus:bg-white/20 text-white placeholder-gray-400"
+                        <Input
+                            value={newCourse.courseCode}
+                            onChange={(e) => onInputChange('courseCode', e.target.value)}
+                            placeholder="e.g., CS101, MATH201"
+                            className="border-[var(--site-border)] bg-[var(--site-surface-soft)] focus:border-[var(--ml-green)]/50 text-[var(--ml-ink)] placeholder:text-[var(--ml-sage)]"
                         />
                     </div>
 
                     {/* Course Name */}
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">
+                        <label className="text-sm font-medium text-[var(--site-text)] uppercase tracking-wide">
                             Course Name
                         </label>
-                        <Input 
-                            value={newCourse.courseName} 
-                            onChange={(e) => onInputChange('courseName', e.target.value)} 
-                            placeholder="e.g., Introduction to Programming" 
-                            className="border-white/20 bg-white/10 focus:border-emerald-400/50 focus:bg-white/20 text-white placeholder-gray-400"
+                        <Input
+                            value={newCourse.courseName}
+                            onChange={(e) => onInputChange('courseName', e.target.value)}
+                            placeholder="e.g., Introduction to Programming"
+                            className="border-[var(--site-border)] bg-[var(--site-surface-soft)] focus:border-[var(--ml-green)]/50 text-[var(--ml-ink)] placeholder:text-[var(--ml-sage)]"
                         />
                     </div>
 
                     {/* Credits and Grade Row */}
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">
+                            <label className="text-sm font-medium text-[var(--site-text)] uppercase tracking-wide">
                                 Credits
                             </label>
-                            <Input 
-                                type="number" 
-                                value={newCourse.credits} 
-                                onChange={(e) => onInputChange('credits', e.target.value)} 
-                                placeholder="3" 
-                                className="border-white/20 bg-white/10 focus:border-emerald-400/50 focus:bg-white/20 text-white placeholder-gray-400"
+                            <Input
+                                type="number"
+                                value={newCourse.credits}
+                                onChange={(e) => onInputChange('credits', e.target.value)}
+                                placeholder="3"
+                                className="border-[var(--site-border)] bg-[var(--site-surface-soft)] focus:border-[var(--ml-green)]/50 text-[var(--ml-ink)] placeholder:text-[var(--ml-sage)]"
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-300 uppercase tracking-wide">
+                            <label className="text-sm font-medium text-[var(--site-text)] uppercase tracking-wide">
                                 Grade
                             </label>
-                            <Input 
-                                value={newCourse.grade} 
-                                onChange={(e) => onInputChange('grade', e.target.value)} 
-                                placeholder="A+" 
-                                className="border-white/20 bg-white/10 focus:border-emerald-400/50 focus:bg-white/20 text-white placeholder-gray-400"
+                            <Input
+                                value={newCourse.grade}
+                                onChange={(e) => onInputChange('grade', e.target.value)}
+                                placeholder="A+"
+                                className="border-[var(--site-border)] bg-[var(--site-surface-soft)] focus:border-[var(--ml-green)]/50 text-[var(--ml-ink)] placeholder:text-[var(--ml-sage)]"
                             />
                         </div>
                     </div>
 
                     {/* Grade Points Preview */}
                     {newCourse.credits && newCourse.grade && (
-                        <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                        <div className="p-3 rounded-lg bg-[var(--ml-green)]/10 border border-[var(--ml-green)]/25">
                             <div className="flex items-center justify-between">
-                                <span className="text-sm text-emerald-300">Grade Points:</span>
-                                <span className="font-mono text-lg font-bold text-emerald-300">
+                                <span className="text-sm text-[var(--ml-green)]">Grade Points:</span>
+                                <span className="font-mono text-lg font-bold text-[var(--ml-green)]">
                                     {((parseFloat(newCourse.credits) || 0) * (gradeScale[newCourse.grade.toUpperCase()] || 0)).toFixed(2)}
                                 </span>
                             </div>
@@ -108,17 +108,17 @@ export function AddCourseModal({
                 </div>
 
                 <DialogFooter className="gap-2">
-                    <Button 
-                        variant="outline" 
+                    <Button
+                        variant="outline"
                         onClick={onClose}
-                        className="border-white/20 bg-white/10 hover:border-gray-400/50 hover:bg-white/20 text-white"
+                        className="border-[var(--site-border)] bg-[var(--site-surface-soft)] hover:bg-[var(--site-surface-hover)] text-[var(--ml-ink)]"
                     >
                         Cancel
                     </Button>
-                    <Button 
+                    <Button
                         onClick={onAddCourse}
                         disabled={!newCourse.courseCode || !newCourse.credits || !newCourse.grade}
-                        className="bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="bg-[var(--ml-green)] hover:bg-[var(--site-primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed text-[var(--site-on-primary)]"
                     >
                         <Plus className="h-4 w-4 mr-2" />
                         Add Course
