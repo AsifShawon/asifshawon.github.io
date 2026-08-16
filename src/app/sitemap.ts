@@ -42,7 +42,7 @@ interface SitemapProject {
   slug: string;
 }
 
-/** Every project has its own `/hello/projects/[slug]` case-study page now. */
+/** Every project has its own `/projects/[slug]` case-study page now. */
 async function fetchProjectEntries(): Promise<SitemapProject[]> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -69,26 +69,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: absoluteUrl("/"), lastModified: now, changeFrequency: "monthly", priority: 1 },
     {
-      url: absoluteUrl("/hello/projects"),
+      url: absoluteUrl("/projects"),
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
-      url: absoluteUrl("/hello/aboutme"),
+      url: absoluteUrl("/aboutme"),
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     { url: absoluteUrl("/contact"), lastModified: now, changeFrequency: "yearly", priority: 0.8 },
     {
-      url: absoluteUrl("/hello/tools"),
+      url: absoluteUrl("/tools"),
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.7,
     },
     {
-      url: absoluteUrl("/hello/tools/calculate-cgpa"),
+      url: absoluteUrl("/tools/calculate-cgpa"),
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.6,
@@ -112,7 +112,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const projects = await fetchProjectEntries();
   const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
-    url: absoluteUrl(`/hello/projects/${project.slug}`),
+    url: absoluteUrl(`/projects/${project.slug}`),
     lastModified: now,
     changeFrequency: "monthly",
     priority: 0.7,

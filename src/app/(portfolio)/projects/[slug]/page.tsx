@@ -68,7 +68,7 @@ export async function generateMetadata({
   if (!project) return { title: "Project not found" };
 
   const description = project.shortDescription.replace(/\*\*/g, "");
-  const url = `/hello/projects/${project.slug}`;
+  const url = `/projects/${project.slug}`;
   const images = project.image ? [{ url: project.image, alt: project.projectTitle }] : [OG_IMAGE];
 
   return {
@@ -106,7 +106,7 @@ export default async function ProjectDetailPage({
   const related = findRelatedProjects(project, projects, 4);
   const nextProject = findNextProject(project, projects);
 
-  const canonicalUrl = absoluteUrl(`/hello/projects/${project.slug}`);
+  const canonicalUrl = absoluteUrl(`/projects/${project.slug}`);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
@@ -130,8 +130,8 @@ export default async function ProjectDetailPage({
           <CustomBreadcrumb
             pageNames={[
               { name: "Home", href: "/" },
-              { name: "Projects", href: "/hello/projects" },
-              { name: project.projectTitle, href: `/hello/projects/${project.slug}` },
+              { name: "Projects", href: "/projects" },
+              { name: project.projectTitle, href: `/projects/${project.slug}` },
             ]}
           />
         </div>

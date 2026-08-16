@@ -27,7 +27,7 @@ const NOTES = [
     // Restates PROFILE_DESCRIPTION (src/lib/site.ts): "independently
     // building full-stack applications and practical AI-powered solutions."
     body: "Full-stack applications and practical AI-powered features, independently, alongside the ecommerce role.",
-    href: "/hello/projects",
+    href: "/projects",
     linkLabel: "See the projects",
   },
 ];

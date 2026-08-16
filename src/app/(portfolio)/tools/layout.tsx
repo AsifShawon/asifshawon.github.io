@@ -8,7 +8,7 @@ export const metadata: Metadata = pageMetadata({
   title: 'Tools',
   description:
     'Free AI-assisted utilities built by Asif Bhuiyan Shawon, starting with a CGPA calculator that reads your grade sheet automatically.',
-  path: '/hello/tools',
+  path: '/tools',
 });
 
 export default function ToolsLayout({ children }: { children: React.ReactNode }) {

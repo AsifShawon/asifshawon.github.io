@@ -102,7 +102,7 @@ export default async function BlogPage({
             <EmptyState
               title="Nothing published yet"
               description="I'm writing the first few pieces now — notes on ecommerce, marketing and the things I'm learning on the job. Check back shortly."
-              action={{ label: "See what I'm building", href: "/hello/projects" }}
+              action={{ label: "See what I'm building", href: "/projects" }}
             />
           </div>
         ) : (

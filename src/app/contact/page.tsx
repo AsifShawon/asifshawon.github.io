@@ -138,7 +138,7 @@ export default function ContactPage() {
             <p className="type-small mt-8 text-[var(--site-text-muted)]">
               Curious what I&apos;ve built first?{' '}
               <Link
-                href="/hello/projects"
+                href="/projects"
                 className="text-[var(--ml-green)] underline underline-offset-4"
               >
                 Browse the projects

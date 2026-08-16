@@ -74,7 +74,7 @@ export default function BlogPageHeader({
           <hr className="blog-divider my-4" />
 
           <Link
-            href="/hello/aboutme"
+            href="/aboutme"
             className="group inline-flex items-center gap-1.5 text-[0.75rem] font-medium"
             style={{ color: "var(--blog-accent)" }}
           >

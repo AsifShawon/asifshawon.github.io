@@ -7,7 +7,7 @@ import type { ProjectCaseStudy } from "./transform";
 /** Compact sidebar entry — same single-`<Link>` discipline as `ProjectCard`. */
 export default function RelatedProjectCard({ project }: { project: ProjectCaseStudy }) {
   return (
-    <Link href={`/hello/projects/${project.slug}`} className="related-project-card">
+    <Link href={`/projects/${project.slug}`} className="related-project-card">
       <div className="related-project-card__media">
         {project.image ? (
           <Image

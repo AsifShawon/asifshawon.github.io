@@ -1843,7 +1843,7 @@ select.field-control {
 /* -------------------------------------------------------- case study page
    Hero, fact row, article/sidebar grid, gallery, related-project sidebar
    card and the bottom next-project panel — everything specific to
-   `/hello/projects/[slug]` that isn't already covered by the shared
+   `/projects/[slug]` that isn't already covered by the shared
    typography/card primitives above. */
 .case-study-hero {
     max-width: 48rem;
@@ -2291,7 +2291,7 @@ select.field-control {
 /* ------------------------------------------------------------ about page
    Hero/portrait, Commerce × Engineering practice grid, achievements,
    timeline, capability cards, "beyond the title" notes, CTA panel and the
-   sticky/chip section index — everything specific to `/hello/aboutme`. */
+   sticky/chip section index — everything specific to `/aboutme`. */
 .about-page {
     padding-bottom: 6rem;
 }

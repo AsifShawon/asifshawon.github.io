@@ -19,7 +19,7 @@ export default function ProjectsView({ projects }: { projects: ProjectCaseStudy[
           <CustomBreadcrumb
             pageNames={[
               { name: "Home", href: "/" },
-              { name: "Projects", href: "/hello/projects" },
+              { name: "Projects", href: "/projects" },
             ]}
           />
         </div>

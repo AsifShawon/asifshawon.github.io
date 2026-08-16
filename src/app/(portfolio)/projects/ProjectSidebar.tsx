@@ -21,7 +21,7 @@ export default function ProjectSidebar({ projects }: { projects: ProjectCaseStud
         ))}
       </div>
 
-      <Link href="/hello/projects" className="project-sidebar__all">
+      <Link href="/projects" className="project-sidebar__all">
         View all projects
         <ArrowRight size={15} strokeWidth={2} aria-hidden="true" />
       </Link>

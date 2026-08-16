@@ -6,7 +6,7 @@ import type { ProjectCaseStudy } from "./transform";
 
 export default function NextProjectPanel({ project }: { project: ProjectCaseStudy }) {
   return (
-    <Link href={`/hello/projects/${project.slug}`} className="next-project">
+    <Link href={`/projects/${project.slug}`} className="next-project">
       <div className="next-project__media">
         {project.image ? (
           <Image

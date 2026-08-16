@@ -13,9 +13,9 @@ export interface NavItem {
 }
 
 export const navigationItems: NavItem[] = [
-  { href: "/hello/projects", label: "Projects" },
-  { href: "/hello/aboutme", label: "About" },
-  { href: "/hello/tools", label: "Tools" },
+  { href: "/projects", label: "Projects" },
+  { href: "/aboutme", label: "About" },
+  { href: "/tools", label: "Tools" },
   { href: "/blog", label: "Blog", hasMegaMenu: true },
   { href: "/contact", label: "Contact" },
 ];

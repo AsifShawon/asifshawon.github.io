@@ -51,7 +51,7 @@ interface LegacyProject {
 async function seedProjects() {
   const jsonPath = resolve(
     process.cwd(),
-    "src/app/hello/projects/projectData.json"
+    "src/app/(portfolio)/projects/projectData.json"
   );
   const projects: LegacyProject[] = JSON.parse(readFileSync(jsonPath, "utf-8"));
 

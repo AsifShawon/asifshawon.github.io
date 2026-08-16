@@ -9,7 +9,7 @@ export const metadata: Metadata = pageMetadata({
   title: "About",
   description:
     "Asif Bhuiyan Shawon — Ecommerce Executive in Dhaka working on digital growth, with a background in full-stack development and AI. Skills, background and experience.",
-  path: "/hello/aboutme",
+  path: "/aboutme",
   ogType: "profile",
 });
 

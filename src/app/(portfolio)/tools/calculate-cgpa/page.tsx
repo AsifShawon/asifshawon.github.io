@@ -98,7 +98,7 @@ export default function CgpaCalculatorPage() {
                     {/* Header */}
                     <div className="text-center relative pb-6 sm:pb-8 px-4 sm:px-6 pt-4">
                         <div className="absolute left-2 sm:left-4 top-2 sm:top-4">
-                            <Link href="/hello/tools" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-[var(--site-text-muted)] hover:text-[var(--ml-ink)] hover:bg-[var(--site-surface-hover)] transition-all p-2 sm:p-3 rounded">
+                            <Link href="/tools" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-[var(--site-text-muted)] hover:text-[var(--ml-ink)] hover:bg-[var(--site-surface-hover)] transition-all p-2 sm:p-3 rounded">
                                 <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4" />
                                 <span className="hidden sm:inline">Back</span>
                             </Link>

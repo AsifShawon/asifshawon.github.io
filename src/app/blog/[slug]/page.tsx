@@ -153,7 +153,7 @@ export default async function BlogPostPage({
     author: {
       "@type": "Person",
       name: authorName,
-      url: origin ? `${origin}/hello/aboutme` : undefined,
+      url: origin ? `${origin}/aboutme` : undefined,
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
     url: canonicalUrl,

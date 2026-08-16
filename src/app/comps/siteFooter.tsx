@@ -11,8 +11,8 @@ import { CONTACT_EMAIL, SITE_NAME } from '@/lib/site';
  *
  * Deliberately *not* mounted in the root layout: the home page is a single
  * full-height hero and a footer under it would break that composition. The
- * three section shells (`hello`, `contact`, `blog`) opt in instead — the same
- * way they opt into `TopMenu`.
+ * three section shells (`(portfolio)`, `contact`, `blog`) opt in instead — the
+ * same way they opt into `TopMenu`.
  *
  * The oversized wordmark is drawn as SVG rather than styled text: `textLength`
  * + `lengthAdjust` make it span the full width exactly, at any viewport and

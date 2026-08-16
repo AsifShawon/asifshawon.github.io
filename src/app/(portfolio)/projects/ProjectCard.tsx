@@ -20,7 +20,7 @@ export default function ProjectCard({ project }: { project: ProjectCaseStudy }) 
 
   return (
     <Link
-      href={`/hello/projects/${project.slug}`}
+      href={`/projects/${project.slug}`}
       className="project-card"
       data-ai={project.isAiRelated || undefined}
     >

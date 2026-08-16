@@ -247,7 +247,7 @@ description: "Ecommerce Executive · Freelance Full-Stack Developer · AI Featur
     <article class="project-entry">
       <div class="project-head">
         <span class="project-num">P03</span>
-        <a href="https://withshawon.vercel.app/hello/tools/calculate-cgpa" target="_blank" rel="noreferrer noopener" class="project-ext-arrow" aria-label="Visit AI CGPA Calculator">↗</a>
+        <a href="https://withshawon.vercel.app/tools/calculate-cgpa" target="_blank" rel="noreferrer noopener" class="project-ext-arrow" aria-label="Visit AI CGPA Calculator">↗</a>
       </div>
       <div class="project-content">
         <h3 class="project-title">AI CGPA Calculator</h3>
@@ -262,7 +262,7 @@ description: "Ecommerce Executive · Freelance Full-Stack Developer · AI Featur
           NEXT.JS &middot; TYPESCRIPT &middot; REACT &middot; GEMINI API &middot; PDF.JS &middot; JAVASCRIPT
         </div>
         <div class="project-links">
-          <a href="https://withshawon.vercel.app/hello/tools/calculate-cgpa" target="_blank" rel="noreferrer noopener">Live Tool ↗</a>
+          <a href="https://withshawon.vercel.app/tools/calculate-cgpa" target="_blank" rel="noreferrer noopener">Live Tool ↗</a>
         </div>
       </div>
     </article>

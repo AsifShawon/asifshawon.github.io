@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'AI-Powered CGPA Calculator | WithShawon',
     description: 'Calculate your CGPA instantly with our AI-powered tool. Upload your grade sheet and let advanced AI extract courses automatically. Get detailed insights with grade point calculations.',
-    url: 'https://withshawon.vercel.app/hello/tools/calculate-cgpa',
+    url: 'https://withshawon.vercel.app/tools/calculate-cgpa',
     siteName: 'WithShawon',
     images: [
       {
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://withshawon.vercel.app/hello/tools/calculate-cgpa',
+    canonical: 'https://withshawon.vercel.app/tools/calculate-cgpa',
   },
   category: 'education',
   classification: 'Educational Tool',
@@ -90,7 +90,7 @@ const jsonLd = {
   '@type': 'WebApplication',
   name: 'AI-Powered CGPA Calculator',
   description: 'Calculate your CGPA instantly with our AI-powered tool. Upload your grade sheet and let advanced AI extract courses automatically.',
-  url: 'https://withshawon.vercel.app/hello/tools/calculate-cgpa',
+  url: 'https://withshawon.vercel.app/tools/calculate-cgpa',
   applicationCategory: 'EducationalApplication',
   operatingSystem: 'All',
   offers: {

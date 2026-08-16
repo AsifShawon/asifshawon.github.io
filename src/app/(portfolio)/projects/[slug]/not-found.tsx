@@ -13,7 +13,7 @@ export default function ProjectNotFound() {
         That case study doesn&apos;t exist, or the link is out of date.
       </p>
       <Button asChild variant="brand" size="cta" className="mt-8">
-        <Link href="/hello/projects">
+        <Link href="/projects">
           <ArrowLeft size={16} strokeWidth={2} aria-hidden="true" />
           Back to all projects
         </Link>

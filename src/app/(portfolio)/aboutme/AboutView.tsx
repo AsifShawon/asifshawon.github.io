@@ -26,7 +26,7 @@ export default function AboutView({ profile }: { profile: Profile | null }) {
           <CustomBreadcrumb
             pageNames={[
               { name: "Home", href: "/" },
-              { name: "About", href: "/hello/aboutme" },
+              { name: "About", href: "/aboutme" },
             ]}
           />
         </div>

@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMetadata({
   title: "Projects",
   description:
     "Selected work by Asif Bhuiyan Shawon — ecommerce builds, full-stack web applications and AI-powered features, with the stack behind each one.",
-  path: "/hello/projects",
+  path: "/projects",
 });
 
 export default async function ProjectsPage() {

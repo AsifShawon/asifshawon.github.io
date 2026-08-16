@@ -11,7 +11,7 @@ export const metadata: Metadata = pageMetadata({
   title: 'Tools',
   description:
     'AI CGPA Calculator and other small AI-assisted productivity tools, built and shared by Asif Bhuiyan Shawon.',
-  path: '/hello/tools',
+  path: '/tools',
 });
 
 type ToolStatus = 'Available' | 'New' | 'Coming Soon';
@@ -59,7 +59,7 @@ export default function ToolsLandingPage() {
         <CustomBreadcrumb
           pageNames={[
             { name: 'Home', href: '/' },
-            { name: 'Tools', href: '/hello/tools' },
+            { name: 'Tools', href: '/tools' },
           ]}
         />
       </div>
@@ -97,7 +97,7 @@ export default function ToolsLandingPage() {
 
           <div className="mt-6">
             <Button asChild variant="brand" size="cta">
-              <Link href="/hello/tools/calculate-cgpa">
+              <Link href="/tools/calculate-cgpa">
                 Open Tool
                 <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
               </Link>
